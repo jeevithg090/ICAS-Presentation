@@ -1,0 +1,28 @@
+[
+  {
+    "id": "uploaded-1757339134035",
+    "name": "ICAS Logo",
+    "description": "Official ICAS Manipal logo",
+    "url": "/uploads/reference-images/ref-1757339133932-630903100.png",
+    "category": "logo",
+    "uploaded": true,
+    "filename": "ref-1757339133932-630903100.png",
+    "originalName": "download (1).png",
+    "size": 6174,
+    "uploadedAt": "2025-09-08T13:45:34.035Z",
+    "replacedDefaultId": "icas-logo"
+  },
+  {
+    "id": "uploaded-1757343489083",
+    "name": "ICAS Logo",
+    "description": "Official ICAS Manipal logo",
+    "url": "/uploads/reference-images/ref-1757343489001-597481485.png",
+    "category": "logo",
+    "uploaded": true,
+    "filename": "ref-1757343489001-597481485.png",
+    "originalName": "download (1).png",
+    "size": 6174,
+    "uploadedAt": "2025-09-08T14:58:09.083Z",
+    "replacedDefaultId": "icas-logo"
+  }
+]
