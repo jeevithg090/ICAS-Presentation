@@ -43,6 +43,7 @@ import ContentManagement from "@/pages/ContentManagement";
 import SocialMediaAnalytics from "@/pages/SocialMediaAnalytics";
 import AskICASPage from "@/pages/AskICAS";
 import OutreachManagement from "@/components/admin/OutreachManagement";
+import AlumniAutomation from "@/components/admin/AlumniAutomation";
 
 
 const queryClient = new QueryClient();
@@ -140,6 +141,14 @@ const App = () => (
                   element={
                     <RequireRole role="admin">
                       <OutreachManagement />
+                    </RequireRole>
+                  }
+                />
+                <Route
+                  path="/administration/alumni-automation"
+                  element={
+                    <RequireRole role="admin">
+                      <AlumniAutomation />
                     </RequireRole>
                   }
                 />

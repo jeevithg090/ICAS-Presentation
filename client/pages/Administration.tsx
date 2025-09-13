@@ -80,6 +80,15 @@ const Administration: React.FC = () => {
       status: 'active'
     },
     {
+      id: 'alumni-automation',
+      title: 'Alumni Automation',
+      description: 'LinkedIn profile search and AI-powered message generation for alumni outreach',
+      icon: <Users className="h-8 w-8" />,
+      features: ['LinkedIn profile search', 'AI message generation', 'Personalized outreach', 'Contact management'],
+      route: '/administration/alumni-automation',
+      status: 'active'
+    },
+    {
       id: 'user-management',
       title: 'User Management',
       description: 'Manage user accounts, roles, and permissions',
@@ -178,7 +187,7 @@ const Administration: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Total Tools</p>
-                  <p className="text-2xl font-bold text-blue-600">8</p>
+                  <p className="text-2xl font-bold text-blue-600">9</p>
                   <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>+2 this month</p>
                 </div>
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-blue-900/20' : 'bg-blue-100'}`}>
@@ -193,7 +202,7 @@ const Administration: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Active Tools</p>
-                  <p className="text-2xl font-bold text-emerald-600">5</p>
+                  <p className="text-2xl font-bold text-emerald-600">6</p>
                   <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>All operational</p>
                 </div>
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-emerald-900/20' : 'bg-emerald-100'}`}>
