@@ -741,20 +741,60 @@ async function mixAIAudioWithVideo(jobId: string, videoPath: string, audioPath: 
   }
 }
 
+// Clean script output to remove prompt-style instructions
+function cleanScriptOutput(script: string): string {
+  // Remove common prompt-style phrases and instructions
+  const promptPatterns = [
+    /^.*?(?:here'?s|here is|here's) (?:a|the) (?:script|narration):\s*/i,
+    /^.*?(?:script|narration):\s*/i,
+    /^.*?(?:narrator|voice):\s*/i,
+    /^.*?(?:[\[\(]upbeat[\]\)]|[\[\(]energetic[\]\)]|[\[\(]cheerful[\]\)])\s*/gi,
+    /^.*?(?:insert picture|show image|display photo|picture of|image of)\s*/gi,
+    /^.*?(?:[\[\(]pause[\]\)]|[\[\(]music[\]\)]|[\[\(]fade[\]\)])\s*/gi,
+    /^.*?(?:[\[\(].*?[\]\)])\s*/g, // Remove anything in brackets/parentheses
+    /^.*?(?:stage direction|instruction|note):\s*/gi,
+    /^.*?(?:make sure|ensure|remember|don't forget)\s*/gi,
+    /^.*?(?:the script should|the narration should|it should)\s*/gi,
+    /^.*?(?:speak|say|narrate|voice over):\s*/gi,
+    /^.*?(?:imagine|picture this|visualize|think about)\s*/gi,
+    /^.*?(?:let me tell you about|i will describe|i'm going to talk about)\s*/gi,
+    /^.*?(?:this video shows|this slideshow presents|we will explore)\s*/gi,
+    /^.*?(?:welcome to|in this video|today we're going to)\s*/gi
+  ];
+
+  let cleanedScript = script.trim();
+  
+  // Apply all cleaning patterns
+  promptPatterns.forEach(pattern => {
+    cleanedScript = cleanedScript.replace(pattern, '');
+  });
+  
+  // Remove multiple consecutive spaces and clean up
+  cleanedScript = cleanedScript.replace(/\s+/g, ' ').trim();
+  
+  // Additional cleaning for descriptive language
+  cleanedScript = cleanedScript.replace(/^(?:imagine|picture this|visualize|think about|let me tell you|i will describe|i'm going to talk about|this video shows|this slideshow presents|we will explore|welcome to|in this video|today we're going to)\s*/gi, '');
+  
+  // Remove any remaining introductory phrases
+  cleanedScript = cleanedScript.replace(/^(?:so|now|well|alright|okay|let's|here we go)\s*/gi, '');
+  
+  // If the script is empty or too short after cleaning, return the original
+  if (cleanedScript.length < 10) {
+    console.warn('Script too short after cleaning, using original');
+    return script.trim();
+  }
+  
+  return cleanedScript;
+}
+
 // Generate script using OpenRouter API
 async function generateScriptWithOpenRouter(videoDescription: string): Promise<string> {
   try {
-    const prompt = `Create a natural, engaging script for a slideshow video narration based on this description: "${videoDescription}"
+    const prompt = `You are a professional narrator. Write the exact words you will speak for a slideshow video about: "${videoDescription}"
 
-Requirements:
-- Write in a warm, conversational tone
-- Keep it concise but engaging (aim for 30-60 seconds of narration)
-- Make it suitable for a slideshow of images
-- Focus on storytelling and emotional connection
-- Don't include any stage directions or technical notes
-- Write only the spoken narration text
+Write ONLY the words that will be spoken aloud. Do not write descriptions, instructions, or explanations. Write as if you are speaking directly to the audience.
 
-Script:`;
+Speak:`;
 
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
       model: 'meta-llama/llama-3.2-3b-instruct:free', // Using a free model
@@ -775,13 +815,16 @@ Script:`;
       }
     });
 
-    const script = response.data.choices[0]?.message?.content?.trim();
-    if (!script) {
+    const rawScript = response.data.choices[0]?.message?.content?.trim();
+    if (!rawScript) {
       throw new Error('No script generated from OpenRouter');
     }
 
-    console.log('Generated script:', script);
-    return script;
+    // Clean the script to remove any prompt-style instructions
+    const cleanedScript = cleanScriptOutput(rawScript);
+    
+    console.log('Generated script:', cleanedScript);
+    return cleanedScript;
   } catch (error) {
     console.error('OpenRouter API error:', error);
     if (axios.isAxiosError(error) && error.response) {

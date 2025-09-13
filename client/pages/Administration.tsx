@@ -14,7 +14,8 @@ import {
   Palette,
   Sparkles,
   ArrowRight,
-  TrendingUp
+  TrendingUp,
+  MessageSquare
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/theme/ThemeProvider';
@@ -54,9 +55,9 @@ const Administration: React.FC = () => {
     {
       id: 'content-management',
       title: 'Content Management',
-      description: 'Manage abroad universities, news articles, and MCP server integration',
+      description: 'AI-powered content creation, optimization, and management with MCP server integration',
       icon: <FileText className="h-8 w-8" />,
-      features: ['University database', 'News aggregation', 'MCP integration', 'Content editing'],
+      features: ['AI content generation', 'SEO optimization', 'Content ideas', 'MCP integration'],
       route: '/administration/content-management',
       status: 'active'
     },
@@ -67,6 +68,15 @@ const Administration: React.FC = () => {
       icon: <TrendingUp className="h-8 w-8" />,
       features: ['Multi-platform tracking', 'Post analytics', 'Engagement metrics', 'Performance reports'],
       route: '/administration/social-media-analytics',
+      status: 'active'
+    },
+    {
+      id: 'outreach-management',
+      title: 'Outreach Management',
+      description: 'Research and connect with colleges, companies, events, and people for collaboration opportunities',
+      icon: <MessageSquare className="h-8 w-8" />,
+      features: ['Data gathering', 'MCP integration', 'AI email drafting', 'Collaboration tracking'],
+      route: '/administration/outreach-management',
       status: 'active'
     },
     {
@@ -168,7 +178,7 @@ const Administration: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Total Tools</p>
-                  <p className="text-2xl font-bold text-blue-600">7</p>
+                  <p className="text-2xl font-bold text-blue-600">8</p>
                   <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>+2 this month</p>
                 </div>
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-blue-900/20' : 'bg-blue-100'}`}>
@@ -183,7 +193,7 @@ const Administration: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Active Tools</p>
-                  <p className="text-2xl font-bold text-emerald-600">4</p>
+                  <p className="text-2xl font-bold text-emerald-600">5</p>
                   <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>All operational</p>
                 </div>
                 <div className={`p-3 rounded-lg ${isDark ? 'bg-emerald-900/20' : 'bg-emerald-100'}`}>

@@ -12,14 +12,14 @@ interface MulterRequest extends Request {
 }
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI('AIzaSyCNWYtzOIijuqDF5RZRqrkqza_UFCDnUbo');
+const genAI = new GoogleGenerativeAI('AIzaSyBqz-nflEro5PJzaz4VvCYa1SjLeVqG02g');
 
 // Gemini image generation configuration
 const GEMINI_IMAGE_MODEL = 'gemini-2.0-flash-exp';
 
 // Test Gemini API key
 console.log('Gemini API Key: Hardcoded in code');
-console.log('API Key starts with:', 'AIzaSyCNWYtzOIijuqDF5RZRqrkqza_UFCDnUbo'.substring(0, 10) + '...');
+console.log('API Key starts with:', 'AIzaSyBqz-nflEro5PJzaz4VvCYa1SjLeVqG02g'.substring(0, 10) + '...');
 
 // OpenRouter API configuration
 const OPENROUTER_API_KEY = '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';
@@ -249,7 +249,7 @@ IMAGE PROMPT:
 // Generate image using Gemini Nano Banana (2.5 Flash Image Preview)
 export const handleGenerateImage = async (req: Request, res: Response) => {
   try {
-    const { prompt, referenceImages = [], generatedPost } = req.body;
+    const { prompt, referenceImages = [] } = req.body;
 
     if (!prompt) {
       return res.status(400).json({ 
@@ -257,8 +257,7 @@ export const handleGenerateImage = async (req: Request, res: Response) => {
       });
     }
 
-    console.log('Generating image with Gemini Nano Banana...');
-    console.log('Generated post content:', generatedPost);
+    console.log('Generating image with Gemini...');
     console.log('Reference images received:', referenceImages);
 
     // Convert reference image URLs to file paths
@@ -285,77 +284,44 @@ export const handleGenerateImage = async (req: Request, res: Response) => {
     console.log('Final reference image paths to use:', referenceImagePaths);
     console.log(`Total reference images to incorporate: ${referenceImagePaths.length}`);
 
-    // Enhance the prompt with ICAS context, Instagram-specific styling, and the generated post content
+    // Create a clean, Instagram-worthy prompt focused on visual appeal
     const enhancedPrompt = `
-Create a professional Instagram-style marketing image for ICAS Manipal (International Centre for Applied Sciences) based on this description:
+Create a stunning, professional Instagram post for ICAS Manipal (International Centre for Applied Sciences) based on this description:
 
 ${prompt}
 
-GENERATED POST CONTENT TO INCLUDE AS TEXT OVERLAY:
-${generatedPost || 'No specific post content provided'}
+DESIGN REQUIREMENTS:
+- Format: 1080x1080 square (Instagram-optimized)
+- Style: Modern, clean, and visually striking Instagram post
+- Focus: Beautiful visual design with minimal text overlay
+- Brand Colors: Use ICAS Manipal brand colors (deep blue #1e40af, white, professional gradients)
+- Visual Impact: Create an eye-catching, shareable social media image
 
-REFERENCE IMAGES TO INCORPORATE:
+TEXT OVERLAY GUIDELINES:
+- Include ONLY a short, impactful headline (maximum 3-5 words)
+- Use large, bold, modern typography with excellent contrast
+- Position text strategically without overwhelming the visual
+- Examples: "Global Engineering", "Study Abroad", "Future Ready", "World Class Education"
+- Avoid long sentences or paragraphs on the image
+
+REFERENCE IMAGE INTEGRATION:
 ${referenceImagePaths.length > 0 ? 
-  `You have ${referenceImagePaths.length} reference image(s) provided. These images contain important visual elements that MUST be incorporated into your final generated image:
-
-CRITICAL REQUIREMENTS:
-- If any reference image contains a LOGO, you MUST include that logo prominently in the final image
-- If any reference image contains BRAND COLORS, use those colors in your design
-- If any reference image contains VISUAL ELEMENTS (icons, graphics, patterns), incorporate them into the layout
-- Blend these reference elements seamlessly with the overall Instagram post design
-- Maintain the professional quality while ensuring reference elements are clearly visible
-- Position logos and brand elements strategically for maximum impact
-- Use reference images as the foundation for your color scheme and visual style
-
-The reference images are provided as visual context - analyze them carefully and extract their key visual elements to use in your design.` : 
-  'No reference images provided - create original design based on the description above.'
+  `- Incorporate visual elements from the provided reference image(s)
+- If logos are present, display them prominently but elegantly
+- Use reference colors and style elements to maintain brand consistency
+- Blend reference elements seamlessly with the overall design` : 
+  '- Create original, professional design based on the description'
 }
 
-INSTAGRAM POST SPECIFICATIONS:
-- Format: 1080x1080 square or 1080x1350 portrait (Instagram-optimized)
-- Style: Modern, professional, Instagram-worthy design
-- Text Overlay: MUST include the generated post content prominently displayed with modern typography
-- Brand Colors: Use ICAS Manipal brand colors (deep blue #1e40af, white, professional gradients)
-- Visual Elements: Include relevant icons, graphics, or imagery that represents the content
-- Typography: Modern, clean fonts that are highly readable on mobile devices
-- Composition: Clean, balanced layout with proper spacing and visual hierarchy
+VISUAL STYLE:
+- High-quality, professional photography or illustration style
+- Clean composition with proper visual hierarchy
+- Modern design elements (gradients, shadows, geometric shapes)
+- Elements representing engineering, technology, and global education
+- Appealing to international students and parents
+- Instagram-worthy aesthetic that encourages engagement
 
-REFERENCE IMAGE INTEGRATION REQUIREMENTS:
-- If reference images are provided, incorporate their visual elements, logos, colors, or style into the final image
-- Blend reference image elements seamlessly with the overall design
-- Maintain professional quality while incorporating reference elements
-- Use reference images as inspiration for layout, color scheme, or visual elements
-- Ensure the final image looks cohesive and professionally designed
-
-LOGO INTEGRATION SPECIFIC INSTRUCTIONS:
-- If any reference image contains a LOGO, it MUST be prominently displayed in the final image
-- Position logos in a prominent location (top corner, center, or bottom)
-- Ensure logos are clearly visible and not obscured by text or other elements
-- Maintain the original logo colors and proportions
-- If multiple logos are provided, arrange them harmoniously in the design
-- Logos should complement the text overlay and overall composition
-
-TEXT OVERLAY REQUIREMENTS:
-- Extract the main message from the generated post content
-- Display key phrases or sentences prominently on the image
-- Use bold, readable fonts with good contrast
-- Position text strategically for maximum impact
-- Ensure text is legible on mobile devices
-- Use professional typography that matches ICAS Manipal branding
-
-ADDITIONAL CONTEXT:
-- ICAS Manipal is a prestigious engineering institution in India
-- Focus on international education and global partnerships
-- Modern, professional, and academic atmosphere
-- Should appeal to international students and parents
-- High-quality, professional marketing material style
-- Use professional photography style with clean composition
-- Include elements that represent engineering, technology, and global education
-- Colors should be professional and brand-appropriate
-- Text should be bold, readable, and well-integrated into the design
-- Include subtle gradients, shadows, or modern design elements
-- Make it engaging and shareable for social media
-- The image should complement and enhance the generated post content
+IMPORTANT: Focus on creating a beautiful, visually striking image that tells the story through visuals rather than text. The image should be so compelling that it works perfectly for Instagram without needing extensive text overlays.
 `;
 
     console.log('Enhanced prompt:', enhancedPrompt);

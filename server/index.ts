@@ -52,6 +52,19 @@ import {
   getEngagementTrends
 } from "./routes/social-media-analytics";
 
+import {
+  draftEmail,
+  searchWithMCP,
+  healthCheck
+} from "./routes/outreach";
+
+import {
+  generateContent,
+  optimizeContent,
+  searchContentIdeas,
+  healthCheck as contentHealthCheck
+} from "./routes/content-management";
+
 export function createServer() {
   console.log('Creating server...');
   const app = express();
@@ -126,6 +139,17 @@ export function createServer() {
   app.post("/api/social-media/accounts/:accountId/refresh", refreshAccountData);
   app.get("/api/social-media/analytics", getAnalyticsSummary);
   app.get("/api/social-media/trends", getEngagementTrends);
+
+  // Outreach Management API routes
+  app.post("/api/outreach/draft-email", draftEmail);
+  app.post("/api/outreach/search", searchWithMCP);
+  app.get("/api/outreach/health", healthCheck);
+
+  // Content Management API routes
+  app.post("/api/content/generate", generateContent);
+  app.post("/api/content/optimize", optimizeContent);
+  app.post("/api/content/search-ideas", searchContentIdeas);
+  app.get("/api/content/health", contentHealthCheck);
 
   return app;
 }

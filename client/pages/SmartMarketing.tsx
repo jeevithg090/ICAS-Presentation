@@ -454,8 +454,7 @@ const SmartMarketing: React.FC = () => {
         },
         body: JSON.stringify({
           prompt: generatedImagePrompt,
-          referenceImages: selectedReferenceImages.map(img => img.url),
-          generatedPost: generatedPost // Pass the generated post content to the image generation
+          referenceImages: selectedReferenceImages.map(img => img.url)
         }),
       });
 
@@ -869,17 +868,10 @@ const SmartMarketing: React.FC = () => {
                           <Badge variant="secondary" className="text-xs">Instagram Format</Badge>
                           <Badge variant="secondary" className="text-xs">Text Overlay</Badge>
                           <Badge variant="secondary" className="text-xs">Professional Design</Badge>
-                          <Badge variant="secondary" className="text-xs">Post Content Included</Badge>
                           {selectedReferenceImages.length > 0 && (
                             <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">Reference Images</Badge>
                           )}
                         </div>
-                        {generatedPost && (
-                          <div className="mt-3 p-2 bg-white rounded border border-blue-200">
-                            <div className="text-xs font-medium text-blue-700 mb-1">Post content that will be included:</div>
-                            <div className="text-xs text-gray-600 line-clamp-2">{generatedPost}</div>
-                          </div>
-                        )}
                         {selectedReferenceImages.length > 0 && (
                           <div className="mt-3 p-2 bg-white rounded border border-green-200">
                             <div className="text-xs font-medium text-green-700 mb-1">Reference images that will be incorporated:</div>

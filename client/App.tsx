@@ -42,6 +42,7 @@ import AcademicPlanner from "@/pages/AcademicPlanner";
 import ContentManagement from "@/pages/ContentManagement";
 import SocialMediaAnalytics from "@/pages/SocialMediaAnalytics";
 import AskICASPage from "@/pages/AskICAS";
+import OutreachManagement from "@/components/admin/OutreachManagement";
 
 
 const queryClient = new QueryClient();
@@ -131,6 +132,14 @@ const App = () => (
                   element={
                     <RequireRole role="admin">
                       <SocialMediaAnalytics />
+                    </RequireRole>
+                  }
+                />
+                <Route
+                  path="/administration/outreach-management"
+                  element={
+                    <RequireRole role="admin">
+                      <OutreachManagement />
                     </RequireRole>
                   }
                 />

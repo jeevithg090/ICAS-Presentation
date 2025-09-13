@@ -89,7 +89,7 @@ const PhotoToVideo: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Photo to Video Converter</h1>
+        <h1 className="text-4xl font-bold text-orange-600 mb-4">Photo to Video Converter</h1>
         <p className="text-lg text-gray-600">Upload your images and create a beautiful slideshow video with AI-powered generation and voice narration</p>
       </div>
 
