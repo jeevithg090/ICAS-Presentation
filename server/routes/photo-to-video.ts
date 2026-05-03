@@ -15,7 +15,7 @@ interface MulterRequest extends Request {
 
 // API Keys
 const HUGGING_FACE_TOKEN = config.huggingFaceToken;
-const OPENROUTER_API_KEY = config.openRouterApiKey || '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';
+const OPENROUTER_API_KEY = config.openRouterApiKey;
 const ELEVENLABS_API_KEY = config.elevenLabsApiKey;
 
 // Configure multer for file uploads

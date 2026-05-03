@@ -5,6 +5,7 @@ import { generateImage, mixImages, testConnection } from '../lib/gemini-nano-ban
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { config } from '../config';
 
 // Extend Request type to include file property from multer
 interface MulterRequest extends Request {
@@ -12,17 +13,16 @@ interface MulterRequest extends Request {
 }
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI('AIzaSyBqz-nflEro5PJzaz4VvCYa1SjLeVqG02g');
+const genAI = new GoogleGenerativeAI(config.googleApiKey || "");
 
 // Gemini image generation configuration
 const GEMINI_IMAGE_MODEL = 'gemini-2.0-flash-exp';
 
 // Test Gemini API key
-console.log('Gemini API Key: Hardcoded in code');
-console.log('API Key starts with:', 'AIzaSyBqz-nflEro5PJzaz4VvCYa1SjLeVqG02g'.substring(0, 10) + '...');
+console.log('Gemini API Key configured:', config.googleApiKey ? 'Yes' : 'No');
 
 // OpenRouter API configuration
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY = config.openRouterApiKey;
 const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
 
 // Multer configuration for file uploads

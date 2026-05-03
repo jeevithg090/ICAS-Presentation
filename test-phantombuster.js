@@ -10,7 +10,7 @@ const axios = require('axios');
 // Configuration - update these values
 const config = {
   baseUrl: 'http://localhost:3000',
-  phantomBusterApiKey: process.env.PHANTOMBUSTER_API_KEY || '2DcVm9VXgRBXAby7E8fYaaLyhOp0szJ34ALbzXgKRWs',
+  phantomBusterApiKey: process.env.PHANTOMBUSTER_API_KEY || 'your_phantombuster_api_key_here',
   phantomBusterPhantomId: process.env.PHANTOMBUSTER_PHANTOM_ID || 'YOUR_PHANTOM_ID'
 };
 

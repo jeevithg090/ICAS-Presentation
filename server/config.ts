@@ -4,18 +4,21 @@ dotenv.config();
 
 export const config = {
   // Existing API keys
-  huggingFaceToken: process.env.HUGGING_FACE_TOKEN || "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",
-  elevenLabsApiKey: process.env.ELEVENLABS_API_KEY || "sk_6f1aa4d6e0efdac06adf1fde91026ca9ad736ffb9a5620da",
+  huggingFaceToken: process.env.HUGGING_FACE_TOKEN || "",
+  elevenLabsApiKey: process.env.ELEVENLABS_API_KEY || "",
   
   // New API keys for Alumni Automation
-  serpApiKey: process.env.SERP_API_KEY || "7f27008676856577a9c21d70d5e36e64e972d78e6ea7133ea5629ae825216c",
-  openRouterApiKey: process.env.OPENROUTER_API_KEY || "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",
-  hubspotApiKey: process.env.HUBSPOT_API_KEY || "na2-bdd9-3664-43fa-968d-e37c45107224",
-  phantomBusterApiKey: process.env.PHANTOMBUSTER_API_KEY || "2DcVm9VXgRBXAby7E8fYaaLyhOp0szJ34ALbzXgKRWs",
-  phantomBusterPhantomId: process.env.PHANTOMBUSTER_PHANTOM_ID || "YOUR_PHANTOM_ID",
+  serpApiKey: process.env.SERP_API_KEY || "",
+  openRouterApiKey: process.env.OPENROUTER_API_KEY || "",
+  hubspotApiKey: process.env.HUBSPOT_API_KEY || "",
+  phantomBusterApiKey: process.env.PHANTOMBUSTER_API_KEY || "",
+  phantomBusterPhantomId: process.env.PHANTOMBUSTER_PHANTOM_ID || "",
   
   // Sarvam AI API key for speech-to-text
-  sarvamApiKey: process.env.SARVAM_API_KEY || "sk_ejen7r4c_F8FubugBhGW93lfrp0rvmP4L",
+  sarvamApiKey: process.env.SARVAM_API_KEY || "",
+
+  // Google AI API key for Gemini
+  googleApiKey: process.env.GOOGLE_API_KEY || "",
   
   // Server configuration
   port: process.env.PORT || 3000,

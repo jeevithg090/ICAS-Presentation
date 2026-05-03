@@ -14,7 +14,7 @@ The platform uses Hugging Face's AI models for photo-to-video generation. You ne
 5. Create a new token with appropriate permissions
 6. Copy the token
 
-**Token:** `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`
+**Token:** `your_hugging_face_token_here`
 
 ### ElevenLabs API Token
 The platform uses ElevenLabs for AI-powered voice generation and narration. You need to set up your ElevenLabs token:
@@ -26,7 +26,7 @@ The platform uses ElevenLabs for AI-powered voice generation and narration. You 
 5. Create a new API key
 6. Copy the key
 
-**Token:** `sk_934ff060c3f818fee95b23a838f20e3c98ca469c850b0d01`
+**Token:** `your_elevenlabs_api_key_here`
 
 ### Setting Environment Variables
 
@@ -35,10 +35,10 @@ Create a `.env` file in the root directory:
 
 ```bash
 # Hugging Face API Token
-HUGGING_FACE_TOKEN=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
+HUGGING_FACE_TOKEN=your_hugging_face_token_here
 
 # ElevenLabs API Token
-ELEVENLABS_API_KEY=sk_934ff060c3f818fee95b23a838f20e3c98ca469c850b0d01
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 
 # Server Configuration
 PORT=3000
@@ -55,8 +55,8 @@ NODE_ENV=development
 
 #### Option 2: Set environment variables in your shell
 ```bash
-export HUGGING_FACE_TOKEN=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
-export ELEVENLABS_API_KEY=sk_934ff060c3f818fee95b23a838f20e3c98ca469c850b0d01
+export HUGGING_FACE_TOKEN=your_hugging_face_token_here
+export ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 export PORT=3000
 export NODE_ENV=development
 ```

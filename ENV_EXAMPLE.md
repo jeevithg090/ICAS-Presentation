@@ -6,8 +6,8 @@ Create a `.env` file in the root directory with the following variables:
 # ICAS Platform Environment Variables
 
 # Existing API Keys
-HUGGING_FACE_TOKEN=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
-ELEVENLABS_API_KEY=sk_934ff060c3f818fee95b23a838f20e3c98ca469c850b0d01
+HUGGING_FACE_TOKEN=your_hugging_face_token_here
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 
 # Server Configuration
 PORT=3000
@@ -15,22 +15,31 @@ NODE_ENV=development
 
 # Alumni Automation API Keys
 # Get your SerpAPI key from: https://serpapi.com/
-SERP_API_KEY=7f27008676856577a9c21d70d5e36e64e972d78e6f6ea7133ea5629ae825216c
+SERP_API_KEY=your_serpapi_key_here
 
 # Get your OpenRouter API key from: https://openrouter.ai/
-OPENROUTER_API_KEY=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
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 
 # Get your HubSpot API key from: https://developers.hubspot.com/
-HUBSPOT_API_KEY=na2-bdd9-3664-43fa-968d-e37c45107224
+HUBSPOT_API_KEY=your_hubspot_api_key_here
 
 # Get your PhantomBuster API key from: https://hub.phantombuster.com/
-PHANTOMBUSTER_API_KEY=2DcVm9VXgRBXAby7E8fYaaLyhOp0szJ34ALbzXgKRWs
+PHANTOMBUSTER_API_KEY=your_phantombuster_api_key_here
 
 # Get your PhantomBuster Phantom ID from your LinkedIn Message Sender agent
 PHANTOMBUSTER_PHANTOM_ID=your_phantom_id_here
 
 # Other API Keys (if needed)
 # GOOGLE_API_KEY=your_google_key_here
+
+# Firebase (client-side, Vite)
+VITE_FIREBASE_API_KEY=your_firebase_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain_here
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id_here
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket_here
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id_here
+VITE_FIREBASE_APP_ID=your_firebase_app_id_here
+VITE_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id_here
 ```
 
 ## How to Get API Keys

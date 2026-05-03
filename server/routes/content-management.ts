@@ -574,7 +574,12 @@ async function performSerpAPIContentSearch(query: string, topic: string, categor
   const timestamp = new Date().toISOString();
 
   try {
-    const response = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=7f27008676856577a9c21d70d5e36e64e972d78e6f6ea7133ea5629ae825216c&engine=google&num=8&gl=us&hl=en&safe=active`);
+    if (!config.serpApiKey) {
+      console.warn("SerpAPI key not configured; skipping SerpAPI content search");
+      return results;
+    }
+
+    const response = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${config.serpApiKey}&engine=google&num=8&gl=us&hl=en&safe=active`);
     
     if (response.ok) {
       const data = await response.json();

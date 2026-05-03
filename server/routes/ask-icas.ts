@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { config } from "../config";
 
 // Read the comprehensive ICAS features document
 const ICAS_FEATURES_PATH = join(__dirname, "../../icasfeatures.md");
@@ -45,8 +46,8 @@ function cleanAndStyleResponse(text: string): string {
 
 export const handleAskICAS: RequestHandler = async (req, res) => {
   try {
-    // Hardcoded OpenRouter API key for Ask ICAS
-    const key = process.env.OPENROUTER_API_KEY || "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";
+    // OpenRouter API key for Ask ICAS
+    const key = config.openRouterApiKey;
     console.log('Ask ICAS API Key configured:', key ? 'Yes' : 'No');
     if (!key) {
       return res.status(500).json({ error: "Ask ICAS not configured - missing OpenRouter API key" });

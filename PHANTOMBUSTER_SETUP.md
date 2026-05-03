@@ -12,10 +12,10 @@ A complete end-to-end alumni automation system that:
 
 ## 🔑 Your API Keys
 
-- **SerpAPI**: `7f27008676856577a9c21d70d5e36e64e972d78e6f6ea7133ea5629ae825216c`
-- **OpenRouter**: `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`
-- **PhantomBuster**: `2DcVm9VXgRBXAby7E8fYaaLyhOp0szJ34ALbzXgKRWs`
-- **HubSpot**: `na2-bdd9-3664-43fa-968d-e37c45107224`
+- **SerpAPI**: `your_serpapi_key_here`
+- **OpenRouter**: `your_openrouter_api_key_here`
+- **PhantomBuster**: `your_phantombuster_api_key_here`
+- **HubSpot**: `your_hubspot_api_key_here`
 
 ## 🚀 Step 1: Create PhantomBuster Agent
 
@@ -97,7 +97,7 @@ Add your PhantomBuster Phantom ID to your `.env` file:
 
 ```bash
 # PhantomBuster Configuration
-PHANTOMBUSTER_API_KEY=2DcVm9VXgRBXAby7E8fYaaLyhOp0szJ34ALbzXgKRWs
+PHANTOMBUSTER_API_KEY=your_phantombuster_api_key_here
 PHANTOMBUSTER_PHANTOM_ID=your_actual_phantom_id_here
 ```
 

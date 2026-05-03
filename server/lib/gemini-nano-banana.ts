@@ -2,9 +2,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { config } from '../config';
 
 // Initialize Gemini AI with the provided API key
-const genAI = new GoogleGenerativeAI('AIzaSyBqz-nflEro5PJzaz4VvCYa1SjLeVqG02g');
+const genAI = new GoogleGenerativeAI(config.googleApiKey || "");
 
 // Gemini model configuration - try multiple models for image generation
 const IMAGE_GENERATION_MODELS = [
