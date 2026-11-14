@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Textarea } from '../components/ui/textarea';
-import { Badge } from '../components/ui/badge';
-import { 
-  Image, 
-  Type, 
-  Palette, 
-  Download, 
+import React, { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { Textarea } from "../components/ui/textarea";
+import { Badge } from "../components/ui/badge";
+import {
+  Image,
+  Type,
+  Palette,
+  Download,
   RotateCcw,
   Sparkles,
   Megaphone,
@@ -26,8 +32,8 @@ import {
   X,
   Plus,
   Edit3,
-  Save
-} from 'lucide-react';
+  Save,
+} from "lucide-react";
 
 interface PostType {
   id: string;
@@ -43,7 +49,7 @@ interface ReferenceImage {
   name: string;
   description: string;
   url: string;
-  category: 'logo' | 'university' | 'students' | 'campus';
+  category: "logo" | "university" | "students" | "campus";
   uploaded?: boolean;
   filename?: string;
   originalName?: string;
@@ -53,135 +59,136 @@ interface ReferenceImage {
 
 const POST_TYPES: PostType[] = [
   {
-    id: 'admission-open',
-    name: 'Admission Open',
-    description: 'Announce new admission cycles and application deadlines',
+    id: "admission-open",
+    name: "Admission Open",
+    description: "Announce new admission cycles and application deadlines",
     icon: <GraduationCap className="h-5 w-5" />,
     examples: [
-      'Admissions Open for 2025-26 Academic Year',
-      'Early Bird Applications Closing Soon',
-      'Limited Seats Available - Apply Now'
-    ]
+      "Admissions Open for 2025-26 Academic Year",
+      "Early Bird Applications Closing Soon",
+      "Limited Seats Available - Apply Now",
+    ],
   },
   {
-    id: 'features-highlight',
-    name: 'ICAS Features',
-    description: 'Showcase the unique features and benefits of ICAS',
+    id: "features-highlight",
+    name: "ICAS Features",
+    description: "Showcase the unique features and benefits of ICAS",
     icon: <Lightbulb className="h-5 w-5" />,
     examples: [
-      'Global Engineering Education at Affordable Cost',
-      '100+ Partner Universities Worldwide',
-      'Credit Transfer to Top International Institutions'
-    ]
+      "Global Engineering Education at Affordable Cost",
+      "100+ Partner Universities Worldwide",
+      "Credit Transfer to Top International Institutions",
+    ],
   },
   {
-    id: 'advertising',
-    name: 'Advertising',
-    description: 'Create promotional content for campaigns and events',
+    id: "advertising",
+    name: "Advertising",
+    description: "Create promotional content for campaigns and events",
     icon: <Megaphone className="h-5 w-5" />,
-    referenceImages: ['logo', 'campus', 'students']
+    referenceImages: ["logo", "campus", "students"],
   },
   {
-    id: 'student-success',
-    name: 'Student Success',
-    description: 'Highlight alumni achievements and success stories',
+    id: "student-success",
+    name: "Student Success",
+    description: "Highlight alumni achievements and success stories",
     icon: <Users className="h-5 w-5" />,
     examples: [
-      'Alumni Working at Tesla, Oracle, Volvo',
-      'Successful Credit Transfer Stories',
-      'Global Career Opportunities'
-    ]
+      "Alumni Working at Tesla, Oracle, Volvo",
+      "Successful Credit Transfer Stories",
+      "Global Career Opportunities",
+    ],
   },
   {
-    id: 'campus-life',
-    name: 'Campus Life',
-    description: 'Showcase vibrant campus culture and facilities',
+    id: "campus-life",
+    name: "Campus Life",
+    description: "Showcase vibrant campus culture and facilities",
     icon: <Building2 className="h-5 w-5" />,
     examples: [
-      'State-of-the-art Innovation Centre',
-      'World-class Sports Facilities',
-      'Diverse Student Clubs and Activities'
-    ]
+      "State-of-the-art Innovation Centre",
+      "World-class Sports Facilities",
+      "Diverse Student Clubs and Activities",
+    ],
   },
   {
-    id: 'international-partnerships',
-    name: 'International Partnerships',
-    description: 'Highlight global university partnerships',
+    id: "international-partnerships",
+    name: "International Partnerships",
+    description: "Highlight global university partnerships",
     icon: <Globe className="h-5 w-5" />,
     examples: [
-      'Partnerships with Top US Universities',
-      'UK University Transfer Programs',
-      'Australian and Canadian Opportunities'
-    ]
-  }
+      "Partnerships with Top US Universities",
+      "UK University Transfer Programs",
+      "Australian and Canadian Opportunities",
+    ],
+  },
 ];
 
 const REFERENCE_IMAGES: ReferenceImage[] = [
   {
-    id: 'icas-logo',
-    name: 'ICAS Logo',
-    description: 'Official ICAS Manipal logo',
-    url: '/placeholder.svg',
-    category: 'logo'
+    id: "icas-logo",
+    name: "ICAS Logo",
+    description: "Official ICAS Manipal logo",
+    url: "/placeholder.svg",
+    category: "logo",
   },
   {
-    id: 'manipal-logo',
-    name: 'MAHE Logo',
-    description: 'Manipal Academy of Higher Education logo',
-    url: '/placeholder.svg',
-    category: 'logo'
+    id: "manipal-logo",
+    name: "MAHE Logo",
+    description: "Manipal Academy of Higher Education logo",
+    url: "/placeholder.svg",
+    category: "logo",
   },
   {
-    id: 'us-university',
-    name: 'US University',
-    description: 'Representative US university logo',
-    url: '/placeholder.svg',
-    category: 'university'
+    id: "us-university",
+    name: "US University",
+    description: "Representative US university logo",
+    url: "/placeholder.svg",
+    category: "university",
   },
   {
-    id: 'uk-university',
-    name: 'UK University',
-    description: 'Representative UK university logo',
-    url: '/placeholder.svg',
-    category: 'university'
+    id: "uk-university",
+    name: "UK University",
+    description: "Representative UK university logo",
+    url: "/placeholder.svg",
+    category: "university",
   },
   {
-    id: 'students-group',
-    name: 'Students Group',
-    description: 'Diverse group of international students',
-    url: '/placeholder.svg',
-    category: 'students'
+    id: "students-group",
+    name: "Students Group",
+    description: "Diverse group of international students",
+    url: "/placeholder.svg",
+    category: "students",
   },
   {
-    id: 'campus-building',
-    name: 'Campus Building',
-    description: 'Modern ICAS campus building',
-    url: '/placeholder.svg',
-    category: 'campus'
-  }
+    id: "campus-building",
+    name: "Campus Building",
+    description: "Modern ICAS campus building",
+    url: "/placeholder.svg",
+    category: "campus",
+  },
 ];
 
 const SmartMarketing: React.FC = () => {
   const [selectedPostType, setSelectedPostType] = useState<PostType | null>(null);
-  const [customMessage, setCustomMessage] = useState<string>('');
+  const [customMessage, setCustomMessage] = useState<string>("");
   const [selectedReferenceImages, setSelectedReferenceImages] = useState<ReferenceImage[]>([]);
-  const [availableReferenceImages, setAvailableReferenceImages] = useState<ReferenceImage[]>(REFERENCE_IMAGES);
+  const [availableReferenceImages, setAvailableReferenceImages] =
+    useState<ReferenceImage[]>(REFERENCE_IMAGES);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedPost, setGeneratedPost] = useState<string>('');
-  const [generatedImagePrompt, setGeneratedImagePrompt] = useState<string>('');
-  const [generatedImage, setGeneratedImage] = useState<string>('');
+  const [generatedPost, setGeneratedPost] = useState<string>("");
+  const [generatedImagePrompt, setGeneratedImagePrompt] = useState<string>("");
+  const [generatedImage, setGeneratedImage] = useState<string>("");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<string>('');
-  
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
+
   // Upload states
   const [isUploading, setIsUploading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadForm, setUploadForm] = useState({
-    name: '',
-    description: '',
-    category: 'logo' as 'logo' | 'university' | 'students' | 'campus',
-    file: null as File | null
+    name: "",
+    description: "",
+    category: "logo" as "logo" | "university" | "students" | "campus",
+    file: null as File | null,
   });
 
   // Edit states
@@ -189,24 +196,24 @@ const SmartMarketing: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingImage, setEditingImage] = useState<ReferenceImage | null>(null);
   const [editForm, setEditForm] = useState({
-    name: '',
-    description: '',
-    category: 'logo' as 'logo' | 'university' | 'students' | 'campus',
-    file: null as File | null
+    name: "",
+    description: "",
+    category: "logo" as "logo" | "university" | "students" | "campus",
+    file: null as File | null,
   });
 
   // Load reference images from server
   const loadReferenceImages = async () => {
     try {
-      const response = await fetch('/api/smart-marketing/reference-images');
+      const response = await fetch("/api/smart-marketing/reference-images");
       if (response.ok) {
         const data = await response.json();
         setAvailableReferenceImages(data.referenceImages);
       } else {
-        console.error('Failed to load reference images:', response.status, response.statusText);
+        console.error("Failed to load reference images:", response.status, response.statusText);
       }
     } catch (error) {
-      console.error('Failed to load reference images:', error);
+      console.error("Failed to load reference images:", error);
     }
   };
 
@@ -216,10 +223,10 @@ const SmartMarketing: React.FC = () => {
   }, []);
 
   const handleReferenceImageToggle = (image: ReferenceImage) => {
-    setSelectedReferenceImages(prev => {
-      const exists = prev.some(img => img.id === image.id);
+    setSelectedReferenceImages((prev) => {
+      const exists = prev.some((img) => img.id === image.id);
       if (exists) {
-        return prev.filter(img => img.id !== image.id);
+        return prev.filter((img) => img.id !== image.id);
       } else {
         return [...prev, image];
       }
@@ -229,83 +236,83 @@ const SmartMarketing: React.FC = () => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setUploadForm(prev => ({ ...prev, file }));
+      setUploadForm((prev) => ({ ...prev, file }));
     }
   };
 
   const handleUpload = async () => {
     if (!uploadForm.file || !uploadForm.name.trim()) {
-      setError('Please select a file and enter a name');
+      setError("Please select a file and enter a name");
       return;
     }
 
     setIsUploading(true);
-    setError('');
+    setError("");
 
     try {
       const formData = new FormData();
-      formData.append('image', uploadForm.file);
-      formData.append('name', uploadForm.name.trim());
-      formData.append('description', uploadForm.description.trim());
-      formData.append('category', uploadForm.category);
+      formData.append("image", uploadForm.file);
+      formData.append("name", uploadForm.name.trim());
+      formData.append("description", uploadForm.description.trim());
+      formData.append("category", uploadForm.category);
 
-      const response = await fetch('/api/smart-marketing/upload-reference-image', {
-        method: 'POST',
+      const response = await fetch("/api/smart-marketing/upload-reference-image", {
+        method: "POST",
         body: formData,
       });
 
       if (response.ok) {
         const result = await response.json();
-        setSuccess('Image uploaded successfully!');
-        
+        setSuccess("Image uploaded successfully!");
+
         // Reload reference images
         await loadReferenceImages();
-        
+
         // Reset form and close modal
         setUploadForm({
-          name: '',
-          description: '',
-          category: 'logo',
-          file: null
+          name: "",
+          description: "",
+          category: "logo",
+          file: null,
         });
         setShowUploadModal(false);
       } else {
         const errorData = await response.json();
-        setError(errorData.error || 'Failed to upload image');
+        setError(errorData.error || "Failed to upload image");
       }
     } catch (error) {
-      console.error('Upload error:', error);
-      setError('Failed to upload image. Please try again.');
+      console.error("Upload error:", error);
+      setError("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
     }
   };
 
   const handleDeleteImage = async (imageId: string) => {
-    if (!confirm('Are you sure you want to delete this image?')) {
+    if (!confirm("Are you sure you want to delete this image?")) {
       return;
     }
 
     try {
       const response = await fetch(`/api/smart-marketing/reference-images/${imageId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
-        setSuccess('Image deleted successfully!');
-        
+        setSuccess("Image deleted successfully!");
+
         // Remove from selected images if it was selected
-        setSelectedReferenceImages(prev => prev.filter(img => img.id !== imageId));
-        
+        setSelectedReferenceImages((prev) => prev.filter((img) => img.id !== imageId));
+
         // Reload reference images
         await loadReferenceImages();
       } else {
         const errorData = await response.json();
-        setError(errorData.error || 'Failed to delete image');
+        setError(errorData.error || "Failed to delete image");
       }
     } catch (error) {
-      console.error('Delete error:', error);
-      setError('Failed to delete image. Please try again.');
+      console.error("Delete error:", error);
+      setError("Failed to delete image. Please try again.");
     }
   };
 
@@ -315,7 +322,7 @@ const SmartMarketing: React.FC = () => {
       name: image.name,
       description: image.description,
       category: image.category,
-      file: null
+      file: null,
     });
     setShowEditModal(true);
   };
@@ -323,70 +330,68 @@ const SmartMarketing: React.FC = () => {
   const handleEditFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setEditForm(prev => ({ ...prev, file }));
+      setEditForm((prev) => ({ ...prev, file }));
     }
   };
 
   const handleUpdateImage = async () => {
     if (!editingImage || !editForm.name.trim()) {
-      setError('Please enter a name');
+      setError("Please enter a name");
       return;
     }
 
     // For default images, require a new file
     if (!editingImage.uploaded && !editForm.file) {
-      setError('Please select a new image file to replace the default image');
+      setError("Please select a new image file to replace the default image");
       return;
     }
 
     setIsEditing(true);
-    setError('');
+    setError("");
 
     try {
       const formData = new FormData();
       if (editForm.file) {
-        formData.append('image', editForm.file);
+        formData.append("image", editForm.file);
       }
-      formData.append('name', editForm.name.trim());
-      formData.append('description', editForm.description.trim());
-      formData.append('category', editForm.category);
+      formData.append("name", editForm.name.trim());
+      formData.append("description", editForm.description.trim());
+      formData.append("category", editForm.category);
 
       const response = await fetch(`/api/smart-marketing/reference-images/${editingImage.id}`, {
-        method: 'PUT',
+        method: "PUT",
         body: formData,
       });
 
       if (response.ok) {
         const result = await response.json();
-        setSuccess(result.message || 'Image updated successfully!');
-        
+        setSuccess(result.message || "Image updated successfully!");
+
         // Reload reference images to get the updated list
         await loadReferenceImages();
-        
+
         // If this was a default image replacement, remove it from selected images
         // since it's now a new uploaded image with a different ID
         if (!editingImage.uploaded && result.image) {
-          setSelectedReferenceImages(prev => 
-            prev.filter(img => img.id !== editingImage.id)
-          );
+          setSelectedReferenceImages((prev) => prev.filter((img) => img.id !== editingImage.id));
         }
-        
+
         // Reset form and close modal
         setEditForm({
-          name: '',
-          description: '',
-          category: 'logo',
-          file: null
+          name: "",
+          description: "",
+          category: "logo",
+          file: null,
         });
         setEditingImage(null);
         setShowEditModal(false);
       } else {
         const errorData = await response.json();
-        setError(errorData.error || 'Failed to update image');
+        setError(errorData.error || "Failed to update image");
       }
     } catch (error) {
-      console.error('Update error:', error);
-      setError('Failed to update image. Please try again.');
+      console.error("Update error:", error);
+      setError("Failed to update image. Please try again.");
     } finally {
       setIsEditing(false);
     }
@@ -396,25 +401,25 @@ const SmartMarketing: React.FC = () => {
     if (!selectedPostType) return;
 
     setIsGenerating(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     try {
       // Call OpenRouter API to generate post content
-      const response = await fetch('/api/smart-marketing/generate-post', {
-        method: 'POST',
+      const response = await fetch("/api/smart-marketing/generate-post", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           postType: selectedPostType.id,
           postTypeName: selectedPostType.name,
           customMessage,
-          referenceImages: selectedReferenceImages.map(img => ({
+          referenceImages: selectedReferenceImages.map((img) => ({
             name: img.name,
             category: img.category,
-            description: img.description
-          }))
+            description: img.description,
+          })),
         }),
       });
 
@@ -422,14 +427,14 @@ const SmartMarketing: React.FC = () => {
         const result = await response.json();
         setGeneratedPost(result.post);
         setGeneratedImagePrompt(result.imagePrompt);
-        setSuccess('Post generated successfully!');
+        setSuccess("Post generated successfully!");
       } else {
         const errorData = await response.json();
-        setError(errorData.error || 'Failed to generate post');
+        setError(errorData.error || "Failed to generate post");
       }
     } catch (error) {
-      console.error('Post generation error:', error);
-      setError('Failed to generate post. Please try again.');
+      console.error("Post generation error:", error);
+      setError("Failed to generate post. Please try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -439,42 +444,42 @@ const SmartMarketing: React.FC = () => {
     if (!generatedImagePrompt) return;
 
     setIsGeneratingImage(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     try {
       // Call AI API to generate image
-      const response = await fetch('/api/smart-marketing/generate-image', {
-        method: 'POST',
+      const response = await fetch("/api/smart-marketing/generate-image", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           prompt: generatedImagePrompt,
-          referenceImages: selectedReferenceImages.map(img => img.url)
+          referenceImages: selectedReferenceImages.map((img) => img.url),
         }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        
+
         if (result.success && result.imageUrl) {
           setGeneratedImage(result.imageUrl);
-          
+
           // Show success message with note if available
           if (result.note) {
-            setSuccess(`${result.note} ${result.success ? 'Image generated successfully!' : ''}`);
+            setSuccess(`${result.note} ${result.success ? "Image generated successfully!" : ""}`);
           } else {
-            setSuccess('Image generated successfully!');
+            setSuccess("Image generated successfully!");
           }
-          
+
           // Clear any previous errors
-          setError('');
+          setError("");
         } else {
-          throw new Error(result.error || 'No image URL received from server');
+          throw new Error(result.error || "No image URL received from server");
         }
       } else {
-        let errorMessage = 'Failed to generate image';
+        let errorMessage = "Failed to generate image";
         try {
           const errorData = await response.json();
           errorMessage = errorData.error || errorMessage;
@@ -482,52 +487,52 @@ const SmartMarketing: React.FC = () => {
           errorMessage = `Server error: ${response.status} ${response.statusText}`;
         }
         setError(errorMessage);
-        setSuccess('');
+        setSuccess("");
       }
     } catch (error: any) {
-      console.error('Image generation error:', error);
-      
+      console.error("Image generation error:", error);
+
       // Provide more specific error messages
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        setError('Network error: Unable to connect to the server. Please check your connection.');
-      } else if (error.message.includes('Failed to fetch')) {
-        setError('Connection failed. Please check if the server is running and try again.');
+      if (error.name === "TypeError" && error.message.includes("fetch")) {
+        setError("Network error: Unable to connect to the server. Please check your connection.");
+      } else if (error.message.includes("Failed to fetch")) {
+        setError("Connection failed. Please check if the server is running and try again.");
       } else {
         setError(`Failed to generate image: ${error.message}`);
       }
-      setSuccess('');
+      setSuccess("");
     } finally {
       setIsGeneratingImage(false);
     }
   };
 
   const regeneratePost = () => {
-    setGeneratedPost('');
-    setGeneratedImagePrompt('');
-    setGeneratedImage('');
+    setGeneratedPost("");
+    setGeneratedImagePrompt("");
+    setGeneratedImage("");
     generatePost();
   };
 
   const regenerateImage = () => {
-    setGeneratedImage('');
+    setGeneratedImage("");
     generateImage();
   };
 
   const resetForm = () => {
     setSelectedPostType(null);
-    setCustomMessage('');
+    setCustomMessage("");
     setSelectedReferenceImages([]);
-    setGeneratedPost('');
-    setGeneratedImagePrompt('');
-    setGeneratedImage('');
-    setError('');
-    setSuccess('');
+    setGeneratedPost("");
+    setGeneratedImagePrompt("");
+    setGeneratedImage("");
+    setError("");
+    setSuccess("");
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    setSuccess('Copied to clipboard!');
-    setTimeout(() => setSuccess(''), 2000);
+    setSuccess("Copied to clipboard!");
+    setTimeout(() => setSuccess(""), 2000);
   };
 
   return (
@@ -537,7 +542,8 @@ const SmartMarketing: React.FC = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Smart Marketing Tool</h1>
           <p className="text-lg text-gray-600">
-            Generate engaging Instagram posts and AI-powered images with text overlays for ICAS Manipal marketing campaigns
+            Generate engaging Instagram posts and AI-powered images with text overlays for ICAS
+            Manipal marketing campaigns
           </p>
         </div>
 
@@ -560,7 +566,7 @@ const SmartMarketing: React.FC = () => {
                   {POST_TYPES.map((type) => (
                     <Button
                       key={type.id}
-                      variant={selectedPostType?.id === type.id ? 'default' : 'outline'}
+                      variant={selectedPostType?.id === type.id ? "default" : "outline"}
                       className="h-32 flex-col gap-3 p-4"
                       onClick={() => setSelectedPostType(type)}
                     >
@@ -653,33 +659,41 @@ const SmartMarketing: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mb-4 text-sm text-gray-600">
-                    Showing {availableReferenceImages.length} reference images ({availableReferenceImages.filter(img => img.uploaded).length} uploaded)
+                    Showing {availableReferenceImages.length} reference images (
+                    {availableReferenceImages.filter((img) => img.uploaded).length} uploaded)
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {availableReferenceImages.map((image) => (
                       <div
                         key={image.id}
                         className={`relative cursor-pointer rounded-lg border-2 p-3 transition-all ${
-                          selectedReferenceImages.some(img => img.id === image.id)
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                          selectedReferenceImages.some((img) => img.id === image.id)
+                            ? "border-blue-500 bg-blue-50"
+                            : "border-gray-200 hover:border-gray-300"
                         }`}
                         onClick={() => handleReferenceImageToggle(image)}
                       >
                         <div className="aspect-square bg-gray-100 rounded-md mb-2 flex items-center justify-center overflow-hidden">
-                          {image.url && image.url !== '/placeholder.svg' ? (
-                            <img 
-                              src={image.url} 
+                          {image.url && image.url !== "/placeholder.svg" ? (
+                            <img
+                              src={image.url}
                               alt={image.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                console.error('Image failed to load:', image.url, 'for image:', image.name);
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                console.error(
+                                  "Image failed to load:",
+                                  image.url,
+                                  "for image:",
+                                  image.name,
+                                );
+                                e.currentTarget.style.display = "none";
+                                e.currentTarget.nextElementSibling?.classList.remove("hidden");
                               }}
                             />
                           ) : null}
-                          <Image className={`h-8 w-8 text-gray-400 ${image.url && image.url !== '/placeholder.svg' ? 'hidden' : ''}`} />
+                          <Image
+                            className={`h-8 w-8 text-gray-400 ${image.url && image.url !== "/placeholder.svg" ? "hidden" : ""}`}
+                          />
                         </div>
                         <div className="text-center">
                           <div className="text-sm font-medium">{image.name}</div>
@@ -715,7 +729,7 @@ const SmartMarketing: React.FC = () => {
                             </button>
                           </>
                         )}
-                        
+
                         {/* Edit button for default images (to replace with custom) */}
                         {!image.uploaded && (
                           <button
@@ -731,7 +745,7 @@ const SmartMarketing: React.FC = () => {
                         )}
 
                         {/* Selection indicator */}
-                        {selectedReferenceImages.some(img => img.id === image.id) && (
+                        {selectedReferenceImages.some((img) => img.id === image.id) && (
                           <div className="absolute bottom-2 right-2">
                             <CheckCircle className="h-5 w-5 text-blue-500" />
                           </div>
@@ -747,8 +761,8 @@ const SmartMarketing: React.FC = () => {
             {selectedPostType && (
               <Card>
                 <CardContent className="pt-6">
-                  <Button 
-                    onClick={generatePost} 
+                  <Button
+                    onClick={generatePost}
                     disabled={isGenerating}
                     className="w-full h-12 text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                   >
@@ -782,7 +796,7 @@ const SmartMarketing: React.FC = () => {
                     <Badge variant="secondary">{selectedPostType.name}</Badge>
                     {selectedPostType.icon}
                   </div>
-                  
+
                   {customMessage && (
                     <div className="text-sm">
                       <span className="font-medium">Custom Message:</span>
@@ -791,12 +805,12 @@ const SmartMarketing: React.FC = () => {
                       </div>
                     </div>
                   )}
-                  
+
                   {selectedReferenceImages.length > 0 && (
                     <div className="text-sm">
                       <span className="font-medium">Reference Images:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
-                        {selectedReferenceImages.map(image => (
+                        {selectedReferenceImages.map((image) => (
                           <Badge key={image.id} variant="outline" className="text-xs">
                             {image.name}
                           </Badge>
@@ -823,18 +837,14 @@ const SmartMarketing: React.FC = () => {
                     <p className="text-gray-800 whitespace-pre-wrap">{generatedPost}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => copyToClipboard(generatedPost)}
                     >
                       Copy Post
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={regeneratePost}
-                    >
+                    <Button variant="outline" size="sm" onClick={regeneratePost}>
                       <RefreshCw className="h-4 w-4 mr-2" />
                       Regenerate
                     </Button>
@@ -851,7 +861,10 @@ const SmartMarketing: React.FC = () => {
                     <Palette className="h-5 w-5" />
                     Instagram-Style Image Prompt
                   </CardTitle>
-                  <CardDescription>AI-generated prompt for creating Instagram-worthy marketing images with your post content as text overlays</CardDescription>
+                  <CardDescription>
+                    AI-generated prompt for creating Instagram-worthy marketing images with your
+                    post content as text overlays
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
@@ -860,21 +873,40 @@ const SmartMarketing: React.FC = () => {
                         <Image className="h-4 w-4 text-blue-600" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-gray-800 text-sm leading-relaxed">{generatedImagePrompt}</p>
+                        <p className="text-gray-800 text-sm leading-relaxed">
+                          {generatedImagePrompt}
+                        </p>
                         <div className="mt-3 flex flex-wrap gap-2">
-                          <Badge variant="secondary" className="text-xs">Instagram Format</Badge>
-                          <Badge variant="secondary" className="text-xs">Text Overlay</Badge>
-                          <Badge variant="secondary" className="text-xs">Professional Design</Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            Instagram Format
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            Text Overlay
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            Professional Design
+                          </Badge>
                           {selectedReferenceImages.length > 0 && (
-                            <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">Reference Images</Badge>
+                            <Badge
+                              variant="secondary"
+                              className="text-xs bg-green-100 text-green-700"
+                            >
+                              Reference Images
+                            </Badge>
                           )}
                         </div>
                         {selectedReferenceImages.length > 0 && (
                           <div className="mt-3 p-2 bg-white rounded border border-green-200">
-                            <div className="text-xs font-medium text-green-700 mb-1">Reference images that will be incorporated:</div>
+                            <div className="text-xs font-medium text-green-700 mb-1">
+                              Reference images that will be incorporated:
+                            </div>
                             <div className="flex flex-wrap gap-1 mt-1">
-                              {selectedReferenceImages.map(image => (
-                                <Badge key={image.id} variant="outline" className="text-xs bg-green-50 text-green-700 border-green-300">
+                              {selectedReferenceImages.map((image) => (
+                                <Badge
+                                  key={image.id}
+                                  variant="outline"
+                                  className="text-xs bg-green-50 text-green-700 border-green-300"
+                                >
                                   {image.name}
                                 </Badge>
                               ))}
@@ -884,8 +916,8 @@ const SmartMarketing: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <Button 
-                    onClick={generateImage} 
+                  <Button
+                    onClick={generateImage}
                     disabled={isGeneratingImage}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                   >
@@ -901,7 +933,7 @@ const SmartMarketing: React.FC = () => {
                       </>
                     )}
                   </Button>
-                  
+
                   {/* Progress indicator */}
                   {isGeneratingImage && (
                     <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
@@ -910,7 +942,8 @@ const SmartMarketing: React.FC = () => {
                         <span>AI is creating your Instagram-worthy marketing image...</span>
                       </div>
                       <div className="mt-2 text-xs text-blue-600">
-                        This may take a few moments. Our AI is generating a professional image with text overlays optimized for Instagram.
+                        This may take a few moments. Our AI is generating a professional image with
+                        text overlays optimized for Instagram.
                       </div>
                     </div>
                   )}
@@ -930,13 +963,13 @@ const SmartMarketing: React.FC = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="relative">
-                    <img 
-                      src={generatedImage} 
+                    <img
+                      src={generatedImage}
                       alt="Generated marketing image"
                       className="w-full rounded-lg border"
                       onError={(e) => {
-                        console.error('Image failed to load:', e);
-                        setError('Failed to load generated image');
+                        console.error("Image failed to load:", e);
+                        setError("Failed to load generated image");
                       }}
                     />
                     {isGeneratingImage && (
@@ -949,25 +982,25 @@ const SmartMarketing: React.FC = () => {
                     )}
                   </div>
                   <div className="flex gap-2">
-                    <Button 
-                      className="flex-1" 
+                    <Button
+                      className="flex-1"
                       size="sm"
                       onClick={() => {
                         // Create a temporary link to download the image
-                        const link = document.createElement('a');
+                        const link = document.createElement("a");
                         link.href = generatedImage;
-                        link.download = 'icas-marketing-image.jpg';
+                        link.download = "icas-marketing-image.jpg";
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        setSuccess('Image download started!');
+                        setSuccess("Image download started!");
                       }}
                     >
                       <Download className="h-4 w-4 mr-2" />
                       Download
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={regenerateImage}
                       disabled={isGeneratingImage}
@@ -1007,11 +1040,7 @@ const SmartMarketing: React.FC = () => {
             {selectedPostType && (
               <Card>
                 <CardContent className="pt-6">
-                  <Button 
-                    variant="outline" 
-                    onClick={resetForm}
-                    className="w-full"
-                  >
+                  <Button variant="outline" onClick={resetForm} className="w-full">
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Start Over
                   </Button>
@@ -1031,11 +1060,7 @@ const SmartMarketing: React.FC = () => {
                     <Upload className="h-5 w-5" />
                     Upload Reference Image
                   </CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowUploadModal(false)}
-                  >
+                  <Button variant="ghost" size="sm" onClick={() => setShowUploadModal(false)}>
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -1050,26 +1075,28 @@ const SmartMarketing: React.FC = () => {
                     id="image-name"
                     placeholder="Enter image name"
                     value={uploadForm.name}
-                    onChange={(e) => setUploadForm(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setUploadForm((prev) => ({ ...prev, name: e.target.value }))}
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="image-description">Description</Label>
                   <Input
                     id="image-description"
                     placeholder="Enter image description"
                     value={uploadForm.description}
-                    onChange={(e) => setUploadForm(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setUploadForm((prev) => ({ ...prev, description: e.target.value }))
+                    }
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="image-category">Category *</Label>
                   <Select
                     value={uploadForm.category}
-                    onValueChange={(value: 'logo' | 'university' | 'students' | 'campus') => 
-                      setUploadForm(prev => ({ ...prev, category: value }))
+                    onValueChange={(value: "logo" | "university" | "students" | "campus") =>
+                      setUploadForm((prev) => ({ ...prev, category: value }))
                     }
                   >
                     <SelectTrigger>
@@ -1083,7 +1110,7 @@ const SmartMarketing: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="image-file">Image File *</Label>
                   <Input
@@ -1095,11 +1122,12 @@ const SmartMarketing: React.FC = () => {
                   />
                   {uploadForm.file && (
                     <div className="mt-2 text-sm text-gray-600">
-                      Selected: {uploadForm.file.name} ({(uploadForm.file.size / 1024 / 1024).toFixed(2)} MB)
+                      Selected: {uploadForm.file.name} (
+                      {(uploadForm.file.size / 1024 / 1024).toFixed(2)} MB)
                     </div>
                   )}
                 </div>
-                
+
                 <div className="flex gap-2 pt-4">
                   <Button
                     onClick={handleUpload}
@@ -1141,11 +1169,7 @@ const SmartMarketing: React.FC = () => {
                     <Edit3 className="h-5 w-5" />
                     Edit Reference Image
                   </CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowEditModal(false)}
-                  >
+                  <Button variant="ghost" size="sm" onClick={() => setShowEditModal(false)}>
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -1160,9 +1184,9 @@ const SmartMarketing: React.FC = () => {
                   <div className="mt-2 p-4 border rounded-lg bg-gray-50">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-                        {editingImage.url && editingImage.url !== '/placeholder.svg' ? (
-                          <img 
-                            src={editingImage.url} 
+                        {editingImage.url && editingImage.url !== "/placeholder.svg" ? (
+                          <img
+                            src={editingImage.url}
                             alt={editingImage.name}
                             className="w-full h-full object-cover"
                           />
@@ -1187,26 +1211,28 @@ const SmartMarketing: React.FC = () => {
                     id="edit-image-name"
                     placeholder="Enter image name"
                     value={editForm.name}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setEditForm((prev) => ({ ...prev, name: e.target.value }))}
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="edit-image-description">Description</Label>
                   <Input
                     id="edit-image-description"
                     placeholder="Enter image description"
                     value={editForm.description}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({ ...prev, description: e.target.value }))
+                    }
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="edit-image-category">Category *</Label>
                   <Select
                     value={editForm.category}
-                    onValueChange={(value: 'logo' | 'university' | 'students' | 'campus') => 
-                      setEditForm(prev => ({ ...prev, category: value }))
+                    onValueChange={(value: "logo" | "university" | "students" | "campus") =>
+                      setEditForm((prev) => ({ ...prev, category: value }))
                     }
                   >
                     <SelectTrigger>
@@ -1220,10 +1246,10 @@ const SmartMarketing: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="edit-image-file">
-                    Replace Image {!editingImage?.uploaded ? '*' : '(Optional)'}
+                    Replace Image {!editingImage?.uploaded ? "*" : "(Optional)"}
                   </Label>
                   <Input
                     id="edit-image-file"
@@ -1235,21 +1261,25 @@ const SmartMarketing: React.FC = () => {
                   />
                   {editForm.file && (
                     <div className="mt-2 text-sm text-gray-600">
-                      New image: {editForm.file.name} ({(editForm.file.size / 1024 / 1024).toFixed(2)} MB)
+                      New image: {editForm.file.name} (
+                      {(editForm.file.size / 1024 / 1024).toFixed(2)} MB)
                     </div>
                   )}
                   <div className="mt-1 text-xs text-gray-500">
-                    {editingImage?.uploaded 
-                      ? 'Leave empty to keep the current image'
-                      : 'Required: Select a new image to replace the default image'
-                    }
+                    {editingImage?.uploaded
+                      ? "Leave empty to keep the current image"
+                      : "Required: Select a new image to replace the default image"}
                   </div>
                 </div>
-                
+
                 <div className="flex gap-2 pt-4">
                   <Button
                     onClick={handleUpdateImage}
-                    disabled={isEditing || !editForm.name.trim() || (!editingImage?.uploaded && !editForm.file)}
+                    disabled={
+                      isEditing ||
+                      !editForm.name.trim() ||
+                      (!editingImage?.uploaded && !editForm.file)
+                    }
                     className="flex-1"
                   >
                     {isEditing ? (
@@ -1281,4 +1311,4 @@ const SmartMarketing: React.FC = () => {
   );
 };
 
-export default SmartMarketing; 
+export default SmartMarketing;

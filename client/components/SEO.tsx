@@ -11,9 +11,7 @@ export default function SEO({ title, description }: Props) {
       document.title = title;
     }
     if (description) {
-      let meta = document.querySelector<HTMLMetaElement>(
-        'meta[name="description"]',
-      );
+      let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
       if (!meta) {
         meta = document.createElement("meta");
         meta.setAttribute("name", "description");

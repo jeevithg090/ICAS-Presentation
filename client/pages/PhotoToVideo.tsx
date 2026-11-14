@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import ImageUploader from '../components/ImageUploader';
-import VideoProcessor from '../components/VideoProcessor';
-import AudioProcessor from '../components/AudioProcessor';
-import VideoDownloader from '../components/VideoDownloader';
+import React, { useState, useCallback } from "react";
+import ImageUploader from "../components/ImageUploader";
+import VideoProcessor from "../components/VideoProcessor";
+import AudioProcessor from "../components/AudioProcessor";
+import VideoDownloader from "../components/VideoDownloader";
 
 interface UploadedFile {
   filename: string;
@@ -13,7 +13,7 @@ interface UploadedFile {
 
 interface VideoJob {
   id: string;
-  status: 'processing' | 'completed' | 'failed';
+  status: "processing" | "completed" | "failed";
   videoPath?: string;
   videoUrl?: string;
   previewUrl?: string;
@@ -26,7 +26,7 @@ interface VideoJob {
 
 interface AudioJob {
   id: string;
-  status: 'processing' | 'completed' | 'failed';
+  status: "processing" | "completed" | "failed";
   audioPath?: string;
   script?: string;
   error?: string;
@@ -49,7 +49,7 @@ const PhotoToVideo: React.FC = () => {
   }, []);
 
   const handleVideoCompleted = useCallback((jobId: string) => {
-              setVideoCompleted(true);
+    setVideoCompleted(true);
     // Keep the current job ID for audio processing
   }, []);
 
@@ -65,7 +65,7 @@ const PhotoToVideo: React.FC = () => {
   }, [currentJobId]);
 
   const handleAudioError = useCallback((error: string) => {
-      console.error('Audio processing error:', error);
+    console.error("Audio processing error:", error);
     // Could show an error message to user
     alert(`Audio processing error: ${error}`);
   }, []);
@@ -77,22 +77,22 @@ const PhotoToVideo: React.FC = () => {
     setFinalJobId(null);
   }, []);
 
-
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-orange-600 mb-4">Photo to Video Converter</h1>
-        <p className="text-lg text-gray-600">Upload your images and create a beautiful slideshow video with AI-powered generation and voice narration</p>
+        <p className="text-lg text-gray-600">
+          Upload your images and create a beautiful slideshow video with AI-powered generation and
+          voice narration
+        </p>
       </div>
 
       <div className="space-y-6">
-        {!uploadedFiles.length && (
-          <ImageUploader onFilesUploaded={handleFilesUploaded} />
-        )}
+        {!uploadedFiles.length && <ImageUploader onFilesUploaded={handleFilesUploaded} />}
 
         {uploadedFiles.length > 0 && !currentJobId && !videoCompleted && !finalJobId && (
-          <VideoProcessor 
-            files={uploadedFiles} 
+          <VideoProcessor
+            files={uploadedFiles}
             onVideoStarted={handleVideoStarted}
             onVideoCompleted={handleVideoCompleted}
             onReset={handleReset}
@@ -109,15 +109,11 @@ const PhotoToVideo: React.FC = () => {
         )}
 
         {finalJobId && (
-          <VideoDownloader 
-            jobId={finalJobId} 
-            onVideoCompleted={() => {}}
-            onReset={handleReset}
-          />
+          <VideoDownloader jobId={finalJobId} onVideoCompleted={() => {}} onReset={handleReset} />
         )}
       </div>
     </div>
   );
 };
 
-export default PhotoToVideo; 
+export default PhotoToVideo;

@@ -11,12 +11,7 @@ import {
   orderBy,
   deleteDoc,
 } from "firebase/firestore";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 export type Syllabus = { s1: string; s2: string; s3: string };
 export type Course = {
@@ -66,10 +61,7 @@ export async function ensureInit(userId: string) {
   }
 }
 
-export function subscribeCourses(
-  userId: string,
-  cb: (courses: Course[]) => void,
-) {
+export function subscribeCourses(userId: string, cb: (courses: Course[]) => void) {
   const q = query(courseCol(userId));
   return onSnapshot(q, (snap) => {
     const list: Course[] = [];
@@ -88,27 +80,15 @@ export async function updateCourseMeta(
   await updateDoc(courseDoc(userId, courseId), data as any);
 }
 
-export async function saveSyllabus(
-  userId: string,
-  courseId: string,
-  syllabus: Syllabus,
-) {
+export async function saveSyllabus(userId: string, courseId: string, syllabus: Syllabus) {
   await updateDoc(courseDoc(userId, courseId), { syllabus } as any);
 }
 
-export async function saveNotes(
-  userId: string,
-  courseId: string,
-  notesHtml: string,
-) {
+export async function saveNotes(userId: string, courseId: string, notesHtml: string) {
   await updateDoc(courseDoc(userId, courseId), { notesHtml } as any);
 }
 
-export function subscribeUploads(
-  userId: string,
-  courseId: string,
-  cb: (items: Upload[]) => void,
-) {
+export function subscribeUploads(userId: string, courseId: string, cb: (items: Upload[]) => void) {
   const q = query(uploadsCol(userId, courseId), orderBy("createdAt", "desc"));
   return onSnapshot(q, (snap) => {
     const list: Upload[] = [];
@@ -134,11 +114,7 @@ export async function uploadNote(userId: string, courseId: string, file: File) {
   return url;
 }
 
-export async function deleteUpload(
-  userId: string,
-  courseId: string,
-  uploadId: string,
-) {
+export async function deleteUpload(userId: string, courseId: string, uploadId: string) {
   try {
     const sref = ref(storage, uploadId);
     await deleteObject(sref);

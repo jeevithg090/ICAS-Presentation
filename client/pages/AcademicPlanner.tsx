@@ -8,36 +8,23 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle 
-} from "@/components/ui/dialog";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { 
-  Calendar,
-  BookOpen,
-  TrendingUp,
-  Globe,
-  Plus,
-  CheckCircle,
-  Clock
-} from "lucide-react";
+import { Calendar, BookOpen, TrendingUp, Globe, Plus, CheckCircle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // Sample data - in real app, this would come from your academic planner library
@@ -52,7 +39,7 @@ const sampleCourses = [
     year: 1,
     difficulty: "easy" as const,
     category: "core" as const,
-    description: "Fundamentals of programming and computer science concepts"
+    description: "Fundamentals of programming and computer science concepts",
   },
   {
     id: "MATH201",
@@ -64,7 +51,7 @@ const sampleCourses = [
     year: 1,
     difficulty: "medium" as const,
     category: "core" as const,
-    description: "Differential calculus and applications"
+    description: "Differential calculus and applications",
   },
   {
     id: "PHY101",
@@ -76,8 +63,8 @@ const sampleCourses = [
     year: 1,
     difficulty: "medium" as const,
     category: "core" as const,
-    description: "Mechanics, thermodynamics, and wave motion"
-  }
+    description: "Mechanics, thermodynamics, and wave motion",
+  },
 ];
 
 const sampleAcademicPlan = {
@@ -96,8 +83,8 @@ const sampleAcademicPlan = {
       gpa: 4.0,
       credits: 3,
       semester: 1,
-      year: 1
-    }
+      year: 1,
+    },
   ],
   plannedCourses: [
     {
@@ -105,8 +92,8 @@ const sampleAcademicPlan = {
       semester: 1,
       year: 1,
       priority: "high" as const,
-      reason: "Required for advanced courses"
-    }
+      reason: "Required for advanced courses",
+    },
   ],
   transferCredits: [
     {
@@ -114,16 +101,16 @@ const sampleAcademicPlan = {
       transferredCourse: "MATH201",
       credits: 4,
       university: "University of California",
-      verified: true
-    }
-  ]
+      verified: true,
+    },
+  ],
 };
 
 const transferUniversities = [
   { id: "uc", name: "University of California", country: "USA", creditsAccepted: 45 },
   { id: "mit", name: "MIT", country: "USA", creditsAccepted: 40 },
   { id: "oxford", name: "University of Oxford", country: "UK", creditsAccepted: 42 },
-  { id: "toronto", name: "University of Toronto", country: "Canada", creditsAccepted: 38 }
+  { id: "toronto", name: "University of Toronto", country: "Canada", creditsAccepted: 38 },
 ];
 
 export default function AcademicPlanner() {
@@ -136,8 +123,14 @@ export default function AcademicPlanner() {
 
   const currentGPA = useMemo(() => {
     if (sampleAcademicPlan.completedCourses.length === 0) return 0;
-    const totalPoints = sampleAcademicPlan.completedCourses.reduce((sum, course) => sum + course.gpa * course.credits, 0);
-    const totalCredits = sampleAcademicPlan.completedCourses.reduce((sum, course) => sum + course.credits, 0);
+    const totalPoints = sampleAcademicPlan.completedCourses.reduce(
+      (sum, course) => sum + course.gpa * course.credits,
+      0,
+    );
+    const totalCredits = sampleAcademicPlan.completedCourses.reduce(
+      (sum, course) => sum + course.credits,
+      0,
+    );
     return totalCredits > 0 ? totalPoints / totalCredits : 0;
   }, []);
 
@@ -156,11 +149,11 @@ export default function AcademicPlanner() {
 
   return (
     <main>
-      <SEO 
-        title="Academic Planner — ICAS" 
-        description="Plan your academic journey, track GPA, and manage transfer credits for your 2+2 program." 
+      <SEO
+        title="Academic Planner — ICAS"
+        description="Plan your academic journey, track GPA, and manage transfer credits for your 2+2 program."
       />
-      
+
       <section className="container py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -197,7 +190,10 @@ export default function AcademicPlanner() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{currentGPA.toFixed(2)}</div>
-                  <Progress value={(currentGPA / sampleAcademicPlan.targetGPA) * 100} className="mt-2" />
+                  <Progress
+                    value={(currentGPA / sampleAcademicPlan.targetGPA) * 100}
+                    className="mt-2"
+                  />
                   <p className="text-xs text-muted-foreground mt-1">
                     Target: {sampleAcademicPlan.targetGPA}
                   </p>
@@ -225,9 +221,7 @@ export default function AcademicPlanner() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{transferCreditsTotal}</div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    International credits
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">International credits</p>
                 </CardContent>
               </Card>
 
@@ -237,9 +231,7 @@ export default function AcademicPlanner() {
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {sampleAcademicPlan.currentSemester}
-                  </div>
+                  <div className="text-2xl font-bold">{sampleAcademicPlan.currentSemester}</div>
                   <p className="text-xs text-muted-foreground mt-1">
                     Year {sampleAcademicPlan.currentYear}
                   </p>
@@ -289,8 +281,8 @@ export default function AcademicPlanner() {
                       Study Centre
                     </Link>
                   </Button>
-                  <Button 
-                    className="w-full justify-start" 
+                  <Button
+                    className="w-full justify-start"
                     variant="outline"
                     onClick={() => setShowGPAScenario(true)}
                   >
@@ -319,17 +311,22 @@ export default function AcademicPlanner() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {sampleAcademicPlan.selectedCourses.map(courseId => {
-                      const course = sampleCourses.find(c => c.id === courseId);
+                    {sampleAcademicPlan.selectedCourses.map((courseId) => {
+                      const course = sampleCourses.find((c) => c.id === courseId);
                       return course ? (
-                        <div key={course.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div
+                          key={course.id}
+                          className="flex items-center justify-between p-3 border rounded-lg"
+                        >
                           <div>
                             <h4 className="font-medium">{course.code}</h4>
                             <p className="text-sm text-muted-foreground">{course.name}</p>
                           </div>
                           <div className="text-right">
                             <Badge variant="outline">{course.credits} credits</Badge>
-                            <Badge variant="secondary" className="ml-2">{course.category}</Badge>
+                            <Badge variant="secondary" className="ml-2">
+                              {course.category}
+                            </Badge>
                           </div>
                         </div>
                       ) : null;
@@ -344,10 +341,13 @@ export default function AcademicPlanner() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {sampleAcademicPlan.plannedCourses.map(planned => {
-                      const course = sampleCourses.find(c => c.id === planned.courseId);
+                    {sampleAcademicPlan.plannedCourses.map((planned) => {
+                      const course = sampleCourses.find((c) => c.id === planned.courseId);
                       return course ? (
-                        <div key={planned.courseId} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div
+                          key={planned.courseId}
+                          className="flex items-center justify-between p-3 border rounded-lg"
+                        >
                           <div>
                             <h4 className="font-medium">{course.code}</h4>
                             <p className="text-sm text-muted-foreground">
@@ -356,7 +356,7 @@ export default function AcademicPlanner() {
                             <p className="text-xs text-muted-foreground">{planned.reason}</p>
                           </div>
                           <div className="text-right">
-                            <Badge variant={planned.priority === 'high' ? 'default' : 'secondary'}>
+                            <Badge variant={planned.priority === "high" ? "default" : "secondary"}>
                               {planned.priority}
                             </Badge>
                           </div>
@@ -400,7 +400,7 @@ export default function AcademicPlanner() {
                         <TableCell>
                           {course.prerequisites.length > 0 ? (
                             <div className="flex gap-1">
-                              {course.prerequisites.map(prereq => (
+                              {course.prerequisites.map((prereq) => (
                                 <Badge key={prereq} variant="outline" className="text-xs">
                                   {prereq}
                                 </Badge>
@@ -432,7 +432,10 @@ export default function AcademicPlanner() {
               <CardContent>
                 <div className="space-y-4">
                   {sampleAcademicPlan.transferCredits.map((credit, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
                         {credit.verified ? (
                           <CheckCircle className="h-5 w-5 text-green-600" />
@@ -440,15 +443,17 @@ export default function AcademicPlanner() {
                           <Clock className="h-5 w-5 text-yellow-600" />
                         )}
                         <div>
-                          <h4 className="font-medium">{credit.originalCourse} → {credit.transferredCourse}</h4>
+                          <h4 className="font-medium">
+                            {credit.originalCourse} → {credit.transferredCourse}
+                          </h4>
                           <p className="text-sm text-muted-foreground">
                             {credit.university} • {credit.credits} credits
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <Badge variant={credit.verified ? 'default' : 'secondary'}>
-                          {credit.verified ? 'Verified' : 'Pending'}
+                        <Badge variant={credit.verified ? "default" : "secondary"}>
+                          {credit.verified ? "Verified" : "Pending"}
                         </Badge>
                       </div>
                     </div>
@@ -472,7 +477,9 @@ export default function AcademicPlanner() {
                       <p className="text-sm text-muted-foreground mb-3">
                         Credits accepted: {university.creditsAccepted}
                       </p>
-                      <Button size="sm" variant="outline">View Details</Button>
+                      <Button size="sm" variant="outline">
+                        View Details
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -535,7 +542,9 @@ export default function AcademicPlanner() {
                         </TableCell>
                         <TableCell>{course.gpa}</TableCell>
                         <TableCell>{course.credits}</TableCell>
-                        <TableCell>Sem {course.semester}, Year {course.year}</TableCell>
+                        <TableCell>
+                          Sem {course.semester}, Year {course.year}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -618,9 +627,7 @@ export default function AcademicPlanner() {
             <Button variant="outline" onClick={() => setShowAddCourse(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setShowAddCourse(false)}>
-              Add Course
-            </Button>
+            <Button onClick={() => setShowAddCourse(false)}>Add Course</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -646,8 +653,12 @@ export default function AcademicPlanner() {
             </div>
             <div className="p-4 bg-muted rounded-lg">
               <p className="text-sm text-muted-foreground">
-                To achieve your target GPA of {sampleAcademicPlan.targetGPA}, you need to maintain an average GPA of 
-                {((sampleAcademicPlan.targetGPA * 120 - currentGPA * creditsCompleted) / (120 - creditsCompleted)).toFixed(2)} 
+                To achieve your target GPA of {sampleAcademicPlan.targetGPA}, you need to maintain
+                an average GPA of
+                {(
+                  (sampleAcademicPlan.targetGPA * 120 - currentGPA * creditsCompleted) /
+                  (120 - creditsCompleted)
+                ).toFixed(2)}
                 in your remaining courses.
               </p>
             </div>
@@ -661,4 +672,4 @@ export default function AcademicPlanner() {
       </Dialog>
     </main>
   );
-} 
+}

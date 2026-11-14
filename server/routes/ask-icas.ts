@@ -29,18 +29,18 @@ Key Points:
 // Function to clean up markdown formatting and improve text styling
 function cleanAndStyleResponse(text: string): string {
   // Remove markdown bold formatting (**text**)
-  text = text.replace(/\*\*(.*?)\*\*/g, '$1');
-  
+  text = text.replace(/\*\*(.*?)\*\*/g, "$1");
+
   // Remove other markdown formatting
-  text = text.replace(/\*(.*?)\*/g, '$1'); // Remove italic formatting
-  text = text.replace(/`(.*?)`/g, '$1'); // Remove code formatting
-  text = text.replace(/#{1,6}\s*/g, ''); // Remove heading markers
-  text = text.replace(/\[(.*?)\]\(.*?\)/g, '$1'); // Remove link formatting, keep text
-  
+  text = text.replace(/\*(.*?)\*/g, "$1"); // Remove italic formatting
+  text = text.replace(/`(.*?)`/g, "$1"); // Remove code formatting
+  text = text.replace(/#{1,6}\s*/g, ""); // Remove heading markers
+  text = text.replace(/\[(.*?)\]\(.*?\)/g, "$1"); // Remove link formatting, keep text
+
   // Clean up any remaining markdown artifacts
-  text = text.replace(/\n{3,}/g, '\n\n'); // Reduce multiple newlines
-  text = text.replace(/^\s*[-*]\s*/gm, '• '); // Convert markdown lists to bullet points
-  
+  text = text.replace(/\n{3,}/g, "\n\n"); // Reduce multiple newlines
+  text = text.replace(/^\s*[-*]\s*/gm, "• "); // Convert markdown lists to bullet points
+
   return text.trim();
 }
 
@@ -48,13 +48,15 @@ export const handleAskICAS: RequestHandler = async (req, res) => {
   try {
     // OpenRouter API key for Ask ICAS
     const key = config.openRouterApiKey;
-    console.log('Ask ICAS API Key configured:', key ? 'Yes' : 'No');
+    console.log("Ask ICAS API Key configured:", key ? "Yes" : "No");
     if (!key) {
-      return res.status(500).json({ error: "Ask ICAS not configured - missing OpenRouter API key" });
+      return res
+        .status(500)
+        .json({ error: "Ask ICAS not configured - missing OpenRouter API key" });
     }
 
     const { question, context, conversationHistory } = req.body || {};
-    
+
     if (!question) {
       return res.status(400).json({ error: "Question is required" });
     }
@@ -81,10 +83,10 @@ Always maintain a positive and supportive tone while being informative and accur
 
     // Try multiple free OpenRouter models as fallbacks
     const models = [
-      'mistralai/mistral-7b-instruct', // Free model
-      'meta-llama/llama-3.1-8b-instruct', // Free model
-      'google/gemini-pro', // Free model
-      'openrouter/auto' // Auto-selects best available
+      "mistralai/mistral-7b-instruct", // Free model
+      "meta-llama/llama-3.1-8b-instruct", // Free model
+      "google/gemini-pro", // Free model
+      "openrouter/auto", // Auto-selects best available
     ];
 
     let response;
@@ -93,26 +95,24 @@ Always maintain a positive and supportive tone while being informative and accur
     for (const model of models) {
       try {
         // Build messages array with conversation history
-        const messages = [
-          { role: "system", content: systemPrompt }
-        ];
-        
+        const messages = [{ role: "system", content: systemPrompt }];
+
         // Add conversation history if provided
         if (conversationHistory && Array.isArray(conversationHistory)) {
           conversationHistory.forEach((msg: any) => {
             if (msg.role && msg.content) {
               messages.push({
                 role: msg.role,
-                content: msg.content
+                content: msg.content,
               });
             }
           });
         }
-        
+
         // Add current question
         messages.push({
           role: "user",
-          content: `ICAS Context: ${ICAS_CONTEXT}\n\nComprehensive ICAS Features Document:\n${ICAS_FEATURES_CONTENT}\n\nAdditional Context: ${context || 'None'}\n\nQuestion: ${question}`,
+          content: `ICAS Context: ${ICAS_CONTEXT}\n\nComprehensive ICAS Features Document:\n${ICAS_FEATURES_CONTENT}\n\nAdditional Context: ${context || "None"}\n\nQuestion: ${question}`,
         });
 
         const openRouterResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -137,11 +137,13 @@ Always maintain a positive and supportive tone while being informative and accur
         }
 
         const data = await openRouterResponse.json();
-        let answer = data.choices?.[0]?.message?.content ?? "I'm sorry, I couldn't generate a response at the moment. Please try again.";
-        
+        let answer =
+          data.choices?.[0]?.message?.content ??
+          "I'm sorry, I couldn't generate a response at the moment. Please try again.";
+
         // Clean up markdown formatting and improve text styling
         answer = cleanAndStyleResponse(answer);
-        
+
         response = { answer };
         break; // Success, exit loop
       } catch (error: any) {
@@ -157,10 +159,10 @@ Always maintain a positive and supportive tone while being informative and accur
 
     res.json(response);
   } catch (e: any) {
-    console.error('Ask ICAS error:', e);
-    res.status(500).json({ 
+    console.error("Ask ICAS error:", e);
+    res.status(500).json({
       error: e?.message || "Unknown error occurred",
-      details: "Please try again or contact support if the issue persists"
+      details: "Please try again or contact support if the issue persists",
     });
   }
 };

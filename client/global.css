@@ -133,7 +133,8 @@
 
   /* Floating animation for hero elements */
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
       opacity: 0.2;
     }
@@ -187,7 +188,8 @@
 
   /* Gradient shift animation */
   @keyframes gradient-shift {
-    0%, 100% {
+    0%,
+    100% {
       background-position: 0% 50%;
     }
     50% {

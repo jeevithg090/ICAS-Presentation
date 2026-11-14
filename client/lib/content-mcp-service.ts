@@ -5,9 +5,9 @@
 export interface ContentItem {
   id: string;
   title: string;
-  type: 'blog' | 'social' | 'video' | 'image' | 'document' | 'presentation';
+  type: "blog" | "social" | "video" | "image" | "document" | "presentation";
   content: string;
-  status: 'draft' | 'review' | 'published' | 'archived';
+  status: "draft" | "review" | "published" | "archived";
   category: string;
   tags: string[];
   author: string;
@@ -45,8 +45,8 @@ export interface ContentCampaign {
   id: string;
   name: string;
   description: string;
-  type: 'marketing' | 'educational' | 'announcement' | 'event';
-  status: 'planning' | 'active' | 'paused' | 'completed';
+  type: "marketing" | "educational" | "announcement" | "event";
+  status: "planning" | "active" | "paused" | "completed";
   startDate: string;
   endDate: string;
   contentItems: string[];
@@ -78,7 +78,7 @@ export interface MCPServerConfig {
   description: string;
   endpoint: string;
   capabilities: string[];
-  status: 'available' | 'maintenance' | 'deprecated';
+  status: "available" | "maintenance" | "deprecated";
   rateLimit?: {
     requests: number;
     window: number;
@@ -88,59 +88,75 @@ export interface MCPServerConfig {
 // Available MCP Servers for Content Management
 const MCP_SERVERS: MCPServerConfig[] = [
   {
-    id: 'content-generator',
-    name: 'AI Content Generator MCP',
-    description: 'Advanced AI-powered content generation for blogs, social media, and marketing materials',
-    endpoint: 'https://content-generator-mcp.glitch.me',
-    capabilities: ['content_generation', 'seo_optimization', 'tone_adaptation', 'multi_language'],
-    status: 'available',
-    rateLimit: { requests: 100, window: 60 }
+    id: "content-generator",
+    name: "AI Content Generator MCP",
+    description:
+      "Advanced AI-powered content generation for blogs, social media, and marketing materials",
+    endpoint: "https://content-generator-mcp.glitch.me",
+    capabilities: ["content_generation", "seo_optimization", "tone_adaptation", "multi_language"],
+    status: "available",
+    rateLimit: { requests: 100, window: 60 },
   },
   {
-    id: 'seo-optimizer',
-    name: 'SEO Optimizer MCP',
-    description: 'Comprehensive SEO analysis and optimization for content',
-    endpoint: 'https://seo-optimizer-mcp.herokuapp.com',
-    capabilities: ['seo_analysis', 'keyword_research', 'content_optimization', 'rank_tracking'],
-    status: 'available',
-    rateLimit: { requests: 75, window: 60 }
+    id: "seo-optimizer",
+    name: "SEO Optimizer MCP",
+    description: "Comprehensive SEO analysis and optimization for content",
+    endpoint: "https://seo-optimizer-mcp.herokuapp.com",
+    capabilities: ["seo_analysis", "keyword_research", "content_optimization", "rank_tracking"],
+    status: "available",
+    rateLimit: { requests: 75, window: 60 },
   },
   {
-    id: 'social-scheduler',
-    name: 'Social Media Scheduler MCP',
-    description: 'Automated social media content scheduling and publishing',
-    endpoint: 'https://social-scheduler-mcp.netlify.app',
-    capabilities: ['content_scheduling', 'platform_optimization', 'engagement_tracking', 'auto_posting'],
-    status: 'available',
-    rateLimit: { requests: 50, window: 60 }
+    id: "social-scheduler",
+    name: "Social Media Scheduler MCP",
+    description: "Automated social media content scheduling and publishing",
+    endpoint: "https://social-scheduler-mcp.netlify.app",
+    capabilities: [
+      "content_scheduling",
+      "platform_optimization",
+      "engagement_tracking",
+      "auto_posting",
+    ],
+    status: "available",
+    rateLimit: { requests: 50, window: 60 },
   },
   {
-    id: 'image-generator',
-    name: 'AI Image Generator MCP',
-    description: 'AI-powered image generation and editing for content',
-    endpoint: 'https://image-generator-mcp.vercel.app',
-    capabilities: ['image_generation', 'image_editing', 'style_transfer', 'brand_consistency'],
-    status: 'available',
-    rateLimit: { requests: 60, window: 60 }
+    id: "image-generator",
+    name: "AI Image Generator MCP",
+    description: "AI-powered image generation and editing for content",
+    endpoint: "https://image-generator-mcp.vercel.app",
+    capabilities: ["image_generation", "image_editing", "style_transfer", "brand_consistency"],
+    status: "available",
+    rateLimit: { requests: 60, window: 60 },
   },
   {
-    id: 'analytics-tracker',
-    name: 'Content Analytics MCP',
-    description: 'Comprehensive content performance analytics and insights',
-    endpoint: 'https://analytics-tracker-mcp.railway.app',
-    capabilities: ['performance_tracking', 'engagement_analysis', 'trend_identification', 'reporting'],
-    status: 'available',
-    rateLimit: { requests: 80, window: 60 }
+    id: "analytics-tracker",
+    name: "Content Analytics MCP",
+    description: "Comprehensive content performance analytics and insights",
+    endpoint: "https://analytics-tracker-mcp.railway.app",
+    capabilities: [
+      "performance_tracking",
+      "engagement_analysis",
+      "trend_identification",
+      "reporting",
+    ],
+    status: "available",
+    rateLimit: { requests: 80, window: 60 },
   },
   {
-    id: 'content-research',
-    name: 'Content Research MCP',
-    description: 'Research and trend analysis for content strategy',
-    endpoint: 'https://content-research-mcp.glitch.me',
-    capabilities: ['trend_research', 'competitor_analysis', 'topic_suggestions', 'audience_insights'],
-    status: 'available',
-    rateLimit: { requests: 90, window: 60 }
-  }
+    id: "content-research",
+    name: "Content Research MCP",
+    description: "Research and trend analysis for content strategy",
+    endpoint: "https://content-research-mcp.glitch.me",
+    capabilities: [
+      "trend_research",
+      "competitor_analysis",
+      "topic_suggestions",
+      "audience_insights",
+    ],
+    status: "available",
+    rateLimit: { requests: 90, window: 60 },
+  },
 ];
 
 export class ContentMCPService {
@@ -150,7 +166,7 @@ export class ContentMCPService {
 
   // Get all available MCP servers
   async getAvailableServers(): Promise<MCPServerConfig[]> {
-    return this.servers.filter(server => server.status === 'available');
+    return this.servers.filter((server) => server.status === "available");
   }
 
   // Generate content using MCP servers
@@ -158,11 +174,11 @@ export class ContentMCPService {
     type: string,
     topic: string,
     requirements: string,
-    targetAudience: string
+    targetAudience: string,
   ): Promise<ContentItem[]> {
     const cacheKey = `content-${type}-${topic}-${requirements}`;
     const cached = this.cache.get(cacheKey);
-    
+
     if (cached && Date.now() - cached.timestamp < this.CACHE_TTL) {
       return cached.data;
     }
@@ -172,16 +188,18 @@ export class ContentMCPService {
 
     // Select appropriate MCP servers based on content type
     const relevantServers = this.getRelevantServers(type);
-    
+
     for (const server of relevantServers) {
-      generationPromises.push(this.generateWithServer(server, type, topic, requirements, targetAudience));
+      generationPromises.push(
+        this.generateWithServer(server, type, topic, requirements, targetAudience),
+      );
     }
 
     try {
       const serverResults = await Promise.allSettled(generationPromises);
-      
+
       serverResults.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
+        if (result.status === "fulfilled") {
           results.push(...result.value);
         } else {
           console.error(`MCP Server ${relevantServers[index].name} failed:`, result.reason);
@@ -190,8 +208,8 @@ export class ContentMCPService {
 
       // Sort by relevance and remove duplicates
       const uniqueResults = this.deduplicateContent(results);
-      const sortedResults = uniqueResults.sort((a, b) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      const sortedResults = uniqueResults.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
 
       // Cache the results
@@ -199,65 +217,65 @@ export class ContentMCPService {
 
       return sortedResults;
     } catch (error) {
-      console.error('Content generation error:', error);
-      throw new Error('Failed to generate content with MCP servers');
+      console.error("Content generation error:", error);
+      throw new Error("Failed to generate content with MCP servers");
     }
   }
 
   // Get relevant MCP servers for a content type
   private getRelevantServers(type: string): MCPServerConfig[] {
     switch (type) {
-      case 'blog':
-        return this.servers.filter(server => 
-          server.capabilities.some(cap => 
-            ['content_generation', 'seo_optimization', 'content_research'].includes(cap)
-          )
+      case "blog":
+        return this.servers.filter((server) =>
+          server.capabilities.some((cap) =>
+            ["content_generation", "seo_optimization", "content_research"].includes(cap),
+          ),
         );
-      case 'social':
-        return this.servers.filter(server => 
-          server.capabilities.some(cap => 
-            ['content_generation', 'social_scheduling', 'engagement_tracking'].includes(cap)
-          )
+      case "social":
+        return this.servers.filter((server) =>
+          server.capabilities.some((cap) =>
+            ["content_generation", "social_scheduling", "engagement_tracking"].includes(cap),
+          ),
         );
-      case 'video':
-        return this.servers.filter(server => 
-          server.capabilities.some(cap => 
-            ['content_generation', 'image_generation', 'content_research'].includes(cap)
-          )
+      case "video":
+        return this.servers.filter((server) =>
+          server.capabilities.some((cap) =>
+            ["content_generation", "image_generation", "content_research"].includes(cap),
+          ),
         );
-      case 'image':
-        return this.servers.filter(server => 
-          server.capabilities.some(cap => 
-            ['image_generation', 'image_editing', 'brand_consistency'].includes(cap)
-          )
+      case "image":
+        return this.servers.filter((server) =>
+          server.capabilities.some((cap) =>
+            ["image_generation", "image_editing", "brand_consistency"].includes(cap),
+          ),
         );
       default:
-        return this.servers.filter(server => server.capabilities.includes('content_generation'));
+        return this.servers.filter((server) => server.capabilities.includes("content_generation"));
     }
   }
 
   // Generate content with a specific MCP server
   private async generateWithServer(
-    server: MCPServerConfig, 
-    type: string, 
-    topic: string, 
+    server: MCPServerConfig,
+    type: string,
+    topic: string,
     requirements: string,
-    targetAudience: string
+    targetAudience: string,
   ): Promise<ContentItem[]> {
     try {
       // Use real content generation APIs based on server type
       switch (server.id) {
-        case 'content-generator':
+        case "content-generator":
           return await this.performContentGeneration(type, topic, requirements, targetAudience);
-        case 'seo-optimizer':
+        case "seo-optimizer":
           return await this.performSEOOptimization(type, topic, requirements);
-        case 'social-scheduler':
+        case "social-scheduler":
           return await this.performSocialContentGeneration(type, topic, requirements);
-        case 'image-generator':
+        case "image-generator":
           return await this.performImageGeneration(type, topic, requirements);
-        case 'analytics-tracker':
+        case "analytics-tracker":
           return await this.performAnalyticsResearch(type, topic);
-        case 'content-research':
+        case "content-research":
           return await this.performContentResearch(type, topic, requirements);
         default:
           return await this.performContentGeneration(type, topic, requirements, targetAudience);
@@ -270,10 +288,10 @@ export class ContentMCPService {
 
   // Perform AI content generation
   private async performContentGeneration(
-    type: string, 
-    topic: string, 
+    type: string,
+    topic: string,
     requirements: string,
-    targetAudience: string
+    targetAudience: string,
   ): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
@@ -285,20 +303,20 @@ export class ContentMCPService {
           title: `${topic} - Comprehensive Guide`,
           content: this.generateComprehensiveContent(topic, requirements, targetAudience),
           type: type as any,
-          category: 'educational'
+          category: "educational",
         },
         {
           title: `${topic} - Quick Overview`,
           content: this.generateQuickOverview(topic, requirements, targetAudience),
           type: type as any,
-          category: 'informational'
+          category: "informational",
         },
         {
           title: `${topic} - Best Practices`,
           content: this.generateBestPractices(topic, requirements, targetAudience),
           type: type as any,
-          category: 'practical'
-        }
+          category: "practical",
+        },
       ];
 
       contentVariations.forEach((variation, index) => {
@@ -307,19 +325,18 @@ export class ContentMCPService {
           title: variation.title,
           type: variation.type,
           content: variation.content,
-          status: 'draft',
+          status: "draft",
           category: variation.category,
           tags: this.extractTags(topic, requirements),
-          author: 'AI Content Generator',
+          author: "AI Content Generator",
           createdAt: timestamp,
           updatedAt: timestamp,
           seoData: this.generateSEOData(variation.title, variation.content, topic),
-          mcpSource: 'content-generator'
+          mcpSource: "content-generator",
         });
       });
-
     } catch (error) {
-      console.error('Content generation error:', error);
+      console.error("Content generation error:", error);
     }
 
     return results;
@@ -327,30 +344,30 @@ export class ContentMCPService {
 
   // Perform SEO optimization
   private async performSEOOptimization(
-    type: string, 
-    topic: string, 
-    requirements: string
+    type: string,
+    topic: string,
+    requirements: string,
   ): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
 
     try {
       results.push({
-        id: 'seo-optimized-1',
+        id: "seo-optimized-1",
         title: `${topic} - SEO Optimized Content`,
         type: type as any,
         content: this.generateSEOOptimizedContent(topic, requirements),
-        status: 'draft',
-        category: 'seo_optimized',
+        status: "draft",
+        category: "seo_optimized",
         tags: this.extractTags(topic, requirements),
-        author: 'SEO Optimizer',
+        author: "SEO Optimizer",
         createdAt: timestamp,
         updatedAt: timestamp,
         seoData: this.generateAdvancedSEOData(topic, requirements),
-        mcpSource: 'seo-optimizer'
+        mcpSource: "seo-optimizer",
       });
     } catch (error) {
-      console.error('SEO optimization error:', error);
+      console.error("SEO optimization error:", error);
     }
 
     return results;
@@ -358,34 +375,34 @@ export class ContentMCPService {
 
   // Perform social media content generation
   private async performSocialContentGeneration(
-    type: string, 
-    topic: string, 
-    requirements: string
+    type: string,
+    topic: string,
+    requirements: string,
   ): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
 
     try {
-      const socialPlatforms = ['twitter', 'linkedin', 'facebook', 'instagram'];
-      
+      const socialPlatforms = ["twitter", "linkedin", "facebook", "instagram"];
+
       socialPlatforms.forEach((platform, index) => {
         results.push({
           id: `social-${platform}-${index + 1}`,
           title: `${topic} - ${platform.charAt(0).toUpperCase() + platform.slice(1)} Post`,
-          type: 'social',
+          type: "social",
           content: this.generateSocialContent(topic, requirements, platform),
-          status: 'draft',
-          category: 'social_media',
+          status: "draft",
+          category: "social_media",
           tags: this.extractTags(topic, requirements),
-          author: 'Social Media Scheduler',
+          author: "Social Media Scheduler",
           createdAt: timestamp,
           updatedAt: timestamp,
           seoData: this.generateSocialSEOData(topic, platform),
-          mcpSource: 'social-scheduler'
+          mcpSource: "social-scheduler",
         });
       });
     } catch (error) {
-      console.error('Social content generation error:', error);
+      console.error("Social content generation error:", error);
     }
 
     return results;
@@ -393,62 +410,59 @@ export class ContentMCPService {
 
   // Perform image generation
   private async performImageGeneration(
-    type: string, 
-    topic: string, 
-    requirements: string
+    type: string,
+    topic: string,
+    requirements: string,
   ): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
 
     try {
-      const imageTypes = ['hero', 'thumbnail', 'infographic', 'social_media'];
-      
+      const imageTypes = ["hero", "thumbnail", "infographic", "social_media"];
+
       imageTypes.forEach((imageType, index) => {
         results.push({
           id: `image-${imageType}-${index + 1}`,
           title: `${topic} - ${imageType.charAt(0).toUpperCase() + imageType.slice(1)} Image`,
-          type: 'image',
+          type: "image",
           content: this.generateImagePrompt(topic, requirements, imageType),
-          status: 'draft',
-          category: 'visual_content',
+          status: "draft",
+          category: "visual_content",
           tags: this.extractTags(topic, requirements),
-          author: 'AI Image Generator',
+          author: "AI Image Generator",
           createdAt: timestamp,
           updatedAt: timestamp,
-          mcpSource: 'image-generator'
+          mcpSource: "image-generator",
         });
       });
     } catch (error) {
-      console.error('Image generation error:', error);
+      console.error("Image generation error:", error);
     }
 
     return results;
   }
 
   // Perform analytics research
-  private async performAnalyticsResearch(
-    type: string, 
-    topic: string
-  ): Promise<ContentItem[]> {
+  private async performAnalyticsResearch(type: string, topic: string): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
 
     try {
       results.push({
-        id: 'analytics-research-1',
+        id: "analytics-research-1",
         title: `${topic} - Analytics Insights`,
-        type: 'document',
+        type: "document",
         content: this.generateAnalyticsInsights(topic, type),
-        status: 'draft',
-        category: 'analytics',
-        tags: this.extractTags(topic, 'analytics research'),
-        author: 'Analytics Tracker',
+        status: "draft",
+        category: "analytics",
+        tags: this.extractTags(topic, "analytics research"),
+        author: "Analytics Tracker",
         createdAt: timestamp,
         updatedAt: timestamp,
-        mcpSource: 'analytics-tracker'
+        mcpSource: "analytics-tracker",
       });
     } catch (error) {
-      console.error('Analytics research error:', error);
+      console.error("Analytics research error:", error);
     }
 
     return results;
@@ -456,36 +470,40 @@ export class ContentMCPService {
 
   // Perform content research
   private async performContentResearch(
-    type: string, 
-    topic: string, 
-    requirements: string
+    type: string,
+    topic: string,
+    requirements: string,
   ): Promise<ContentItem[]> {
     const results: ContentItem[] = [];
     const timestamp = new Date().toISOString();
 
     try {
       results.push({
-        id: 'content-research-1',
+        id: "content-research-1",
         title: `${topic} - Research Report`,
-        type: 'document',
+        type: "document",
         content: this.generateResearchReport(topic, requirements, type),
-        status: 'draft',
-        category: 'research',
+        status: "draft",
+        category: "research",
         tags: this.extractTags(topic, requirements),
-        author: 'Content Research',
+        author: "Content Research",
         createdAt: timestamp,
         updatedAt: timestamp,
-        mcpSource: 'content-research'
+        mcpSource: "content-research",
       });
     } catch (error) {
-      console.error('Content research error:', error);
+      console.error("Content research error:", error);
     }
 
     return results;
   }
 
   // Helper methods for content generation
-  private generateComprehensiveContent(topic: string, requirements: string, targetAudience: string): string {
+  private generateComprehensiveContent(
+    topic: string,
+    requirements: string,
+    targetAudience: string,
+  ): string {
     return `# ${topic}
 
 ## Introduction
@@ -527,7 +545,11 @@ Consider the following actions:
 This content is optimized for ${targetAudience} and designed to provide maximum value and engagement.`;
   }
 
-  private generateQuickOverview(topic: string, requirements: string, targetAudience: string): string {
+  private generateQuickOverview(
+    topic: string,
+    requirements: string,
+    targetAudience: string,
+  ): string {
     return `# ${topic} - Quick Overview
 
 ## What is ${topic}?
@@ -551,7 +573,11 @@ ${topic} provides significant value when properly implemented. Focus on the key 
 Perfect for ${targetAudience} looking for quick, actionable insights.`;
   }
 
-  private generateBestPractices(topic: string, requirements: string, targetAudience: string): string {
+  private generateBestPractices(
+    topic: string,
+    requirements: string,
+    targetAudience: string,
+  ): string {
     return `# ${topic} - Best Practices Guide
 
 ## Introduction
@@ -678,7 +704,7 @@ Key points:
 
 Perfect for professionals looking to stay ahead. What's your experience with ${topic}? 
 
-#${topic.replace(/\s+/g, '')} #ProfessionalDevelopment #Innovation`,
+#${topic.replace(/\s+/g, "")} #ProfessionalDevelopment #Innovation`,
 
       linkedin: `Professional Insight: ${topic}
 
@@ -691,7 +717,7 @@ This approach has helped many organizations achieve significant improvements. Wh
 
 Share your thoughts in the comments below.
 
-#${topic.replace(/\s+/g, '')} #ProfessionalDevelopment #BusinessStrategy`,
+#${topic.replace(/\s+/g, "")} #ProfessionalDevelopment #BusinessStrategy`,
 
       facebook: `📢 Important Update: ${topic}
 
@@ -704,7 +730,7 @@ This information is crucial for anyone looking to improve their performance and 
 
 Have you implemented similar strategies? We'd love to hear about your experiences!
 
-#${topic.replace(/\s+/g, '')} #ProfessionalGrowth #Success`,
+#${topic.replace(/\s+/g, "")} #ProfessionalGrowth #Success`,
 
       instagram: `✨ ${topic} ✨
 
@@ -717,7 +743,7 @@ This approach can transform your professional journey.
 
 What's your biggest challenge with ${topic}? Let us know in the comments! 
 
-#${topic.replace(/\s+/g, '')} #ProfessionalDevelopment #Growth #Success`
+#${topic.replace(/\s+/g, "")} #ProfessionalDevelopment #Growth #Success`,
     };
 
     return platformSpecificContent[platform] || platformSpecificContent.twitter;
@@ -728,7 +754,7 @@ What's your biggest challenge with ${topic}? Let us know in the comments!
       hero: `Create a professional hero image for ${topic}. The image should be modern, clean, and visually appealing with a professional color scheme. Include subtle elements related to ${requirements}. The image should convey professionalism and expertise.`,
       thumbnail: `Design a thumbnail image for ${topic}. The image should be eye-catching and suitable for social media or blog posts. Include relevant icons or graphics that represent ${requirements}. Use vibrant colors that stand out.`,
       infographic: `Create an infographic layout for ${topic}. The design should include charts, graphs, and visual elements that explain ${requirements}. Use a professional color palette with clear typography and organized sections.`,
-      social_media: `Design a social media post image for ${topic}. The image should be optimized for social platforms with engaging visuals and clear messaging about ${requirements}. Include space for text overlay and use trending design elements.`
+      social_media: `Design a social media post image for ${topic}. The image should be optimized for social platforms with engaging visuals and clear messaging about ${requirements}. Include space for text overlay and use trending design elements.`,
     };
 
     return imagePrompts[imageType] || imagePrompts.hero;
@@ -860,28 +886,43 @@ This research provides a foundation for informed decision-making and strategic p
     const topicWords = topic.toLowerCase().split(/\s+/);
     const requirementWords = requirements.toLowerCase().split(/\s+/);
     const allWords = [...topicWords, ...requirementWords];
-    
+
     // Filter out common words and create meaningful tags
-    const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
+    const commonWords = [
+      "the",
+      "a",
+      "an",
+      "and",
+      "or",
+      "but",
+      "in",
+      "on",
+      "at",
+      "to",
+      "for",
+      "of",
+      "with",
+      "by",
+    ];
     const tags = allWords
-      .filter(word => word.length > 2 && !commonWords.includes(word))
+      .filter((word) => word.length > 2 && !commonWords.includes(word))
       .slice(0, 5);
-    
+
     return [...new Set(tags)]; // Remove duplicates
   }
 
   private generateSEOData(title: string, content: string, topic: string) {
     return {
       title: `${title} | ICAS Manipal`,
-      description: content.substring(0, 160) + '...',
+      description: content.substring(0, 160) + "...",
       keywords: this.extractTags(topic, content),
       metaTags: [
-        'content management',
-        'ICAS Manipal',
-        'professional development',
-        'education',
-        topic.toLowerCase()
-      ]
+        "content management",
+        "ICAS Manipal",
+        "professional development",
+        "education",
+        topic.toLowerCase(),
+      ],
     };
   }
 
@@ -891,20 +932,20 @@ This research provides a foundation for informed decision-making and strategic p
       description: `Comprehensive guide to ${topic}. Learn about ${requirements} and best practices for success. Expert insights from ICAS Manipal.`,
       keywords: [
         topic.toLowerCase(),
-        'guide',
-        'best practices',
-        'professional development',
-        'ICAS Manipal',
-        ...this.extractTags(topic, requirements)
+        "guide",
+        "best practices",
+        "professional development",
+        "ICAS Manipal",
+        ...this.extractTags(topic, requirements),
       ],
       metaTags: [
-        'content management',
-        'professional development',
-        'ICAS Manipal',
-        'education',
-        'best practices',
-        topic.toLowerCase()
-      ]
+        "content management",
+        "professional development",
+        "ICAS Manipal",
+        "education",
+        "best practices",
+        topic.toLowerCase(),
+      ],
     };
   }
 
@@ -912,15 +953,15 @@ This research provides a foundation for informed decision-making and strategic p
     return {
       title: `${topic} - ${platform.charAt(0).toUpperCase() + platform.slice(1)} Post`,
       description: `Engaging ${platform} content about ${topic}. Follow ICAS Manipal for more insights.`,
-      keywords: [topic.toLowerCase(), platform, 'social media', 'ICAS Manipal'],
-      metaTags: ['social media', 'ICAS Manipal', platform, topic.toLowerCase()]
+      keywords: [topic.toLowerCase(), platform, "social media", "ICAS Manipal"],
+      metaTags: ["social media", "ICAS Manipal", platform, topic.toLowerCase()],
     };
   }
 
   // Remove duplicate content based on title and type
   private deduplicateContent(content: ContentItem[]): ContentItem[] {
     const seen = new Set<string>();
-    return content.filter(item => {
+    return content.filter((item) => {
       const key = `${item.title}-${item.type}`;
       if (seen.has(key)) {
         return false;
@@ -931,29 +972,31 @@ This research provides a foundation for informed decision-making and strategic p
   }
 
   // Test connection to MCP servers
-  async testMCPConnections(): Promise<{ server: string; status: 'connected' | 'error'; latency?: number }[]> {
+  async testMCPConnections(): Promise<
+    { server: string; status: "connected" | "error"; latency?: number }[]
+  > {
     const results = [];
-    
+
     for (const server of this.servers) {
       try {
         const startTime = Date.now();
         // Simulate connection test
-        await new Promise(resolve => setTimeout(resolve, Math.random() * 500 + 100));
+        await new Promise((resolve) => setTimeout(resolve, Math.random() * 500 + 100));
         const latency = Date.now() - startTime;
-        
+
         results.push({
           server: server.name,
-          status: 'connected' as const,
-          latency
+          status: "connected" as const,
+          latency,
         });
       } catch (error) {
         results.push({
           server: server.name,
-          status: 'error' as const
+          status: "error" as const,
         });
       }
     }
-    
+
     return results;
   }
 
@@ -966,9 +1009,9 @@ This research provides a foundation for informed decision-making and strategic p
   }> {
     return {
       totalServers: this.servers.length,
-      availableServers: this.servers.filter(s => s.status === 'available').length,
+      availableServers: this.servers.filter((s) => s.status === "available").length,
       totalContent: this.cache.size,
-      cacheSize: this.cache.size
+      cacheSize: this.cache.size,
     };
   }
 

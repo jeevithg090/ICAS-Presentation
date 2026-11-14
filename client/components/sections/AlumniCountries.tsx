@@ -1,13 +1,5 @@
 import { useMemo, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "@/components/ui/button";
 
 // Country name -> ISO code for flags
@@ -79,7 +71,14 @@ function toYearData(
   data: Record<string, Record<string, number>>,
 ) {
   const counts = data[year] || {};
-  return allCountries.map((c) => ({ country: c, count: counts[c] ?? counts[c as keyof typeof counts] ?? counts[Object.keys(counts).find((k) => normalizeCountry(k) === c) as keyof typeof counts] ?? 0 }));
+  return allCountries.map((c) => ({
+    country: c,
+    count:
+      counts[c] ??
+      counts[c as keyof typeof counts] ??
+      counts[Object.keys(counts).find((k) => normalizeCountry(k) === c) as keyof typeof counts] ??
+      0,
+  }));
 }
 
 export default function AlumniCountries() {
@@ -87,12 +86,17 @@ export default function AlumniCountries() {
   const allCountries = useMemo(() => buildAllCountries(rawDataByYear), []);
   const [year, setYear] = useState<string>(years[0]);
 
-  const chartData = useMemo(() => toYearData(year, allCountries, rawDataByYear), [year, allCountries]);
+  const chartData = useMemo(
+    () => toYearData(year, allCountries, rawDataByYear),
+    [year, allCountries],
+  );
 
   return (
     <section className="mt-8">
       <h2 className="text-xl font-semibold mb-2">Alumni — Year-wise Countries</h2>
-      <p className="text-sm text-muted-foreground">Click a year to view the country-wise distribution with flags.</p>
+      <p className="text-sm text-muted-foreground">
+        Click a year to view the country-wise distribution with flags.
+      </p>
 
       <div className="flex flex-wrap gap-2 mt-4">
         {years.map((y) => (
@@ -126,7 +130,10 @@ export default function AlumniCountries() {
         {chartData.map((row) => {
           const code = countryFlags[row.country] || countryFlags[normalizeCountry(row.country)];
           return (
-            <div key={row.country} className="flex items-center justify-between py-1.5 border-b last:border-b-0">
+            <div
+              key={row.country}
+              className="flex items-center justify-between py-1.5 border-b last:border-b-0"
+            >
               <div className="flex items-center gap-2">
                 {code ? (
                   <img
@@ -145,4 +152,4 @@ export default function AlumniCountries() {
       </div>
     </section>
   );
-} 
+}

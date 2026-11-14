@@ -130,7 +130,7 @@ export default function Header() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          
+
           {!user ? (
             <Link
               to="/login"

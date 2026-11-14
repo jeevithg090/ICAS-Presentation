@@ -4,10 +4,15 @@ import { caseStudies, labs } from "@/data/sample";
 export default function Research() {
   return (
     <main>
-      <SEO title="Research & Medicine — ICAS" description="Labs, metrics, and translational case studies at ICAS." />
+      <SEO
+        title="Research & Medicine — ICAS"
+        description="Labs, metrics, and translational case studies at ICAS."
+      />
       <section className="container py-12">
         <h1 className="text-3xl font-bold tracking-tight">Research & Medicine</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">From lab to clinic: measurable outcomes and open collaboration.</p>
+        <p className="mt-2 max-w-2xl text-muted-foreground">
+          From lab to clinic: measurable outcomes and open collaboration.
+        </p>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {caseStudies.map((cs) => (

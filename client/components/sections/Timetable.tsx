@@ -92,10 +92,16 @@ export default function Timetable() {
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-semibold">{s.course}</span>
-                          {s.room && <span className="ml-2 rounded bg-white/20 px-1.5 py-0.5 text-[10px]">{s.room}</span>}
+                          {s.room && (
+                            <span className="ml-2 rounded bg-white/20 px-1.5 py-0.5 text-[10px]">
+                              {s.room}
+                            </span>
+                          )}
                         </div>
                         <div className="mt-0.5 opacity-90">{s.code}</div>
-                        <div className="opacity-90">{s.start} – {s.end}</div>
+                        <div className="opacity-90">
+                          {s.start} – {s.end}
+                        </div>
                       </div>
                     );
                   })}

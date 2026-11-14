@@ -3,8 +3,7 @@ import type { RequestHandler } from "express";
 export const handleTransferAssistant: RequestHandler = async (req, res) => {
   try {
     const key = process.env.OPENROUTER_API_KEY;
-    if (!key)
-      return res.status(500).json({ error: "Assistant not configured" });
+    if (!key) return res.status(500).json({ error: "Assistant not configured" });
 
     const { question, context } = req.body || {};
     const sys = `You are the ICAS Smart Transfer Assistant. Answer succinctly. Use the provided JSON context when relevant. If data is missing, respond with general guidance.`;

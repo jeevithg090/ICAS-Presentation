@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { portalUsers } from "@/data/sample";
 
 export type Role = "student" | "professor" | "admin";
@@ -15,11 +9,7 @@ type StoredUser = { email: string; name: string; role: Role; password: string };
 type AuthCtx = {
   user: User;
   login: (email: string, password: string) => Promise<User>;
-  signupStudent: (
-    name: string,
-    email: string,
-    password: string,
-  ) => Promise<User>;
+  signupStudent: (name: string, email: string, password: string) => Promise<User>;
   logout: () => void;
 };
 
@@ -34,10 +24,7 @@ function seedUsers(): StoredUser[] {
     name: "Admin",
     role: "admin",
   };
-  const seeded = [
-    ...portalUsers.map((u) => ({ ...u }) as StoredUser),
-    extraAdmin,
-  ];
+  const seeded = [...portalUsers.map((u) => ({ ...u }) as StoredUser), extraAdmin];
   return seeded;
 }
 
@@ -67,9 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       async login(email, password) {
         const match = users.find(
-          (u) =>
-            u.email.toLowerCase() === email.toLowerCase() &&
-            u.password === password,
+          (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password,
         );
         if (!match) throw new Error("Invalid credentials");
         const u = {
@@ -82,9 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return u;
       },
       async signupStudent(name, email, password) {
-        const exists = users.some(
-          (u) => u.email.toLowerCase() === email.toLowerCase(),
-        );
+        const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
         if (exists) throw new Error("Email already registered");
         const newUser: StoredUser = { name, email, password, role: "student" };
         const nextUsers = [...users, newUser];

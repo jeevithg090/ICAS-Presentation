@@ -18,17 +18,11 @@ function Section({ title, children }: { title: string; children: any }) {
 function SummaryView({ data }: { data: DelegateSummaryResponse }) {
   const s = data.summary as MeetingSummary | string;
   if (typeof s === "string") {
-    return (
-      <div className="rounded-md border p-3 text-sm whitespace-pre-wrap">
-        {s}
-      </div>
-    );
+    return <div className="rounded-md border p-3 text-sm whitespace-pre-wrap">{s}</div>;
   }
   return (
     <div className="grid gap-4">
-      {s.title && (
-        <div className="text-base font-semibold tracking-tight">{s.title}</div>
-      )}
+      {s.title && <div className="text-base font-semibold tracking-tight">{s.title}</div>}
       <Section title="Overview">{s.summary}</Section>
       {s.attendees && s.attendees.length > 0 && (
         <Section title="Attendees">
@@ -94,10 +88,7 @@ function SummaryView({ data }: { data: DelegateSummaryResponse }) {
           <ul className="list-disc pl-5">
             {s.timeline.map((x, i) => (
               <li key={i}>
-                {x.timestamp ? (
-                  <span className="font-medium">[{x.timestamp}]</span>
-                ) : null}{" "}
-                {x.note}
+                {x.timestamp ? <span className="font-medium">[{x.timestamp}]</span> : null} {x.note}
               </li>
             ))}
           </ul>
@@ -162,16 +153,14 @@ export default function DelegateSessionsSummary() {
             onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
           <div className="text-xs text-muted-foreground">
-            Upload a meeting recording (mp3, wav, m4a...). We'll transcribe and
-            summarize it for you.
+            Upload a meeting recording (mp3, wav, m4a...). We'll transcribe and summarize it for
+            you.
           </div>
           <div className="flex gap-2">
             <Button onClick={onSubmit} disabled={!file || loading}>
               {loading ? "Processing..." : "Generate Summary"}
             </Button>
-            {result?.modelUsed && (
-              <Badge variant="outline">Model: {result.modelUsed}</Badge>
-            )}
+            {result?.modelUsed && <Badge variant="outline">Model: {result.modelUsed}</Badge>}
           </div>
         </div>
 

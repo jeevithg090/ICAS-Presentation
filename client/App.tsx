@@ -45,12 +45,15 @@ const AskICASPage = lazy(() => import("@/pages/AskICAS"));
 const OutreachManagement = lazy(() => import("@/components/admin/OutreachManagement"));
 const AlumniAutomation = lazy(() => import("@/components/admin/AlumniAutomation"));
 
-
 const queryClient = new QueryClient();
 
 function PageLoader() {
   return (
-    <div role="status" aria-live="polite" className="container flex min-h-[50vh] items-center justify-center">
+    <div
+      role="status"
+      aria-live="polite"
+      className="container flex min-h-[50vh] items-center justify-center"
+    >
       <span className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       <span className="sr-only">Loading page…</span>
     </div>
@@ -67,142 +70,141 @@ const App = () => (
           <AuthProvider>
             <SiteLayout>
               <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
 
-                <Route path="/academics" element={<Academics />} />
-                <Route path="/research" element={<Research />} />
-                <Route path="/student-life" element={<StudentLife />} />
-                <Route path="/academic-planner" element={<AcademicPlanner />} />
-                <Route path="/enigma" element={<Enigma />} />
-                <Route path="/admissions-aid" element={<AdmissionsAid />} />
-                <Route path="/transfer" element={<Transfer />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/faculty" element={<Faculty />} />
-                <Route path="/financial-aid" element={<FinancialAid />} />
-                <Route path="/medical-aid" element={<MedicalAid />} />
-                <Route path="/impact" element={<Impact />} />
-                <Route path="/contact" element={<Contact />} />
+                  <Route path="/academics" element={<Academics />} />
+                  <Route path="/research" element={<Research />} />
+                  <Route path="/student-life" element={<StudentLife />} />
+                  <Route path="/academic-planner" element={<AcademicPlanner />} />
+                  <Route path="/enigma" element={<Enigma />} />
+                  <Route path="/admissions-aid" element={<AdmissionsAid />} />
+                  <Route path="/transfer" element={<Transfer />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/events" element={<Events />} />
+                  <Route path="/faculty" element={<Faculty />} />
+                  <Route path="/financial-aid" element={<FinancialAid />} />
+                  <Route path="/medical-aid" element={<MedicalAid />} />
+                  <Route path="/impact" element={<Impact />} />
+                  <Route path="/contact" element={<Contact />} />
 
-                <Route path="/login" element={<PortalLogin />} />
+                  <Route path="/login" element={<PortalLogin />} />
 
-                <Route
-                  path="/admin"
-                  element={
-                    <RequireRole role="admin">
-                      <Admin />
-                    </RequireRole>
-                  }
-                />
+                  <Route
+                    path="/admin"
+                    element={
+                      <RequireRole role="admin">
+                        <Admin />
+                      </RequireRole>
+                    }
+                  />
 
-                {/* Administration Tools */}
-                <Route
-                  path="/administration"
-                  element={
-                    <RequireRole role="admin">
-                      <Administration />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/photo-to-video"
-                  element={
-                    <RequireRole role="admin">
-                      <PhotoToVideo />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/marketing-tool"
-                  element={
-                    <RequireRole role="admin">
-                      <MarketingTool />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/smart-marketing"
-                  element={
-                    <RequireRole role="admin">
-                      <SmartMarketing />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/content-management"
-                  element={
-                    <RequireRole role="admin">
-                      <ContentManagement />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/social-media-analytics"
-                  element={
-                    <RequireRole role="admin">
-                      <SocialMediaAnalytics />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/outreach-management"
-                  element={
-                    <RequireRole role="admin">
-                      <OutreachManagement />
-                    </RequireRole>
-                  }
-                />
-                <Route
-                  path="/administration/alumni-automation"
-                  element={
-                    <RequireRole role="admin">
-                      <AlumniAutomation />
-                    </RequireRole>
-                  }
-                />
+                  {/* Administration Tools */}
+                  <Route
+                    path="/administration"
+                    element={
+                      <RequireRole role="admin">
+                        <Administration />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/photo-to-video"
+                    element={
+                      <RequireRole role="admin">
+                        <PhotoToVideo />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/marketing-tool"
+                    element={
+                      <RequireRole role="admin">
+                        <MarketingTool />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/smart-marketing"
+                    element={
+                      <RequireRole role="admin">
+                        <SmartMarketing />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/content-management"
+                    element={
+                      <RequireRole role="admin">
+                        <ContentManagement />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/social-media-analytics"
+                    element={
+                      <RequireRole role="admin">
+                        <SocialMediaAnalytics />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/outreach-management"
+                    element={
+                      <RequireRole role="admin">
+                        <OutreachManagement />
+                      </RequireRole>
+                    }
+                  />
+                  <Route
+                    path="/administration/alumni-automation"
+                    element={
+                      <RequireRole role="admin">
+                        <AlumniAutomation />
+                      </RequireRole>
+                    }
+                  />
 
-                {/* Ask ICAS Route */}
-                <Route path="/ask-icas" element={<AskICASPage />} />
+                  {/* Ask ICAS Route */}
+                  <Route path="/ask-icas" element={<AskICASPage />} />
 
-                <Route
-                  path="/portal"
-                  element={
-                    <Protected>
-                      <Portal />
-                    </Protected>
-                  }
-                />
-                <Route
-                  path="/portal/courses"
-                  element={
-                    <Protected>
-                      <PortalCourses />
-                    </Protected>
-                  }
-                />
-                <Route
-                  path="/portal/courses/:code"
-                  element={
-                    <Protected>
-                      <PortalCourse />
-                    </Protected>
-                  }
-                />
-                <Route
-                  path="/portal/study-centre"
-                  element={
-                    <Protected>
-                      <StudyCentre />
-                    </Protected>
-                  }
-                />
+                  <Route
+                    path="/portal"
+                    element={
+                      <Protected>
+                        <Portal />
+                      </Protected>
+                    }
+                  />
+                  <Route
+                    path="/portal/courses"
+                    element={
+                      <Protected>
+                        <PortalCourses />
+                      </Protected>
+                    }
+                  />
+                  <Route
+                    path="/portal/courses/:code"
+                    element={
+                      <Protected>
+                        <PortalCourse />
+                      </Protected>
+                    }
+                  />
+                  <Route
+                    path="/portal/study-centre"
+                    element={
+                      <Protected>
+                        <StudyCentre />
+                      </Protected>
+                    }
+                  />
 
-
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
               </Suspense>
             </SiteLayout>
           </AuthProvider>

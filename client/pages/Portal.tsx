@@ -24,12 +24,8 @@ export default function Portal() {
       <section className="container py-10">
         <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Student Portal
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Dashboard overview for your courses.
-            </p>
+            <h1 className="text-3xl font-bold tracking-tight">Student Portal</h1>
+            <p className="text-sm text-muted-foreground">Dashboard overview for your courses.</p>
           </div>
           <div className="flex gap-2">
             {portalQuickLinks.map((l) => (
@@ -97,9 +93,7 @@ export default function Portal() {
                       <div className="text-sm font-medium">{c.title}</div>
                       <Badge variant="outline">{c.code}</Badge>
                     </div>
-                    <div className="mt-2 text-xs text-muted-foreground">
-                      {c.instructor}
-                    </div>
+                    <div className="mt-2 text-xs text-muted-foreground">{c.instructor}</div>
                     <div className="mt-3">
                       <Progress value={c.progress} className="h-2" />
                     </div>
@@ -144,9 +138,7 @@ export default function Portal() {
               <CardContent className="grid gap-2 text-sm">
                 <div className="flex items-center justify-between">
                   <span>GPA</span>
-                  <span className="font-semibold">
-                    {portalGrades.gpa.toFixed(2)}
-                  </span>
+                  <span className="font-semibold">{portalGrades.gpa.toFixed(2)}</span>
                 </div>
                 <div className="grid gap-2">
                   {portalGrades.courses.map((g) => (

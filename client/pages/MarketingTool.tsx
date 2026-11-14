@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Checkbox } from '../components/ui/checkbox';
-import { Badge } from '../components/ui/badge';
-import { 
-  Image, 
-  Type, 
-  Palette, 
-  Download, 
+import React, { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { Checkbox } from "../components/ui/checkbox";
+import { Badge } from "../components/ui/badge";
+import {
+  Image,
+  Type,
+  Palette,
+  Download,
   RotateCcw,
   Sparkles,
   Calendar,
   Megaphone,
-  FileText
-} from 'lucide-react';
+  FileText,
+} from "lucide-react";
 
 interface Festival {
   id: string;
@@ -37,33 +43,67 @@ interface ImageModel {
   id: string;
   name: string;
   description: string;
-  type: 'ai' | 'local';
+  type: "ai" | "local";
 }
 
 const AVAILABLE_MODELS: ImageModel[] = [
-  { id: 'local', name: 'Local Canvas', description: 'Simple text overlay on templates', type: 'local' },
-  { id: 'ai', name: 'AI Generated', description: 'AI-powered image creation', type: 'ai' }
+  {
+    id: "local",
+    name: "Local Canvas",
+    description: "Simple text overlay on templates",
+    type: "local",
+  },
+  { id: "ai", name: "AI Generated", description: "AI-powered image creation", type: "ai" },
 ];
 
 const FESTIVALS: Festival[] = [
-  { id: 'diwali', name: 'Diwali', description: 'Festival of Lights', date: 'November 2024' },
-  { id: 'holi', name: 'Holi', description: 'Festival of Colors', date: 'March 2025' },
-  { id: 'eid', name: 'Eid al-Fitr', description: 'End of Ramadan', date: 'April 2025' },
-  { id: 'christmas', name: 'Christmas', description: 'Christian celebration', date: 'December 2024' },
-  { id: 'newyear', name: 'New Year', description: 'New Year celebration', date: 'January 2025' }
+  { id: "diwali", name: "Diwali", description: "Festival of Lights", date: "November 2024" },
+  { id: "holi", name: "Holi", description: "Festival of Colors", date: "March 2025" },
+  { id: "eid", name: "Eid al-Fitr", description: "End of Ramadan", date: "April 2025" },
+  {
+    id: "christmas",
+    name: "Christmas",
+    description: "Christian celebration",
+    date: "December 2024",
+  },
+  { id: "newyear", name: "New Year", description: "New Year celebration", date: "January 2025" },
 ];
 
 const ASPECT_RATIOS: AspectRatio[] = [
-  { id: '1:1', name: 'Square (1:1)', width: 1080, height: 1080, description: 'Instagram posts, Facebook posts' },
-  { id: '16:9', name: 'Landscape (16:9)', width: 1920, height: 1080, description: 'YouTube thumbnails, presentations' },
-  { id: '9:16', name: 'Portrait (9:16)', width: 1080, height: 1920, description: 'Instagram stories, TikTok' },
-  { id: '4:5', name: 'Portrait (4:5)', width: 1080, height: 1350, description: 'Instagram posts, Facebook posts' }
+  {
+    id: "1:1",
+    name: "Square (1:1)",
+    width: 1080,
+    height: 1080,
+    description: "Instagram posts, Facebook posts",
+  },
+  {
+    id: "16:9",
+    name: "Landscape (16:9)",
+    width: 1920,
+    height: 1080,
+    description: "YouTube thumbnails, presentations",
+  },
+  {
+    id: "9:16",
+    name: "Portrait (9:16)",
+    width: 1080,
+    height: 1920,
+    description: "Instagram stories, TikTok",
+  },
+  {
+    id: "4:5",
+    name: "Portrait (4:5)",
+    width: 1080,
+    height: 1350,
+    description: "Instagram posts, Facebook posts",
+  },
 ];
 
 const MarketingTool: React.FC = () => {
   const [postType, setPostType] = useState<string | null>(null);
   const [selectedFestival, setSelectedFestival] = useState<Festival | null>(null);
-  const [customText, setCustomText] = useState<string>('');
+  const [customText, setCustomText] = useState<string>("");
   const [logo, setLogo] = useState<File | null>(null);
   const [selectedAspectRatios, setSelectedAspectRatios] = useState<AspectRatio[]>([]);
   const [selectedModel, setSelectedModel] = useState<ImageModel>(AVAILABLE_MODELS[0]);
@@ -71,10 +111,10 @@ const MarketingTool: React.FC = () => {
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
 
   const handleToggleAspectRatio = (ratio: AspectRatio) => {
-    setSelectedAspectRatios(prev => {
-      const exists = prev.some(r => r.id === ratio.id);
+    setSelectedAspectRatios((prev) => {
+      const exists = prev.some((r) => r.id === ratio.id);
       if (exists) {
-        return prev.filter(r => r.id !== ratio.id);
+        return prev.filter((r) => r.id !== ratio.id);
       } else {
         return [...prev, ratio];
       }
@@ -91,7 +131,7 @@ const MarketingTool: React.FC = () => {
   const resetForm = () => {
     setPostType(null);
     setSelectedFestival(null);
-    setCustomText('');
+    setCustomText("");
     setLogo(null);
     setSelectedAspectRatios([]);
     setSelectedModel(AVAILABLE_MODELS[0]);
@@ -102,66 +142,74 @@ const MarketingTool: React.FC = () => {
     if (!postType || selectedAspectRatios.length === 0) return;
 
     setIsGenerating(true);
-    
+
     try {
-      const response = await fetch('/api/marketing-tool/generate', {
-        method: 'POST',
+      const response = await fetch("/api/marketing-tool/generate", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           postType,
           festival: selectedFestival?.id,
           customText,
           logo: logo ? logo.name : undefined,
-          aspectRatios: selectedAspectRatios.map(r => r.id),
-          model: selectedModel.id
+          aspectRatios: selectedAspectRatios.map((r) => r.id),
+          model: selectedModel.id,
         }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        
+
         // Poll for job completion
         const pollInterval = setInterval(async () => {
           const statusResponse = await fetch(`/api/marketing-tool/status/${result.jobId}`);
           if (statusResponse.ok) {
             const status = await statusResponse.json();
-            if (status.status === 'completed' && status.generatedImages) {
+            if (status.status === "completed" && status.generatedImages) {
               setGeneratedImages(status.generatedImages);
               setIsGenerating(false);
               clearInterval(pollInterval);
-            } else if (status.status === 'failed') {
+            } else if (status.status === "failed") {
               setIsGenerating(false);
               clearInterval(pollInterval);
             }
           }
         }, 1000);
       } else {
-        console.error('Generation failed');
+        console.error("Generation failed");
         setIsGenerating(false);
       }
     } catch (error) {
-      console.error('Image generation error:', error);
+      console.error("Image generation error:", error);
       setIsGenerating(false);
     }
   };
 
   const getPostTypeIcon = (type: string) => {
     switch (type) {
-      case 'event': return <Calendar className="h-5 w-5" />;
-      case 'advertisement': return <Megaphone className="h-5 w-5" />;
-      case 'announcement': return <FileText className="h-5 w-5" />;
-      default: return <Type className="h-5 w-5" />;
+      case "event":
+        return <Calendar className="h-5 w-5" />;
+      case "advertisement":
+        return <Megaphone className="h-5 w-5" />;
+      case "announcement":
+        return <FileText className="h-5 w-5" />;
+      default:
+        return <Type className="h-5 w-5" />;
     }
   };
 
   const getPostTypeDescription = (type: string) => {
     switch (type) {
-      case 'event': return 'Promote upcoming events and celebrations';
-      case 'advertisement': return 'Create engaging promotional content';
-      case 'announcement': return 'Share important updates and news';
-      default: return 'Select a post type to get started';
+      case "event":
+        return "Promote upcoming events and celebrations";
+      case "advertisement":
+        return "Create engaging promotional content";
+      case "announcement":
+        return "Share important updates and news";
+      default:
+        return "Select a post type to get started";
     }
   };
 
@@ -171,7 +219,9 @@ const MarketingTool: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">ICAS Marketing Tool</h1>
-          <p className="text-lg text-gray-600">Create engaging social media content for your campaigns</p>
+          <p className="text-lg text-gray-600">
+            Create engaging social media content for your campaigns
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -189,13 +239,21 @@ const MarketingTool: React.FC = () => {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[
-                    { id: 'event', name: 'Event', icon: <Calendar className="h-5 w-5" /> },
-                    { id: 'advertisement', name: 'Advertisement', icon: <Megaphone className="h-5 w-5" /> },
-                    { id: 'announcement', name: 'Announcement', icon: <FileText className="h-5 w-5" /> }
+                    { id: "event", name: "Event", icon: <Calendar className="h-5 w-5" /> },
+                    {
+                      id: "advertisement",
+                      name: "Advertisement",
+                      icon: <Megaphone className="h-5 w-5" />,
+                    },
+                    {
+                      id: "announcement",
+                      name: "Announcement",
+                      icon: <FileText className="h-5 w-5" />,
+                    },
                   ].map((type) => (
                     <Button
                       key={type.id}
-                      variant={postType === type.id ? 'default' : 'outline'}
+                      variant={postType === type.id ? "default" : "outline"}
                       className="h-24 flex-col gap-2"
                       onClick={() => setPostType(type.id)}
                     >
@@ -208,7 +266,7 @@ const MarketingTool: React.FC = () => {
             </Card>
 
             {/* Festival Selection (only for event posts) */}
-            {postType === 'event' && (
+            {postType === "event" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -218,10 +276,13 @@ const MarketingTool: React.FC = () => {
                   <CardDescription>Choose the festival for your event post</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Select value={selectedFestival?.id || ''} onValueChange={(value) => {
-                    const festival = FESTIVALS.find(f => f.id === value);
-                    setSelectedFestival(festival || null);
-                  }}>
+                  <Select
+                    value={selectedFestival?.id || ""}
+                    onValueChange={(value) => {
+                      const festival = FESTIVALS.find((f) => f.id === value);
+                      setSelectedFestival(festival || null);
+                    }}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a festival" />
                     </SelectTrigger>
@@ -230,7 +291,9 @@ const MarketingTool: React.FC = () => {
                         <SelectItem key={festival.id} value={festival.id}>
                           <div className="flex flex-col">
                             <span className="font-medium">{festival.name}</span>
-                            <span className="text-sm text-gray-500">{festival.description} - {festival.date}</span>
+                            <span className="text-sm text-gray-500">
+                              {festival.description} - {festival.date}
+                            </span>
                           </div>
                         </SelectItem>
                       ))}
@@ -241,14 +304,16 @@ const MarketingTool: React.FC = () => {
             )}
 
             {/* Custom Text Input (for advertisements and announcements) */}
-            {(postType === 'advertisement' || postType === 'announcement') && (
+            {(postType === "advertisement" || postType === "announcement") && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Type className="h-5 w-5" />
                     Custom Text
                   </CardTitle>
-                  <CardDescription>Enter the text you want to display on your content</CardDescription>
+                  <CardDescription>
+                    Enter the text you want to display on your content
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -276,11 +341,7 @@ const MarketingTool: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoChange}
-                    />
+                    <Input type="file" accept="image/*" onChange={handleLogoChange} />
                     {logo && (
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Image className="h-4 w-4" />
@@ -341,7 +402,7 @@ const MarketingTool: React.FC = () => {
                         <div key={ratio.id} className="flex items-center space-x-2">
                           <Checkbox
                             id={ratio.id}
-                            checked={selectedAspectRatios.some(r => r.id === ratio.id)}
+                            checked={selectedAspectRatios.some((r) => r.id === ratio.id)}
                             onCheckedChange={() => handleToggleAspectRatio(ratio)}
                           />
                           <Label htmlFor={ratio.id} className="flex-1">
@@ -362,8 +423,8 @@ const MarketingTool: React.FC = () => {
             {postType && selectedAspectRatios.length > 0 && (
               <Card>
                 <CardContent className="pt-6">
-                  <Button 
-                    onClick={generateImages} 
+                  <Button
+                    onClick={generateImages}
                     disabled={isGenerating}
                     className="w-full h-12 text-lg"
                   >
@@ -397,34 +458,34 @@ const MarketingTool: React.FC = () => {
                     <Badge variant="secondary">{postType}</Badge>
                     {getPostTypeIcon(postType)}
                   </div>
-                  
+
                   {selectedFestival && (
                     <div className="text-sm">
                       <span className="font-medium">Festival:</span> {selectedFestival.name}
                     </div>
                   )}
-                  
+
                   {customText && (
                     <div className="text-sm">
                       <span className="font-medium">Text:</span> {customText}
                     </div>
                   )}
-                  
+
                   {logo && (
                     <div className="text-sm">
                       <span className="font-medium">Logo:</span> {logo.name}
                     </div>
                   )}
-                  
+
                   <div className="text-sm">
                     <span className="font-medium">Model:</span> {selectedModel.name}
                   </div>
-                  
+
                   {selectedAspectRatios.length > 0 && (
                     <div className="text-sm">
                       <span className="font-medium">Aspect Ratios:</span>
                       <div className="flex flex-wrap gap-1 mt-1">
-                        {selectedAspectRatios.map(ratio => (
+                        {selectedAspectRatios.map((ratio) => (
                           <Badge key={ratio.id} variant="outline" className="text-xs">
                             {ratio.name}
                           </Badge>
@@ -447,8 +508,8 @@ const MarketingTool: React.FC = () => {
                   <div className="space-y-4">
                     {generatedImages.map((image, index) => (
                       <div key={index} className="space-y-2">
-                        <img 
-                          src={image} 
+                        <img
+                          src={image}
                           alt={`Generated content ${index + 1}`}
                           className="w-full rounded-lg border"
                         />
@@ -467,11 +528,7 @@ const MarketingTool: React.FC = () => {
             {postType && (
               <Card>
                 <CardContent className="pt-6">
-                  <Button 
-                    variant="outline" 
-                    onClick={resetForm}
-                    className="w-full"
-                  >
+                  <Button variant="outline" onClick={resetForm} className="w-full">
                     <RotateCcw className="h-4 w-4 mr-2" />
                     Start Over
                   </Button>
@@ -485,4 +542,4 @@ const MarketingTool: React.FC = () => {
   );
 };
 
-export default MarketingTool; 
+export default MarketingTool;

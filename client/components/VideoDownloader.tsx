@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Download, RotateCcw, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import React, { useState, useRef } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Download, RotateCcw, Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 interface VideoDownloaderProps {
   jobId: string;
@@ -9,18 +9,14 @@ interface VideoDownloaderProps {
   onReset: () => void;
 }
 
-const VideoDownloader: React.FC<VideoDownloaderProps> = ({ 
-  jobId, 
-  onVideoCompleted, 
-  onReset 
-}) => {
+const VideoDownloader: React.FC<VideoDownloaderProps> = ({ jobId, onVideoCompleted, onReset }) => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleDownload = () => {
     // Create a download link
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = `/api/photo-to-video/download/${jobId}`;
     link.download = `video-${jobId}.mp4`;
     document.body.appendChild(link);
@@ -60,9 +56,7 @@ const VideoDownloader: React.FC<VideoDownloaderProps> = ({
           <Download className="h-5 w-5" />
           Download Your Video
         </CardTitle>
-        <CardDescription>
-          Your video is ready for download
-        </CardDescription>
+        <CardDescription>Your video is ready for download</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
@@ -81,7 +75,7 @@ const VideoDownloader: React.FC<VideoDownloaderProps> = ({
                 <source src={`/api/photo-to-video/stream/${jobId}`} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-              
+
               {/* Custom Video Controls Overlay */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                 <div className="flex items-center justify-center gap-4">
@@ -108,20 +102,12 @@ const VideoDownloader: React.FC<VideoDownloaderProps> = ({
 
           {/* Download Actions */}
           <div className="space-y-4">
-            <Button 
-              onClick={handleDownload}
-              className="w-full"
-              size="lg"
-            >
+            <Button onClick={handleDownload} className="w-full" size="lg">
               <Download className="h-5 w-5 mr-2" />
               Download Video
             </Button>
-            
-            <Button 
-              variant="outline" 
-              onClick={onReset}
-              className="w-full"
-            >
+
+            <Button variant="outline" onClick={onReset} className="w-full">
               <RotateCcw className="h-4 w-4 mr-2" />
               Create Another Video
             </Button>
