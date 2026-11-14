@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -352,6 +353,10 @@ const ContentManagement: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? "bg-gray-900" : "bg-gray-50"}`}>
+      <SEO
+        title="Content Management — ICAS Administration"
+        description="Generate and optimise content for ICAS channels."
+      />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
@@ -371,7 +376,9 @@ const ContentManagement: React.FC = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className={`grid w-full grid-cols-4 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}>
+          <TabsList
+            className={`flex w-full justify-start overflow-x-auto sm:grid sm:grid-cols-4 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
+          >
             <TabsTrigger value="generate">Generate Content</TabsTrigger>
             <TabsTrigger value="optimize">Optimize Content</TabsTrigger>
             <TabsTrigger value="ideas">Content Ideas</TabsTrigger>

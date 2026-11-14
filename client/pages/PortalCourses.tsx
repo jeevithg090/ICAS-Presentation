@@ -2,16 +2,17 @@ import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { portalCourses } from "@/data/sample";
+import { Link } from "react-router-dom";
 
 export default function PortalCourses() {
   return (
     <main>
       <SEO title="Courses — Portal" description="Your enrolled courses." />
       <section className="container py-10">
-        <div className="flex items-end justify-between">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <h1 className="text-2xl font-bold tracking-tight">My Courses</h1>
           <Button asChild variant="outline">
-            <a href="/portal">Back to Dashboard</a>
+            <Link to="/portal">Back to Dashboard</Link>
           </Button>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -25,7 +26,7 @@ export default function PortalCourses() {
                   {c.code} · {c.instructor}
                 </div>
                 <Button asChild size="sm">
-                  <a href={`/portal/courses/${encodeURIComponent(c.code)}`}>Open</a>
+                  <Link to={`/portal/courses/${encodeURIComponent(c.code)}`}>Open</Link>
                 </Button>
               </CardContent>
             </Card>

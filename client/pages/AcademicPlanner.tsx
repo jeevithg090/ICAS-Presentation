@@ -155,14 +155,14 @@ export default function AcademicPlanner() {
       />
 
       <section className="container py-12">
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Academic Planner</h1>
             <p className="text-sm text-muted-foreground">
               Plan your academic journey and track progress toward graduation
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
               <Link to="/student-life">Student Life</Link>
             </Button>
@@ -173,7 +173,7 @@ export default function AcademicPlanner() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="flex w-full justify-start overflow-x-auto sm:grid sm:grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="planning">Course Planning</TabsTrigger>
             <TabsTrigger value="transfer">Transfer Credits</TabsTrigger>

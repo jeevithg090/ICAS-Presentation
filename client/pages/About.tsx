@@ -22,15 +22,15 @@ export default function About() {
           education, and global outreach.
         </p>
 
-        <ol className="mt-8 space-y-4 border-l pl-6">
+        <ol className="relative mt-10 ml-1.5 space-y-8 border-l-2 border-border">
           {timeline.map((t) => (
-            <li key={t.year} className="relative">
+            <li key={t.year} className="relative pl-8">
               <span
-                className="absolute -left-2 top-1.5 h-3 w-3 rounded-full bg-primary"
+                className="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-4 border-background bg-primary"
                 aria-hidden
               />
-              <div className="text-sm text-muted-foreground">{t.year}</div>
-              <div className="text-base font-medium">{t.text}</div>
+              <div className="text-sm font-semibold text-primary">{t.year}</div>
+              <div className="mt-1 text-base font-medium">{t.text}</div>
             </li>
           ))}
         </ol>
