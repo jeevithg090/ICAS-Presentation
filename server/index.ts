@@ -2,6 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { config } from "./config";
 import type { ErrorRequestHandler } from "express";
 import { handleDemo } from "./routes/demo";
 import { handleTransferAssistant } from "./routes/transfer-assistant";
@@ -63,7 +65,7 @@ import {
   healthCheck as contentHealthCheck,
 } from "./routes/content-management";
 
-function parseCorsOrigins(value: string | undefined): cors.CorsOptions["origin"] {
+export function parseCorsOrigins(value: string | undefined): cors.CorsOptions["origin"] {
   if (!value || value.trim() === "" || value.trim() === "*") return true;
   return value
     .split(",")
@@ -71,10 +73,23 @@ function parseCorsOrigins(value: string | undefined): cors.CorsOptions["origin"]
     .filter(Boolean);
 }
 
+export function parseTrustProxy(value: string | undefined): boolean | number | string {
+  if (value === undefined || value === "") {
+    return process.env.VERCEL || process.env.NETLIFY ? 1 : false;
+  }
+  if (value === "true") return true;
+  if (value === "false") return false;
+  const hops = Number(value);
+  return Number.isInteger(hops) ? hops : value;
+}
+
 export function createServer() {
   const app = express();
 
   app.disable("x-powered-by");
+  // Behind a reverse proxy (Vercel, Netlify, nginx) trust X-Forwarded-For so
+  // rate limiting sees real client IPs.
+  app.set("trust proxy", parseTrustProxy(process.env.TRUST_PROXY));
 
   // Security headers. CSP is left to the hosting layer because the SPA loads
   // Firebase and Google Fonts from third-party origins.
@@ -86,6 +101,21 @@ export function createServer() {
     }),
   );
   app.use(cors({ origin: parseCorsOrigins(process.env.CORS_ORIGIN) }));
+
+  // The AI/automation endpoints are unauthenticated and call paid third-party
+  // APIs, so throttle mutating requests per client. GET requests (job status
+  // polling, media streaming) are not limited.
+  app.use(
+    "/api",
+    rateLimit({
+      windowMs: config.rateLimitWindow,
+      limit: config.rateLimitMax,
+      standardHeaders: "draft-8",
+      legacyHeaders: false,
+      skip: (req) => req.method === "GET" || req.method === "HEAD" || req.method === "OPTIONS",
+      message: { error: "Too many requests, please try again later." },
+    }),
+  );
   app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || "5mb" }));
   app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
