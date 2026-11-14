@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { portalUsers } from "@/data/sample";
 
 export type Role = "student" | "professor" | "admin";
@@ -34,20 +34,26 @@ function loadUsers(): StoredUser[] {
     if (raw) return JSON.parse(raw);
   } catch {}
   const seeded = seedUsers();
-  localStorage.setItem(USERS_KEY, JSON.stringify(seeded));
+  try {
+    localStorage.setItem(USERS_KEY, JSON.stringify(seeded));
+  } catch {}
   return seeded;
 }
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User>(null);
-  const [users, setUsers] = useState<StoredUser[]>([]);
-
-  useEffect(() => {
-    const u = loadUsers();
-    setUsers(u);
+function loadStoredUser(): User {
+  try {
     const raw = localStorage.getItem(KEY);
-    if (raw) setUser(JSON.parse(raw));
-  }, []);
+    return raw ? (JSON.parse(raw) as User) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // Read the stored session synchronously so protected routes don't redirect
+  // to /login on the first render after a full page load.
+  const [user, setUser] = useState<User>(loadStoredUser);
+  const [users, setUsers] = useState<StoredUser[]>(loadUsers);
 
   const value = useMemo<AuthCtx>(
     () => ({
