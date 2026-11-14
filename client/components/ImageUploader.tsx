@@ -114,7 +114,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onFilesUploaded }) => {
         <div className="space-y-4">
           <div
             className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-              dragOver ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"
+              dragOver ? "border-blue-500 bg-blue-50" : "border-border hover:border-gray-400"
             }`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -133,7 +133,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onFilesUploaded }) => {
             <div className="space-y-2">
               <Upload className="h-12 w-12 mx-auto text-gray-400" />
               <h3 className="text-lg font-medium">Drop your images here</h3>
-              <p className="text-gray-500">or click to browse files</p>
+              <p className="text-muted-foreground">or click to browse files</p>
               <p className="text-sm text-gray-400">Supports: JPG, PNG, GIF (Max 10MB each)</p>
             </div>
           </div>
@@ -149,11 +149,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onFilesUploaded }) => {
                 {selectedFiles.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                    className="flex items-center justify-between p-2 bg-muted/40 rounded"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{file.name}</p>
-                      <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                      <p className="text-xs text-muted-foreground">{formatFileSize(file.size)}</p>
                     </div>
                     <button
                       onClick={() => removeFile(index)}

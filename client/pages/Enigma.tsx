@@ -1,3 +1,4 @@
+import SafeImage from "@/components/SafeImage";
 import SEO from "@/components/SEO";
 import { enigma, events } from "@/data/sample";
 
@@ -16,7 +17,7 @@ export default function Enigma() {
           {enigma.domains.map((d) => (
             <article key={d.name} className="overflow-hidden rounded-xl bg-card ring-1 ring-border">
               {"image" in d && (
-                <img
+                <SafeImage
                   src={(d as any).image}
                   alt={`${d.name} domain`}
                   className="h-40 w-full object-cover"

@@ -261,8 +261,8 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
               ></div>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">{progress.toFixed(0)}% complete</p>
-              <p className="text-xs text-gray-500">{currentStep}</p>
+              <p className="text-sm text-muted-foreground">{progress.toFixed(0)}% complete</p>
+              <p className="text-xs text-muted-foreground">{currentStep}</p>
             </div>
           </div>
         </CardContent>
@@ -304,7 +304,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                 />
                 <div>
                   <h3 className="font-medium">🎵 Background Music</h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Add your own background music to the slideshow
                   </p>
                 </div>
@@ -321,7 +321,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                       type="file"
                       accept="audio/*"
                       onChange={handleFileChange}
-                      className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      className="mt-1 block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                     />
                     {backgroundMusicFile && (
                       <p className="text-sm text-green-600 mt-1">
@@ -343,7 +343,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
             {/* AI Dubbing Option */}
             <div
               className={`border rounded-lg p-4 transition-colors ${
-                selectedOption === "ai-dubbing" ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                selectedOption === "ai-dubbing" ? "border-blue-500 bg-blue-50" : "border-border"
               }`}
             >
               <div
@@ -360,7 +360,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                 />
                 <div>
                   <h3 className="font-medium">🤖 AI Generated Dubbing</h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Generate AI-powered narration based on your video content
                   </p>
                 </div>
@@ -380,7 +380,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                       rows={4}
                       className="mt-1"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       The AI will create a script and generate natural-sounding narration based on
                       your description.
                     </p>
