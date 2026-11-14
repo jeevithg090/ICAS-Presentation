@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { spawn } from 'child_process';
 import { config } from '../config';
+import { resolveInside, sanitizeFilename } from '../lib/safe-path';
 
 // Extend Express Request type to include files
 interface MulterRequest extends Request {
@@ -28,7 +29,7 @@ const storage = multer.diskStorage({
     cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
-    const uniqueName = `${uuidv4()}-${file.originalname}`;
+    const uniqueName = `${uuidv4()}-${sanitizeFilename(file.originalname, 'image')}`;
     cb(null, uniqueName);
   }
 });
@@ -1080,6 +1081,21 @@ export const handleVideoProcessing = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'No image files provided' });
     }
 
+    // Only accept plain file names that resolve inside the uploads directory.
+    const uploadsRoot = path.join(process.cwd(), 'uploads');
+    const safeImageFiles = imageFiles.filter(
+      (name: unknown): name is string =>
+        typeof name === 'string' &&
+        path.basename(name) === name &&
+        resolveInside(uploadsRoot, name) !== null,
+    );
+    if (safeImageFiles.length !== imageFiles.length) {
+      return res.status(400).json({ error: 'Invalid image file name' });
+    }
+
+    const safeDuration = Math.min(Math.max(Number(duration) || 2, 0.5), 30);
+    const safeQuality: '720p' | '1080p' = videoQuality === '1080p' ? '1080p' : '720p';
+
     const jobId = uuidv4();
     videoJobs.set(jobId, {
       id: jobId,
@@ -1088,7 +1104,7 @@ export const handleVideoProcessing = async (req: Request, res: Response) => {
     });
 
     // Start video processing in background
-    processVideo(jobId, imageFiles, duration, useTransitions, videoQuality, useAI).catch(error => {
+    processVideo(jobId, safeImageFiles, safeDuration, Boolean(useTransitions), safeQuality, Boolean(useAI)).catch(error => {
       console.error('Video processing error:', error);
       videoJobs.set(jobId, {
         id: jobId,

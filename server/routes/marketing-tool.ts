@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import { sanitizeFilename } from '../lib/safe-path';
 
 // Extend Express Request type to include file
 interface MulterRequest extends Request {
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
     cb(null, logosDir);
   },
   filename: (req, file, cb) => {
-    const uniqueName = `${uuidv4()}-${file.originalname}`;
+    const uniqueName = `${uuidv4()}-${sanitizeFilename(file.originalname, 'logo')}`;
     cb(null, uniqueName);
   }
 });

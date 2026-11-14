@@ -1,35 +1,32 @@
 import path from "path";
+import express from "express";
 import { createServer } from "./index";
-import * as express from "express";
 
 const app = createServer();
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
-// In production, serve the built SPA files
-const __dirname = import.meta.dirname;
-const distPath = path.join(__dirname, "../spa");
+// Serve the built SPA (dist/spa) next to the API.
+const distPath = path.join(import.meta.dirname, "../spa");
+app.use(express.static(distPath, { index: false }));
 
-// Serve static files
-app.use(express.static(distPath));
-
-// For now, only serve API routes to avoid Express 5.x path-to-regexp issues
-// The frontend will be served by Vite dev server during development
-console.log("🚀 API Server running on port", port);
-console.log("🔧 API endpoints available at http://localhost:" + port + "/api");
-
-app.listen(port, () => {
-  console.log(`🚀 Fusion Starter server running on port ${port}`);
-  console.log(`📱 Frontend: http://localhost:${port}`);
-  console.log(`🔧 API: http://localhost:${port}/api`);
+// SPA fallback: any non-API GET request returns index.html so client-side
+// routes work on refresh. Registered as plain middleware to stay independent
+// of Express 5 path-to-regexp wildcard syntax.
+app.use((req, res, next) => {
+  if (req.method !== "GET" || req.path.startsWith("/api/") || req.path.startsWith("/uploads/")) {
+    return next();
+  }
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
-// Graceful shutdown
-process.on("SIGTERM", () => {
-  console.log("🛑 Received SIGTERM, shutting down gracefully");
-  process.exit(0);
+const server = app.listen(port, () => {
+  console.log(`ICAS server running on http://localhost:${port}`);
 });
 
-process.on("SIGINT", () => {
-  console.log("🛑 Received SIGINT, shutting down gracefully");
-  process.exit(0);
-});
+function shutdown(signal: string) {
+  console.log(`Received ${signal}, shutting down`);
+  server.close(() => process.exit(0));
+}
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
