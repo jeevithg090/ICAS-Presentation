@@ -1,0 +1,7 @@
+dist
+coverage
+node_modules
+uploads
+pnpm-lock.yaml
+server/data/icas-features.md
+docs

@@ -10,7 +10,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SiteLayout from "@/components/layout/SiteLayout";
-import Placeholder from "@/components/Placeholder";
 const About = lazy(() => import("@/pages/About"));
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";

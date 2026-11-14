@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
-import Partners from "@/components/sections/Partners";
 import Testimonials from "@/components/sections/Testimonials";
 import Newsletter from "@/components/sections/Newsletter";
 import DelegateSessionsSummary from "@/components/sections/DelegateSessionsSummary";
