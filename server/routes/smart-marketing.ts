@@ -803,7 +803,7 @@ async function saveImageMetadata(imageData: any) {
 // Update reference image
 export const handleUpdateReferenceImage = async (req: MulterRequest, res: Response) => {
   try {
-    const { imageId } = req.params;
+    const imageId = String(req.params.imageId);
     const uploadSingle = upload.single('image');
     
     uploadSingle(req, res, async (err) => {
@@ -931,7 +931,7 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
 // Delete uploaded reference image
 export const handleDeleteReferenceImage = async (req: Request, res: Response) => {
   try {
-    const { imageId } = req.params;
+    const imageId = String(req.params.imageId);
 
     if (!imageId) {
       return res.status(400).json({ 

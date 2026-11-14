@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Extend Express Request type to include file
 interface MulterRequest extends Request {
-  file?: multer.File;
+  file?: Express.Multer.File;
 }
 
 // Configure multer for logo uploads
@@ -158,7 +158,7 @@ export const handleLogoUpload = async (req: MulterRequest, res: Response) => {
 // Get job status endpoint
 export const handleJobStatus = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     
     const contentJob = contentJobs.get(jobId);
     if (!contentJob) {
@@ -231,7 +231,7 @@ export const handleGetModels = async (req: Request, res: Response) => {
 // Download generated content endpoint
 export const handleContentDownload = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     const { imageIndex } = req.query;
     
     const contentJob = contentJobs.get(jobId);

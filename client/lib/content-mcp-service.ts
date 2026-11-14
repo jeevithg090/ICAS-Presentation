@@ -14,6 +14,7 @@ export interface ContentItem {
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
+  wordCount?: number;
   seoData?: {
     title: string;
     description: string;
