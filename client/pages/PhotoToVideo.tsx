@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState, useCallback } from "react";
 import ImageUploader from "../components/ImageUploader";
 import VideoProcessor from "../components/VideoProcessor";
@@ -79,9 +80,13 @@ const PhotoToVideo: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <SEO
+        title="Photo to Video — ICAS Administration"
+        description="Turn uploaded images into a narrated slideshow video."
+      />
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-orange-600 mb-4">Photo to Video Converter</h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-muted-foreground">
           Upload your images and create a beautiful slideshow video with AI-powered generation and
           voice narration
         </p>

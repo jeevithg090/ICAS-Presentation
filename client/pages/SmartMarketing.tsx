@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -536,12 +537,16 @@ const SmartMarketing: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/40">
+      <SEO
+        title="Smart Marketing — ICAS Administration"
+        description="Generate Instagram posts with AI images and text overlays."
+      />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Smart Marketing Tool</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Smart Marketing Tool</h1>
+          <p className="text-lg text-muted-foreground">
             Generate engaging Instagram posts and AI-powered images with text overlays for ICAS
             Manipal marketing campaigns
           </p>
@@ -604,7 +609,7 @@ const SmartMarketing: React.FC = () => {
                       rows={3}
                     />
                     {selectedPostType.examples && (
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-muted-foreground">
                         <div className="font-medium mb-2">Example messages:</div>
                         <div className="space-y-1">
                           {selectedPostType.examples.map((example, index) => (
@@ -658,7 +663,7 @@ const SmartMarketing: React.FC = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-4 text-sm text-gray-600">
+                  <div className="mb-4 text-sm text-muted-foreground">
                     Showing {availableReferenceImages.length} reference images (
                     {availableReferenceImages.filter((img) => img.uploaded).length} uploaded)
                   </div>
@@ -673,7 +678,7 @@ const SmartMarketing: React.FC = () => {
                         }`}
                         onClick={() => handleReferenceImageToggle(image)}
                       >
-                        <div className="aspect-square bg-gray-100 rounded-md mb-2 flex items-center justify-center overflow-hidden">
+                        <div className="aspect-square bg-muted rounded-md mb-2 flex items-center justify-center overflow-hidden">
                           {image.url && image.url !== "/placeholder.svg" ? (
                             <img
                               src={image.url}
@@ -697,7 +702,7 @@ const SmartMarketing: React.FC = () => {
                         </div>
                         <div className="text-center">
                           <div className="text-sm font-medium">{image.name}</div>
-                          <div className="text-xs text-gray-500">{image.description}</div>
+                          <div className="text-xs text-muted-foreground">{image.description}</div>
                           {image.uploaded && (
                             <Badge variant="secondary" className="text-xs mt-1">
                               Uploaded
@@ -800,7 +805,7 @@ const SmartMarketing: React.FC = () => {
                   {customMessage && (
                     <div className="text-sm">
                       <span className="font-medium">Custom Message:</span>
-                      <div className="mt-1 p-2 bg-gray-50 rounded text-gray-700">
+                      <div className="mt-1 p-2 bg-muted/40 rounded text-muted-foreground">
                         {customMessage}
                       </div>
                     </div>
@@ -833,8 +838,8 @@ const SmartMarketing: React.FC = () => {
                   <CardDescription>Your AI-generated social media post</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <p className="text-gray-800 whitespace-pre-wrap">{generatedPost}</p>
+                  <div className="p-4 bg-muted/40 rounded-lg">
+                    <p className="text-foreground whitespace-pre-wrap">{generatedPost}</p>
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -873,7 +878,7 @@ const SmartMarketing: React.FC = () => {
                         <Image className="h-4 w-4 text-blue-600" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-gray-800 text-sm leading-relaxed">
+                        <p className="text-foreground text-sm leading-relaxed">
                           {generatedImagePrompt}
                         </p>
                         <div className="mt-3 flex flex-wrap gap-2">
@@ -896,7 +901,7 @@ const SmartMarketing: React.FC = () => {
                           )}
                         </div>
                         {selectedReferenceImages.length > 0 && (
-                          <div className="mt-3 p-2 bg-white rounded border border-green-200">
+                          <div className="mt-3 p-2 bg-card rounded border border-green-200">
                             <div className="text-xs font-medium text-green-700 mb-1">
                               Reference images that will be incorporated:
                             </div>
@@ -1121,7 +1126,7 @@ const SmartMarketing: React.FC = () => {
                     className="cursor-pointer"
                   />
                   {uploadForm.file && (
-                    <div className="mt-2 text-sm text-gray-600">
+                    <div className="mt-2 text-sm text-muted-foreground">
                       Selected: {uploadForm.file.name} (
                       {(uploadForm.file.size / 1024 / 1024).toFixed(2)} MB)
                     </div>
@@ -1181,7 +1186,7 @@ const SmartMarketing: React.FC = () => {
                 {/* Current image preview */}
                 <div>
                   <Label>Current Image</Label>
-                  <div className="mt-2 p-4 border rounded-lg bg-gray-50">
+                  <div className="mt-2 p-4 border rounded-lg bg-muted/40">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
                         {editingImage.url && editingImage.url !== "/placeholder.svg" ? (
@@ -1196,7 +1201,9 @@ const SmartMarketing: React.FC = () => {
                       </div>
                       <div className="flex-1">
                         <div className="font-medium">{editingImage.name}</div>
-                        <div className="text-sm text-gray-500">{editingImage.description}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {editingImage.description}
+                        </div>
                         <Badge variant="outline" className="text-xs mt-1">
                           {editingImage.category}
                         </Badge>
@@ -1260,12 +1267,12 @@ const SmartMarketing: React.FC = () => {
                     required={!editingImage?.uploaded}
                   />
                   {editForm.file && (
-                    <div className="mt-2 text-sm text-gray-600">
+                    <div className="mt-2 text-sm text-muted-foreground">
                       New image: {editForm.file.name} (
                       {(editForm.file.size / 1024 / 1024).toFixed(2)} MB)
                     </div>
                   )}
-                  <div className="mt-1 text-xs text-gray-500">
+                  <div className="mt-1 text-xs text-muted-foreground">
                     {editingImage?.uploaded
                       ? "Leave empty to keep the current image"
                       : "Required: Select a new image to replace the default image"}

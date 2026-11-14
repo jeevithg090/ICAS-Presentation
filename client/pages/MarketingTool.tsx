@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -214,12 +215,16 @@ const MarketingTool: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted/40">
+      <SEO
+        title="Marketing Tool — ICAS Administration"
+        description="Draft social media posts for ICAS campaigns."
+      />
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">ICAS Marketing Tool</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold text-foreground mb-4">ICAS Marketing Tool</h1>
+          <p className="text-lg text-muted-foreground">
             Create engaging social media content for your campaigns
           </p>
         </div>
@@ -291,7 +296,7 @@ const MarketingTool: React.FC = () => {
                         <SelectItem key={festival.id} value={festival.id}>
                           <div className="flex flex-col">
                             <span className="font-medium">{festival.name}</span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-muted-foreground">
                               {festival.description} - {festival.date}
                             </span>
                           </div>
@@ -343,7 +348,7 @@ const MarketingTool: React.FC = () => {
                   <div className="space-y-4">
                     <Input type="file" accept="image/*" onChange={handleLogoChange} />
                     {logo && (
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Image className="h-4 w-4" />
                         {logo.name}
                       </div>
@@ -375,7 +380,9 @@ const MarketingTool: React.FC = () => {
                         <Label htmlFor={model.id} className="flex-1">
                           <div className="flex flex-col">
                             <span className="font-medium">{model.name}</span>
-                            <span className="text-sm text-gray-500">{model.description}</span>
+                            <span className="text-sm text-muted-foreground">
+                              {model.description}
+                            </span>
                           </div>
                         </Label>
                       </div>
@@ -408,7 +415,9 @@ const MarketingTool: React.FC = () => {
                           <Label htmlFor={ratio.id} className="flex-1">
                             <div className="flex flex-col">
                               <span className="font-medium">{ratio.name}</span>
-                              <span className="text-sm text-gray-500">{ratio.description}</span>
+                              <span className="text-sm text-muted-foreground">
+                                {ratio.description}
+                              </span>
                             </div>
                           </Label>
                         </div>

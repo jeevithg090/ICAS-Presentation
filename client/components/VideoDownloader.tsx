@@ -114,9 +114,9 @@ const VideoDownloader: React.FC<VideoDownloaderProps> = ({ jobId, onVideoComplet
           </div>
 
           {/* Video Info */}
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">Video Information</h4>
-            <div className="text-sm text-gray-600 space-y-1">
+          <div className="bg-muted/40 p-4 rounded-lg">
+            <h4 className="font-medium text-foreground mb-2">Video Information</h4>
+            <div className="text-sm text-muted-foreground space-y-1">
               <p>Format: MP4</p>
               <p>Job ID: {jobId}</p>
               <p>Status: Ready for download</p>

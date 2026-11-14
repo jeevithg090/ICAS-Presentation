@@ -129,9 +129,9 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({
             <h3 className="font-medium mb-3">Uploaded Images ({files.length})</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {files.map((file, index) => (
-                <div key={index} className="p-2 bg-gray-50 rounded text-sm">
+                <div key={index} className="p-2 bg-muted/40 rounded text-sm">
                   <div className="font-medium truncate">{file.originalName}</div>
-                  <div className="text-gray-500 text-xs">{formatFileSize(file.size)}</div>
+                  <div className="text-muted-foreground text-xs">{formatFileSize(file.size)}</div>
                 </div>
               ))}
             </div>
@@ -162,7 +162,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({
                   id="quality"
                   value={videoQuality}
                   onChange={(e) => setVideoQuality(e.target.value as "720p" | "1080p")}
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="720p">720p (1280x720) - Faster</option>
                   <option value="1080p">1080p (1920x1080) - Higher Quality</option>
@@ -183,7 +183,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({
                   Use AI-powered video generation (Hugging Face)
                 </Label>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 🤖 AI creates dynamic video from your first image with motion and effects
               </p>
 
@@ -200,7 +200,7 @@ const VideoProcessor: React.FC<VideoProcessorProps> = ({
                   Add smooth transitions between images
                 </Label>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 ✨ Creates fade transitions between images for a more professional look (disabled
                 when using AI)
               </p>
