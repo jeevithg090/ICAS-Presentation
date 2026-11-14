@@ -166,7 +166,7 @@ export const addAccount: RequestHandler = (req, res) => {
 // Remove an account
 export const removeAccount: RequestHandler = (req, res) => {
   try {
-    const { accountId } = req.params;
+    const accountId = String(req.params.accountId);
 
     const accountIndex = mockAccounts.findIndex(acc => acc.id === accountId);
     
@@ -223,7 +223,7 @@ export const getRecentPosts: RequestHandler = (req, res) => {
 // Refresh account data
 export const refreshAccountData: RequestHandler = (req, res) => {
   try {
-    const { accountId } = req.params;
+    const accountId = String(req.params.accountId);
 
     const account = mockAccounts.find(acc => acc.id === accountId);
     

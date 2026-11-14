@@ -9,8 +9,8 @@ import { config } from '../config';
 
 // Extend Express Request type to include files
 interface MulterRequest extends Request {
-  files?: multer.File[];
-  file?: multer.File;
+  files?: Express.Multer.File[];
+  file?: Express.Multer.File;
 }
 
 // API Keys
@@ -1053,7 +1053,7 @@ export const handleImageUpload = async (req: MulterRequest, res: Response) => {
         return res.status(400).json({ error: 'No files uploaded' });
       }
 
-      const uploadedFiles = (req.files as multer.File[]).map(file => ({
+      const uploadedFiles = (req.files as Express.Multer.File[]).map(file => ({
         filename: file.filename,
         originalName: file.originalname,
         path: file.path,
@@ -1182,7 +1182,7 @@ export const handleGenerateAudio = async (req: Request, res: Response) => {
 // Get audio job status
 export const handleAudioStatus = async (req: Request, res: Response) => {
   try {
-    const { audioJobId } = req.params;
+    const audioJobId = String(req.params.audioJobId);
     const job = audioJobs.get(audioJobId);
 
     if (!job) {
@@ -1292,7 +1292,7 @@ export const handleMixAIAudio = async (req: Request, res: Response) => {
 // Get video processing status
 export const handleJobStatus = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     const job = videoJobs.get(jobId);
 
     if (!job) {
@@ -1309,7 +1309,7 @@ export const handleJobStatus = async (req: Request, res: Response) => {
 // Preview video endpoint
 export const handleVideoStream = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     const job = videoJobs.get(jobId);
 
     if (!job || job.status !== 'completed' || !job.videoPath) {
@@ -1360,7 +1360,7 @@ export const handleVideoStream = async (req: Request, res: Response) => {
 // Get video preview thumbnail
 export const handleVideoPreview = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     
     const videoJob = videoJobs.get(jobId);
     if (!videoJob || videoJob.status !== 'completed') {
@@ -1379,7 +1379,7 @@ export const handleVideoPreview = async (req: Request, res: Response) => {
 // Download video endpoint
 export const handleVideoDownload = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     const job = videoJobs.get(jobId);
 
     if (!job || job.status !== 'completed' || !job.videoPath) {
@@ -1400,7 +1400,7 @@ export const handleVideoDownload = async (req: Request, res: Response) => {
 // Stream audio endpoint for generated narration
 export const handleAudioStream = async (req: Request, res: Response) => {
   try {
-    const { jobId } = req.params;
+    const jobId = String(req.params.jobId);
     
     const audioJob = audioJobs.get(jobId);
     if (!audioJob || audioJob.status !== 'completed' || !audioJob.audioPath) {
