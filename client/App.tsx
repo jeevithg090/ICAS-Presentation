@@ -2,6 +2,7 @@ import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
+import { lazy, Suspense } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -10,43 +11,52 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SiteLayout from "@/components/layout/SiteLayout";
 import Placeholder from "@/components/Placeholder";
-import About from "@/pages/About";
+const About = lazy(() => import("@/pages/About"));
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import Protected from "@/components/auth/Protected";
 import RequireRole from "@/components/auth/RequireRole";
-import Academics from "@/pages/Academics";
-import Research from "@/pages/Research";
-import StudentLife from "@/pages/StudentLife";
-import News from "@/pages/News";
-import Events from "@/pages/Events";
-import Faculty from "@/pages/Faculty";
-import FinancialAid from "@/pages/FinancialAid";
-import MedicalAid from "@/pages/MedicalAid";
-import Impact from "@/pages/Impact";
-import Contact from "@/pages/Contact";
-import Enigma from "@/pages/Enigma";
-import AdmissionsAid from "@/pages/AdmissionsAid";
-import Transfer from "@/pages/Transfer";
-import Portal from "@/pages/Portal";
-import PortalCourses from "@/pages/PortalCourses";
-import PortalCourse from "@/pages/PortalCourse";
-import PortalLogin from "@/pages/PortalLogin";
-import Admin from "@/pages/Admin";
-import StudyCentre from "@/pages/StudyCentre";
-import Administration from "@/pages/Administration";
-import PhotoToVideo from "@/pages/PhotoToVideo";
-import MarketingTool from "@/pages/MarketingTool";
-import SmartMarketing from "@/pages/SmartMarketing";
-import AcademicPlanner from "@/pages/AcademicPlanner";
-import ContentManagement from "@/pages/ContentManagement";
-import SocialMediaAnalytics from "@/pages/SocialMediaAnalytics";
-import AskICASPage from "@/pages/AskICAS";
-import OutreachManagement from "@/components/admin/OutreachManagement";
-import AlumniAutomation from "@/components/admin/AlumniAutomation";
+const Academics = lazy(() => import("@/pages/Academics"));
+const Research = lazy(() => import("@/pages/Research"));
+const StudentLife = lazy(() => import("@/pages/StudentLife"));
+const News = lazy(() => import("@/pages/News"));
+const Events = lazy(() => import("@/pages/Events"));
+const Faculty = lazy(() => import("@/pages/Faculty"));
+const FinancialAid = lazy(() => import("@/pages/FinancialAid"));
+const MedicalAid = lazy(() => import("@/pages/MedicalAid"));
+const Impact = lazy(() => import("@/pages/Impact"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const Enigma = lazy(() => import("@/pages/Enigma"));
+const AdmissionsAid = lazy(() => import("@/pages/AdmissionsAid"));
+const Transfer = lazy(() => import("@/pages/Transfer"));
+const Portal = lazy(() => import("@/pages/Portal"));
+const PortalCourses = lazy(() => import("@/pages/PortalCourses"));
+const PortalCourse = lazy(() => import("@/pages/PortalCourse"));
+const PortalLogin = lazy(() => import("@/pages/PortalLogin"));
+const Admin = lazy(() => import("@/pages/Admin"));
+const StudyCentre = lazy(() => import("@/pages/StudyCentre"));
+const Administration = lazy(() => import("@/pages/Administration"));
+const PhotoToVideo = lazy(() => import("@/pages/PhotoToVideo"));
+const MarketingTool = lazy(() => import("@/pages/MarketingTool"));
+const SmartMarketing = lazy(() => import("@/pages/SmartMarketing"));
+const AcademicPlanner = lazy(() => import("@/pages/AcademicPlanner"));
+const ContentManagement = lazy(() => import("@/pages/ContentManagement"));
+const SocialMediaAnalytics = lazy(() => import("@/pages/SocialMediaAnalytics"));
+const AskICASPage = lazy(() => import("@/pages/AskICAS"));
+const OutreachManagement = lazy(() => import("@/components/admin/OutreachManagement"));
+const AlumniAutomation = lazy(() => import("@/components/admin/AlumniAutomation"));
 
 
 const queryClient = new QueryClient();
+
+function PageLoader() {
+  return (
+    <div role="status" aria-live="polite" className="container flex min-h-[50vh] items-center justify-center">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      <span className="sr-only">Loading page…</span>
+    </div>
+  );
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -57,6 +67,7 @@ const App = () => (
         <ThemeProvider>
           <AuthProvider>
             <SiteLayout>
+              <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
@@ -193,6 +204,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
             </SiteLayout>
           </AuthProvider>
         </ThemeProvider>
