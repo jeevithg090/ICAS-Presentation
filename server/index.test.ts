@@ -72,6 +72,14 @@ describe("createServer", () => {
     expect(res.body.error).toMatch(/not configured/i);
   });
 
+  it("reports the transfer assistant as unavailable when no OpenRouter key is configured", async () => {
+    const res = await request(app)
+      .post("/api/transfer/assistant")
+      .send({ question: "Which universities can I transfer to?" });
+    expect(res.status).toBe(503);
+    expect(res.body.error).toMatch(/not configured/i);
+  });
+
   it("validates alumni search input", async () => {
     const res = await request(app).post("/api/alumni/search-linkedin").send({ name: "" });
     expect(res.status).toBe(400);
