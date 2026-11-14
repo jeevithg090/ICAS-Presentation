@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ThemeToggle from "@/components/theme/ThemeToggle";
+import { Compass, X } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -82,6 +82,21 @@ export default function AiNavBot() {
   ]);
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    inputRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -119,21 +134,26 @@ export default function AiNavBot() {
   );
 
   return (
-    <div aria-live="polite" className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50">
       {/* Panel */}
       {open && (
-        <div className="mb-3 w-[min(92vw,380px)] overflow-hidden rounded-xl bg-card shadow-soft ring-1 ring-border">
+        <div
+          id="icas-navigator"
+          role="dialog"
+          aria-label="ICAS Navigator"
+          className="mb-3 w-[min(calc(100vw-2rem),380px)] overflow-hidden rounded-xl bg-card shadow-lg ring-1 ring-border animate-in fade-in-0 slide-in-from-bottom-2"
+        >
           <div className="flex items-center justify-between border-b p-3">
             <div className="text-sm font-semibold">ICAS Navigator</div>
             <button
-              className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => setOpen(false)}
               aria-label="Close navigator"
             >
-              Close
+              <X className="h-4 w-4" aria-hidden />
             </button>
           </div>
-          <div ref={listRef} className="max-h-72 space-y-3 overflow-auto p-3">
+          <div ref={listRef} aria-live="polite" className="max-h-72 space-y-3 overflow-auto p-3">
             {messages.map((m, i) => (
               <div key={i} className={m.role === "assistant" ? "" : "text-right"}>
                 <div
@@ -162,7 +182,8 @@ export default function AiNavBot() {
           </div>
           <form onSubmit={handleSubmit} className="flex gap-2 border-t p-3">
             <input
-              aria-label="Ask ICAS"
+              ref={inputRef}
+              aria-label="Where do you want to go?"
               className="flex-1 rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               placeholder="Ask to navigate…"
               value={input}
@@ -194,17 +215,17 @@ export default function AiNavBot() {
         </div>
       )}
 
-      {/* Toggles row */}
-      <div className="flex items-center justify-end gap-2">
-        <ThemeToggle />
+      <div className="flex justify-end">
         <button
-          className="flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          ref={toggleRef}
+          className="flex h-12 items-center gap-2 rounded-full bg-primary px-3.5 text-sm font-semibold text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:px-4"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-controls="icas-navigator"
+          aria-label={open ? "Close site navigator" : "Open site navigator"}
         >
-          <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
-          Ask ICAS
+          <Compass className="h-5 w-5" aria-hidden />
+          <span className="hidden sm:inline">Navigator</span>
         </button>
       </div>
     </div>
