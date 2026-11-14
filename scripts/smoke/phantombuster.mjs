@@ -5,11 +5,11 @@
  * Run this script to test the API endpoint without the full UI
  */
 
-const axios = require('axios');
+import axios from 'axios';
 
 // Configuration - update these values
 const config = {
-  baseUrl: 'http://localhost:3000',
+  baseUrl: process.env.BASE_URL || 'http://localhost:8080',
   phantomBusterApiKey: process.env.PHANTOMBUSTER_API_KEY || 'your_phantombuster_api_key_here',
   phantomBusterPhantomId: process.env.PHANTOMBUSTER_PHANTOM_ID || 'YOUR_PHANTOM_ID'
 };
@@ -87,9 +87,5 @@ async function testPhantomBusterIntegration() {
   }
 }
 
-// Run the test
-if (require.main === module) {
-  testPhantomBusterIntegration();
-}
-
-module.exports = { testPhantomBusterIntegration }; 
+testPhantomBusterIntegration();
+ 
