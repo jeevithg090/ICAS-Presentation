@@ -51,7 +51,7 @@ When ready for real use:
 ## 🆘 Need Help?
 
 - Check the full setup guide: `PHANTOMBUSTER_SETUP.md`
-- Run the test script: `node test-phantombuster.js`
+- Run the test script: `node scripts/smoke/phantombuster.mjs`
 - Review server logs for detailed error messages
 
 ---
