@@ -1,6 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import type { ErrorRequestHandler } from "express";
 import { handleDemo } from "./routes/demo";
 import { handleTransferAssistant } from "./routes/transfer-assistant";
 import { handleAskICAS } from "./routes/ask-icas";
@@ -65,17 +67,37 @@ import {
   healthCheck as contentHealthCheck
 } from "./routes/content-management";
 
+function parseCorsOrigins(value: string | undefined): cors.CorsOptions["origin"] {
+  if (!value || value.trim() === "" || value.trim() === "*") return true;
+  return value
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
 export function createServer() {
-  console.log('Creating server...');
   const app = express();
 
-  // Middleware
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  
-  // Serve static files from uploads directory
-  app.use('/uploads', express.static('uploads'));
+  app.disable("x-powered-by");
+
+  // Security headers. CSP is left to the hosting layer because the SPA loads
+  // Firebase and Google Fonts from third-party origins.
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: { policy: "same-site" },
+    }),
+  );
+  app.use(cors({ origin: parseCorsOrigins(process.env.CORS_ORIGIN) }));
+  app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || "5mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+
+  // Serve generated media (videos, audio, reference images)
+  app.use(
+    "/uploads",
+    express.static("uploads", { dotfiles: "deny", index: false, fallthrough: true }),
+  );
 
   // Example API routes
   app.get("/api/ping", (_req, res) => {
@@ -124,9 +146,7 @@ export function createServer() {
   app.delete("/api/smart-marketing/reference-images/:imageId", handleDeleteReferenceImage);
 
   // Alumni Automation API routes
-  console.log('Adding alumni routes...');
   app.use("/api/alumni", alumniRoutes);
-  console.log('Alumni routes added successfully');
 
   // Delegate Summary API route - handle raw binary data
   app.post("/api/delegate/summary", express.raw({ type: 'audio/*', limit: '50mb' }), handleDelegateSummary);
@@ -151,18 +171,42 @@ export function createServer() {
   app.post("/api/content/search-ideas", searchContentIdeas);
   app.get("/api/content/health", contentHealthCheck);
 
+  // Unknown API routes return JSON instead of falling through to the SPA
+  app.use("/api", (_req, res) => {
+    res.status(404).json({ error: "Not found" });
+  });
+
+  app.use(errorHandler);
+
   return app;
 }
 
-// Start the server if this file is run directly or via tsx
-if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('index.ts')) {
-  console.log('Starting server...');
+/**
+ * Last-resort error handler: maps upload/body-parser errors to 4xx and hides
+ * internal details from clients.
+ */
+export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
+  if (res.headersSent) return next(err);
+
+  const status =
+    typeof err?.status === "number"
+      ? err.status
+      : err?.name === "MulterError"
+        ? 400
+        : 500;
+
+  if (status >= 500) console.error("Unhandled server error:", err);
+
+  res.status(status).json({
+    error: status >= 500 ? "Internal server error" : err?.message || "Bad request",
+  });
+};
+
+// Start the API server when this file is executed directly (e.g. `tsx server/index.ts`)
+if (import.meta.url === `file://${process.argv[1]}`) {
   const app = createServer();
-  const port = process.env.PORT || 3000;
-  
+  const port = Number(process.env.PORT) || 3000;
   app.listen(port, () => {
-    console.log(`🚀 ICAS Server running on port ${port}`);
-    console.log(`📱 Frontend: http://localhost:${port}`);
-    console.log(`🔧 API: http://localhost:${port}/api`);
+    console.log(`ICAS API server listening on http://localhost:${port}/api`);
   });
 }

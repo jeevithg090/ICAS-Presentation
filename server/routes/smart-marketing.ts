@@ -6,6 +6,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { config } from '../config';
+import { resolveUploadUrl } from '../lib/safe-path';
 
 // Extend Request type to include file property from multer
 interface MulterRequest extends Request {
@@ -261,17 +262,12 @@ export const handleGenerateImage = async (req: Request, res: Response) => {
     console.log('Reference images received:', referenceImages);
 
     // Convert reference image URLs to file paths
-    const referenceImagePaths = referenceImages.map(imgUrl => {
-      console.log(`Processing reference image URL: ${imgUrl}`);
-      if (imgUrl.startsWith('/uploads/')) {
-        // Convert relative URL to absolute file path
-        const fullPath = path.join(process.cwd(), imgUrl);
-        console.log(`Converted to full path: ${fullPath}`);
-        return fullPath;
-      }
-      console.log(`Keeping as is (not upload path): ${imgUrl}`);
-      return imgUrl; // Keep as is if it's already a file path
-    }).filter(imgPath => {
+    // Only files inside the uploads directory may be used as references.
+    const uploadsRoot = path.join(process.cwd(), 'uploads');
+    const referenceImagePaths = (Array.isArray(referenceImages) ? referenceImages : [])
+      .map((imgUrl: unknown) => resolveUploadUrl(uploadsRoot, imgUrl))
+      .filter((imgPath): imgPath is string => {
+      if (!imgPath) return false;
       // Only include images that actually exist
       const exists = fs.existsSync(imgPath);
       console.log(`Checking if image exists: ${imgPath} - ${exists ? 'EXISTS' : 'NOT FOUND'}`);
@@ -494,15 +490,12 @@ export const handleTestImageGeneration = async (req: Request, res: Response) => 
     console.log('Testing image generation with reference images:', referenceImages);
     
     // Convert reference image URLs to file paths
-    const referenceImagePaths = referenceImages.map(imgUrl => {
-      console.log(`Processing test reference image URL: ${imgUrl}`);
-      if (imgUrl.startsWith('/uploads/')) {
-        const fullPath = path.join(process.cwd(), imgUrl);
-        console.log(`Converted to full path: ${fullPath}`);
-        return fullPath;
-      }
-      return imgUrl;
-    }).filter(imgPath => {
+    // Only files inside the uploads directory may be used as references.
+    const uploadsRoot = path.join(process.cwd(), 'uploads');
+    const referenceImagePaths = (Array.isArray(referenceImages) ? referenceImages : [])
+      .map((imgUrl: unknown) => resolveUploadUrl(uploadsRoot, imgUrl))
+      .filter((imgPath): imgPath is string => {
+      if (!imgPath) return false;
       const exists = fs.existsSync(imgPath);
       console.log(`Checking if test image exists: ${imgPath} - ${exists ? 'EXISTS' : 'NOT FOUND'}`);
       return exists;
