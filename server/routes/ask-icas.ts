@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { config } from "../config";
+import { stripMarkdown } from "../lib/text";
 
 // Read the comprehensive ICAS features document
 const ICAS_FEATURES_PATH = resolve(process.cwd(), "server/data/icas-features.md");
@@ -26,24 +27,6 @@ Key Points:
 - Global job placements and successful alumni network with over 1,900 transfers
 `;
 
-// Function to clean up markdown formatting and improve text styling
-function cleanAndStyleResponse(text: string): string {
-  // Remove markdown bold formatting (**text**)
-  text = text.replace(/\*\*(.*?)\*\*/g, "$1");
-
-  // Remove other markdown formatting
-  text = text.replace(/\*(.*?)\*/g, "$1"); // Remove italic formatting
-  text = text.replace(/`(.*?)`/g, "$1"); // Remove code formatting
-  text = text.replace(/#{1,6}\s*/g, ""); // Remove heading markers
-  text = text.replace(/\[(.*?)\]\(.*?\)/g, "$1"); // Remove link formatting, keep text
-
-  // Clean up any remaining markdown artifacts
-  text = text.replace(/\n{3,}/g, "\n\n"); // Reduce multiple newlines
-  text = text.replace(/^\s*[-*]\s*/gm, "• "); // Convert markdown lists to bullet points
-
-  return text.trim();
-}
-
 export const handleAskICAS: RequestHandler = async (req, res) => {
   try {
     // OpenRouter API key for Ask ICAS
@@ -51,7 +34,7 @@ export const handleAskICAS: RequestHandler = async (req, res) => {
     console.log("Ask ICAS API Key configured:", key ? "Yes" : "No");
     if (!key) {
       return res
-        .status(500)
+        .status(503)
         .json({ error: "Ask ICAS not configured - missing OpenRouter API key" });
     }
 
@@ -142,7 +125,7 @@ Always maintain a positive and supportive tone while being informative and accur
           "I'm sorry, I couldn't generate a response at the moment. Please try again.";
 
         // Clean up markdown formatting and improve text styling
-        answer = cleanAndStyleResponse(answer);
+        answer = stripMarkdown(answer);
 
         response = { answer };
         break; // Success, exit loop

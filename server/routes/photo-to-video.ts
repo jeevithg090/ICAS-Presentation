@@ -7,6 +7,7 @@ import axios from "axios";
 import { spawn } from "child_process";
 import { config } from "../config";
 import { resolveInside, sanitizeFilename } from "../lib/safe-path";
+import { cleanScriptOutput } from "../lib/text";
 
 // Extend Express Request type to include files
 interface MulterRequest extends Request {
@@ -822,55 +823,6 @@ async function mixAIAudioWithVideo(jobId: string, videoPath: string, audioPath: 
     });
     throw error;
   }
-}
-
-// Clean script output to remove prompt-style instructions
-function cleanScriptOutput(script: string): string {
-  // Remove common prompt-style phrases and instructions
-  const promptPatterns = [
-    /^.*?(?:here'?s|here is|here's) (?:a|the) (?:script|narration):\s*/i,
-    /^.*?(?:script|narration):\s*/i,
-    /^.*?(?:narrator|voice):\s*/i,
-    /^.*?(?:[[(]upbeat[\])]|[[(]energetic[\])]|[[(]cheerful[\])])\s*/gi,
-    /^.*?(?:insert picture|show image|display photo|picture of|image of)\s*/gi,
-    /^.*?(?:[[(]pause[\])]|[[(]music[\])]|[[(]fade[\])])\s*/gi,
-    /^.*?(?:[[(].*?[\])])\s*/g, // Remove anything in brackets/parentheses
-    /^.*?(?:stage direction|instruction|note):\s*/gi,
-    /^.*?(?:make sure|ensure|remember|don't forget)\s*/gi,
-    /^.*?(?:the script should|the narration should|it should)\s*/gi,
-    /^.*?(?:speak|say|narrate|voice over):\s*/gi,
-    /^.*?(?:imagine|picture this|visualize|think about)\s*/gi,
-    /^.*?(?:let me tell you about|i will describe|i'm going to talk about)\s*/gi,
-    /^.*?(?:this video shows|this slideshow presents|we will explore)\s*/gi,
-    /^.*?(?:welcome to|in this video|today we're going to)\s*/gi,
-  ];
-
-  let cleanedScript = script.trim();
-
-  // Apply all cleaning patterns
-  promptPatterns.forEach((pattern) => {
-    cleanedScript = cleanedScript.replace(pattern, "");
-  });
-
-  // Remove multiple consecutive spaces and clean up
-  cleanedScript = cleanedScript.replace(/\s+/g, " ").trim();
-
-  // Additional cleaning for descriptive language
-  cleanedScript = cleanedScript.replace(
-    /^(?:imagine|picture this|visualize|think about|let me tell you|i will describe|i'm going to talk about|this video shows|this slideshow presents|we will explore|welcome to|in this video|today we're going to)\s*/gi,
-    "",
-  );
-
-  // Remove any remaining introductory phrases
-  cleanedScript = cleanedScript.replace(/^(?:so|now|well|alright|okay|let's|here we go)\s*/gi, "");
-
-  // If the script is empty or too short after cleaning, return the original
-  if (cleanedScript.length < 10) {
-    console.warn("Script too short after cleaning, using original");
-    return script.trim();
-  }
-
-  return cleanedScript;
 }
 
 // Generate script using OpenRouter API
