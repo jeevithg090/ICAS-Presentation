@@ -1,13 +1,8 @@
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  browserLocalPersistence,
-  setPersistence,
-} from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { initializeApp, type FirebaseApp } from "firebase/app";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
-// Firebase configuration via environment variables
+// Firebase web configuration comes from Vite env vars (see .env.example).
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -18,14 +13,26 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+/** True when enough Firebase config is present to talk to Firestore. */
+export const isFirebaseConfigured = Boolean(
+  firebaseConfig.apiKey && firebaseConfig.projectId,
+);
 
-// Ensure auth persists across reloads
-setPersistence(auth, browserLocalPersistence).catch(() => {
-  // Ignore persistence errors and continue with default session persistence
-});
+// Only initialise Firebase when it is configured, so the rest of the site
+// still renders in local/demo setups without a Firebase project.
+const app: FirebaseApp | null = isFirebaseConfigured
+  ? initializeApp(firebaseConfig)
+  : null;
+
+if (!app && import.meta.env.DEV) {
+  console.warn(
+    "Firebase is not configured (VITE_FIREBASE_* env vars missing); Firestore-backed features are disabled.",
+  );
+}
+
+// Consumers must handle rejected promises when Firebase is not configured:
+// Firestore helpers throw when given a null instance.
+export const db = (app ? getFirestore(app) : null) as Firestore;
+export const storage = (app ? getStorage(app) : null) as FirebaseStorage;
 
 export default app;
