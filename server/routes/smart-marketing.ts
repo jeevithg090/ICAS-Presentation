@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
-import axios from 'axios';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { generateImage, mixImages, testConnection } from '../lib/gemini-nano-banana.js';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import { config } from '../config';
-import { resolveUploadUrl } from '../lib/safe-path';
+import { Request, Response } from "express";
+import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateImage, mixImages, testConnection } from "../lib/gemini-nano-banana.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { config } from "../config";
+import { resolveUploadUrl } from "../lib/safe-path";
 
 // Extend Request type to include file property from multer
 interface MulterRequest extends Request {
@@ -17,28 +17,28 @@ interface MulterRequest extends Request {
 const genAI = new GoogleGenerativeAI(config.googleApiKey || "");
 
 // Gemini image generation configuration
-const GEMINI_IMAGE_MODEL = 'gemini-2.0-flash-exp';
+const GEMINI_IMAGE_MODEL = "gemini-2.0-flash-exp";
 
 // Test Gemini API key
-console.log('Gemini API Key configured:', config.googleApiKey ? 'Yes' : 'No');
+console.log("Gemini API Key configured:", config.googleApiKey ? "Yes" : "No");
 
 // OpenRouter API configuration
 const OPENROUTER_API_KEY = config.openRouterApiKey;
-const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = 'uploads/reference-images';
+    const uploadDir = "uploads/reference-images";
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, `ref-${uniqueSuffix}${path.extname(file.originalname)}`);
-  }
+  },
 });
 
 const upload = multer({
@@ -54,9 +54,9 @@ const upload = multer({
     if (mimetype && extname) {
       return cb(null, true);
     } else {
-      cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed'));
+      cb(new Error("Only image files (JPEG, PNG, GIF, WebP) are allowed"));
     }
-  }
+  },
 });
 
 // ICAS Features context from the markdown file
@@ -116,8 +116,8 @@ export const handleGeneratePost = async (req: Request, res: Response) => {
     const { postType, postTypeName, customMessage, referenceImages } = req.body;
 
     if (!postType || !postTypeName) {
-      return res.status(400).json({ 
-        error: 'Post type and name are required' 
+      return res.status(400).json({
+        error: "Post type and name are required",
       });
     }
 
@@ -129,10 +129,10 @@ CONTEXT ABOUT ICAS MANIPAL:
 ${ICAS_CONTEXT}
 
 POST TYPE: ${postTypeName}
-CUSTOM MESSAGE: ${customMessage || 'None provided'}
+CUSTOM MESSAGE: ${customMessage || "None provided"}
 
 REFERENCE IMAGES TO CONSIDER:
-${referenceImages.map(img => `- ${img.name} (${img.category}): ${img.description}`).join('\n')}
+${referenceImages.map((img) => `- ${img.name} (${img.category}): ${img.description}`).join("\n")}
 
 REQUIREMENTS:
 1. Create a compelling, engaging social media post (2-4 sentences)
@@ -166,10 +166,10 @@ IMAGE PROMPT:
 
     // Try multiple OpenRouter models as fallbacks
     const models = [
-      'anthropic/claude-3.5-sonnet',
-      'openai/gpt-4o',
-      'meta-llama/llama-3.1-8b-instruct',
-      'google/gemini-pro'
+      "anthropic/claude-3.5-sonnet",
+      "openai/gpt-4o",
+      "meta-llama/llama-3.1-8b-instruct",
+      "google/gemini-pro",
     ];
 
     let response;
@@ -183,25 +183,26 @@ IMAGE PROMPT:
             model: model,
             messages: [
               {
-                role: 'system',
-                content: 'You are a professional marketing expert specializing in educational institution marketing. You create engaging, professional social media content.'
+                role: "system",
+                content:
+                  "You are a professional marketing expert specializing in educational institution marketing. You create engaging, professional social media content.",
               },
               {
-                role: 'user',
-                content: prompt
-              }
+                role: "user",
+                content: prompt,
+              },
             ],
             max_tokens: 1000,
-            temperature: 0.7
+            temperature: 0.7,
           },
           {
             headers: {
-              'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-              'Content-Type': 'application/json',
-              'HTTP-Referer': 'https://icas-manipal.com',
-              'X-Title': 'ICAS Smart Marketing Tool'
-            }
-          }
+              Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://icas-manipal.com",
+              "X-Title": "ICAS Smart Marketing Tool",
+            },
+          },
         );
 
         response = openRouterResponse;
@@ -218,15 +219,15 @@ IMAGE PROMPT:
     }
 
     const content = response.data.choices[0].message.content;
-    
+
     // Parse the response to extract post, hashtags, and image prompt
     const postMatch = content.match(/POST:\s*([\s\S]*?)(?=HASHTAGS:|$)/i);
     const hashtagsMatch = content.match(/HASHTAGS:\s*([\s\S]*?)(?=IMAGE PROMPT:|$)/i);
     const imagePromptMatch = content.match(/IMAGE PROMPT:\s*([\s\S]*?)$/i);
 
     const post = postMatch ? postMatch[1].trim() : content;
-    const hashtags = hashtagsMatch ? hashtagsMatch[1].trim() : '';
-    const imagePrompt = imagePromptMatch ? imagePromptMatch[1].trim() : '';
+    const hashtags = hashtagsMatch ? hashtagsMatch[1].trim() : "";
+    const imagePrompt = imagePromptMatch ? imagePromptMatch[1].trim() : "";
 
     // Combine post and hashtags
     const fullPost = hashtags ? `${post}\n\n${hashtags}` : post;
@@ -234,15 +235,14 @@ IMAGE PROMPT:
     res.json({
       success: true,
       post: fullPost,
-      imagePrompt: imagePrompt || 'A professional marketing image for ICAS Manipal',
-      model: response.data.model
+      imagePrompt: imagePrompt || "A professional marketing image for ICAS Manipal",
+      model: response.data.model,
     });
-
   } catch (error: any) {
-    console.error('Post generation error:', error);
-    res.status(500).json({ 
-      error: 'Failed to generate post content',
-      details: error.message 
+    console.error("Post generation error:", error);
+    res.status(500).json({
+      error: "Failed to generate post content",
+      details: error.message,
     });
   }
 };
@@ -253,31 +253,31 @@ export const handleGenerateImage = async (req: Request, res: Response) => {
     const { prompt, referenceImages = [] } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ 
-        error: 'Image prompt is required' 
+      return res.status(400).json({
+        error: "Image prompt is required",
       });
     }
 
-    console.log('Generating image with Gemini...');
-    console.log('Reference images received:', referenceImages);
+    console.log("Generating image with Gemini...");
+    console.log("Reference images received:", referenceImages);
 
     // Convert reference image URLs to file paths
     // Only files inside the uploads directory may be used as references.
-    const uploadsRoot = path.join(process.cwd(), 'uploads');
+    const uploadsRoot = path.join(process.cwd(), "uploads");
     const referenceImagePaths = (Array.isArray(referenceImages) ? referenceImages : [])
       .map((imgUrl: unknown) => resolveUploadUrl(uploadsRoot, imgUrl))
       .filter((imgPath): imgPath is string => {
-      if (!imgPath) return false;
-      // Only include images that actually exist
-      const exists = fs.existsSync(imgPath);
-      console.log(`Checking if image exists: ${imgPath} - ${exists ? 'EXISTS' : 'NOT FOUND'}`);
-      if (!exists) {
-        console.warn(`Reference image not found: ${imgPath}`);
-      }
-      return exists;
-    });
+        if (!imgPath) return false;
+        // Only include images that actually exist
+        const exists = fs.existsSync(imgPath);
+        console.log(`Checking if image exists: ${imgPath} - ${exists ? "EXISTS" : "NOT FOUND"}`);
+        if (!exists) {
+          console.warn(`Reference image not found: ${imgPath}`);
+        }
+        return exists;
+      });
 
-    console.log('Final reference image paths to use:', referenceImagePaths);
+    console.log("Final reference image paths to use:", referenceImagePaths);
     console.log(`Total reference images to incorporate: ${referenceImagePaths.length}`);
 
     // Create a clean, Instagram-worthy prompt focused on visual appeal
@@ -301,12 +301,13 @@ TEXT OVERLAY GUIDELINES:
 - Avoid long sentences or paragraphs on the image
 
 REFERENCE IMAGE INTEGRATION:
-${referenceImagePaths.length > 0 ? 
-  `- Incorporate visual elements from the provided reference image(s)
+${
+  referenceImagePaths.length > 0
+    ? `- Incorporate visual elements from the provided reference image(s)
 - If logos are present, display them prominently but elegantly
 - Use reference colors and style elements to maintain brand consistency
-- Blend reference elements seamlessly with the overall design` : 
-  '- Create original, professional design based on the description'
+- Blend reference elements seamlessly with the overall design`
+    : "- Create original, professional design based on the description"
 }
 
 VISUAL STYLE:
@@ -320,14 +321,14 @@ VISUAL STYLE:
 IMPORTANT: Focus on creating a beautiful, visually striking image that tells the story through visuals rather than text. The image should be so compelling that it works perfectly for Instagram without needing extensive text overlays.
 `;
 
-    console.log('Enhanced prompt:', enhancedPrompt);
+    console.log("Enhanced prompt:", enhancedPrompt);
 
     // Use Gemini Nano Banana for image generation
     const result = await generateImage({
       prompt: enhancedPrompt,
       referenceImages: referenceImagePaths,
-      outputDir: 'uploads/generated',
-      fileName: `marketing_${Date.now()}`
+      outputDir: "uploads/generated",
+      fileName: `marketing_${Date.now()}`,
     });
 
     if (result.success) {
@@ -337,43 +338,59 @@ IMPORTANT: Focus on creating a beautiful, visually striking image that tells the
         imagePath: result.imagePath,
         prompt: enhancedPrompt,
         model: result.model,
-        note: `Image generated successfully using Gemini Nano Banana (2.5 Flash Image Preview)${referenceImagePaths.length > 0 ? ` with ${referenceImagePaths.length} reference image(s) incorporated` : ''}`,
+        note: `Image generated successfully using Gemini Nano Banana (2.5 Flash Image Preview)${referenceImagePaths.length > 0 ? ` with ${referenceImagePaths.length} reference image(s) incorporated` : ""}`,
         referenceImagesUsed: referenceImagePaths.length,
         promptAnalysis: {
-          keyElements: prompt.toLowerCase().split(' ').filter(word => 
-            ['blue', 'sky', 'university', 'landmarks', 'global', 'connectivity', 'engineering', 
-             'professional', 'sophisticated', 'aspirational', 'international', 'education'].includes(word)
-          ).slice(0, 5),
-          suggestedStyle: 'Professional Marketing',
-          colorScheme: 'Brand-appropriate'
-        }
+          keyElements: prompt
+            .toLowerCase()
+            .split(" ")
+            .filter((word) =>
+              [
+                "blue",
+                "sky",
+                "university",
+                "landmarks",
+                "global",
+                "connectivity",
+                "engineering",
+                "professional",
+                "sophisticated",
+                "aspirational",
+                "international",
+                "education",
+              ].includes(word),
+            )
+            .slice(0, 5),
+          suggestedStyle: "Professional Marketing",
+          colorScheme: "Brand-appropriate",
+        },
       });
     } else {
       // Fallback to placeholder if generation fails
       const fallbackImage = `https://via.placeholder.com/1080x1080/4F46E5/FFFFFF?text=ICAS+Marketing+Image`;
-      
+
       res.json({
         success: true,
         imageUrl: fallbackImage,
         prompt: enhancedPrompt,
         note: `Image generation failed: ${result.error}. Using fallback image.`,
-        warning: 'Gemini Nano Banana image generation encountered an issue. Please try again or contact support.',
-        error: result.error
+        warning:
+          "Gemini Nano Banana image generation encountered an issue. Please try again or contact support.",
+        error: result.error,
       });
     }
-
   } catch (error: any) {
-    console.error('Image generation error:', error);
-    
+    console.error("Image generation error:", error);
+
     // Final fallback to a branded placeholder
     const fallbackImage = `https://via.placeholder.com/1080x1080/4F46E5/FFFFFF?text=ICAS+Marketing+Image`;
-    
+
     res.json({
       success: true,
       imageUrl: fallbackImage,
-      prompt: req.body.prompt || 'Marketing image generation',
-      note: 'Image generation failed. Using fallback image.',
-      error: error.message
+      prompt: req.body.prompt || "Marketing image generation",
+      note: "Image generation failed. Using fallback image.",
+      error: error.message,
     });
   }
 };
@@ -384,20 +401,20 @@ export const handleMixImages = async (req: Request, res: Response) => {
     const { prompt, images } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ 
-        error: 'Mix prompt is required' 
+      return res.status(400).json({
+        error: "Mix prompt is required",
       });
     }
 
     if (!images || images.length === 0) {
-      return res.status(400).json({ 
-        error: 'At least one image is required for mixing' 
+      return res.status(400).json({
+        error: "At least one image is required for mixing",
       });
     }
 
     if (images.length > 5) {
-      return res.status(400).json({ 
-        error: 'Maximum 5 images can be mixed at once' 
+      return res.status(400).json({
+        error: "Maximum 5 images can be mixed at once",
       });
     }
 
@@ -416,16 +433,16 @@ REQUIREMENTS:
 - Use professional color schemes and composition
 `;
 
-    console.log('Mixing images with Gemini Nano Banana...');
-    console.log('Enhanced prompt:', enhancedPrompt);
-    console.log('Number of images to mix:', images.length);
+    console.log("Mixing images with Gemini Nano Banana...");
+    console.log("Enhanced prompt:", enhancedPrompt);
+    console.log("Number of images to mix:", images.length);
 
     // Use Gemini Nano Banana for image mixing
     const result = await mixImages({
       prompt: enhancedPrompt,
       images: images,
-      outputDir: 'uploads/mixed',
-      fileName: `mixed_${Date.now()}`
+      outputDir: "uploads/mixed",
+      fileName: `mixed_${Date.now()}`,
     });
 
     if (result.success) {
@@ -435,25 +452,24 @@ REQUIREMENTS:
         imagePath: result.imagePath,
         prompt: enhancedPrompt,
         model: result.model,
-        note: 'Images mixed successfully using Gemini Nano Banana (2.5 Flash Image Preview)',
-        imagesProcessed: images.length
+        note: "Images mixed successfully using Gemini Nano Banana (2.5 Flash Image Preview)",
+        imagesProcessed: images.length,
       });
     } else {
       res.status(500).json({
         success: false,
         error: result.error,
         prompt: enhancedPrompt,
-        note: 'Image mixing failed. Please check your images and try again.'
+        note: "Image mixing failed. Please check your images and try again.",
       });
     }
-
   } catch (error: any) {
-    console.error('Image mixing error:', error);
-    
+    console.error("Image mixing error:", error);
+
     res.status(500).json({
       success: false,
       error: error.message,
-      note: 'Image mixing failed due to an unexpected error.'
+      note: "Image mixing failed due to an unexpected error.",
     });
   }
 };
@@ -461,23 +477,22 @@ REQUIREMENTS:
 // Test Gemini Nano Banana connection
 export const handleTestConnection = async (req: Request, res: Response) => {
   try {
-    console.log('Testing Gemini Nano Banana connection...');
-    
+    console.log("Testing Gemini Nano Banana connection...");
+
     const result = await testConnection();
-    
+
     res.json({
       success: result.success,
       message: result.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
   } catch (error: any) {
-    console.error('Connection test error:', error);
-    
+    console.error("Connection test error:", error);
+
     res.status(500).json({
       success: false,
       message: `Connection test failed: ${error.message}`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 };
@@ -486,28 +501,31 @@ export const handleTestConnection = async (req: Request, res: Response) => {
 export const handleTestImageGeneration = async (req: Request, res: Response) => {
   try {
     const { referenceImages = [] } = req.body;
-    
-    console.log('Testing image generation with reference images:', referenceImages);
-    
+
+    console.log("Testing image generation with reference images:", referenceImages);
+
     // Convert reference image URLs to file paths
     // Only files inside the uploads directory may be used as references.
-    const uploadsRoot = path.join(process.cwd(), 'uploads');
+    const uploadsRoot = path.join(process.cwd(), "uploads");
     const referenceImagePaths = (Array.isArray(referenceImages) ? referenceImages : [])
       .map((imgUrl: unknown) => resolveUploadUrl(uploadsRoot, imgUrl))
       .filter((imgPath): imgPath is string => {
-      if (!imgPath) return false;
-      const exists = fs.existsSync(imgPath);
-      console.log(`Checking if test image exists: ${imgPath} - ${exists ? 'EXISTS' : 'NOT FOUND'}`);
-      return exists;
-    });
-    
+        if (!imgPath) return false;
+        const exists = fs.existsSync(imgPath);
+        console.log(
+          `Checking if test image exists: ${imgPath} - ${exists ? "EXISTS" : "NOT FOUND"}`,
+        );
+        return exists;
+      });
+
     const testPrompt = `
 Create a simple test image that prominently displays any logos from the provided reference images.
 
 REFERENCE IMAGES TO USE:
-${referenceImagePaths.length > 0 ? 
-  `You have ${referenceImagePaths.length} reference image(s). If any contain logos, display them prominently in the center of the image.` : 
-  'No reference images provided.'
+${
+  referenceImagePaths.length > 0
+    ? `You have ${referenceImagePaths.length} reference image(s). If any contain logos, display them prominently in the center of the image.`
+    : "No reference images provided."
 }
 
 REQUIREMENTS:
@@ -521,25 +539,26 @@ REQUIREMENTS:
     const result = await generateImage({
       prompt: testPrompt,
       referenceImages: referenceImagePaths,
-      outputDir: 'uploads/generated',
-      fileName: `logo_test_${Date.now()}`
+      outputDir: "uploads/generated",
+      fileName: `logo_test_${Date.now()}`,
     });
-    
+
     res.json({
       success: result.success,
       imageUrl: result.imageUrl,
       referenceImagesProcessed: referenceImagePaths.length,
-      message: result.success ? 'Test image generated successfully' : 'Test image generation failed',
-      error: result.error
+      message: result.success
+        ? "Test image generated successfully"
+        : "Test image generation failed",
+      error: result.error,
     });
-    
   } catch (error: any) {
-    console.error('Test image generation error:', error);
-    
+    console.error("Test image generation error:", error);
+
     res.status(500).json({
       success: false,
       message: `Test image generation failed: ${error.message}`,
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -549,71 +568,67 @@ export const handleGetPostTypes = async (req: Request, res: Response) => {
   try {
     const postTypes = [
       {
-        id: 'admission-open',
-        name: 'Admission Open',
-        description: 'Announce new admission cycles and application deadlines',
+        id: "admission-open",
+        name: "Admission Open",
+        description: "Announce new admission cycles and application deadlines",
         examples: [
-          'Admissions Open for 2025-26 Academic Year',
-          'Early Bird Applications Closing Soon',
-          'Limited Seats Available - Apply Now'
-        ]
+          "Admissions Open for 2025-26 Academic Year",
+          "Early Bird Applications Closing Soon",
+          "Limited Seats Available - Apply Now",
+        ],
       },
       {
-        id: 'features-highlight',
-        name: 'ICAS Features',
-        description: 'Showcase the unique features and benefits of ICAS',
+        id: "features-highlight",
+        name: "ICAS Features",
+        description: "Showcase the unique features and benefits of ICAS",
         examples: [
-          'Global Engineering Education at Affordable Cost',
-          '100+ Partner Universities Worldwide',
-          'Credit Transfer to Top International Institutions'
-        ]
+          "Global Engineering Education at Affordable Cost",
+          "100+ Partner Universities Worldwide",
+          "Credit Transfer to Top International Institutions",
+        ],
       },
       {
-        id: 'advertising',
-        name: 'Advertising',
-        description: 'Create promotional content for campaigns and events',
-        examples: [
-          'Special Offers and Discounts',
-          'Event Promotions',
-          'Brand Awareness Campaigns'
-        ]
+        id: "advertising",
+        name: "Advertising",
+        description: "Create promotional content for campaigns and events",
+        examples: ["Special Offers and Discounts", "Event Promotions", "Brand Awareness Campaigns"],
       },
       {
-        id: 'student-success',
-        name: 'Student Success',
-        description: 'Highlight alumni achievements and success stories',
+        id: "student-success",
+        name: "Student Success",
+        description: "Highlight alumni achievements and success stories",
         examples: [
-          'Alumni Working at Tesla, Oracle, Volvo',
-          'Successful Credit Transfer Stories',
-          'Global Career Opportunities'
-        ]
+          "Alumni Working at Tesla, Oracle, Volvo",
+          "Successful Credit Transfer Stories",
+          "Global Career Opportunities",
+        ],
       },
       {
-        id: 'campus-life',
-        name: 'Campus Life',
-        description: 'Showcase vibrant campus culture and facilities',
+        id: "campus-life",
+        name: "Campus Life",
+        description: "Showcase vibrant campus culture and facilities",
         examples: [
-          'State-of-the-art Innovation Centre',
-          'World-class Sports Facilities',
-          'Diverse Student Clubs and Activities'
-        ]
+          "State-of-the-art Innovation Centre",
+          "World-class Sports Facilities",
+          "Diverse Student Clubs and Activities",
+        ],
       },
       {
-        id: 'international-partnerships',
-        name: 'International Partnerships',
-        description: 'Highlight global university partnerships',
+        id: "international-partnerships",
+        name: "International Partnerships",
+        description: "Highlight global university partnerships",
         examples: [
-          'Partnerships with Top US Universities',
-          'UK University Transfer Programs',
-          'Australian and Canadian Opportunities'
-        ]
-      }
+          "Partnerships with Top US Universities",
+          "UK University Transfer Programs",
+          "Australian and Canadian Opportunities",
+        ],
+      },
     ];
 
     res.json({ postTypes });
   } catch (error) {
-    console.error('Get post types error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get post types error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -622,78 +637,77 @@ export const handleGetReferenceImages = async (req: Request, res: Response) => {
   try {
     const defaultImages = [
       {
-        id: 'icas-logo',
-        name: 'ICAS Logo',
-        description: 'Official ICAS Manipal logo',
-        url: '/placeholder.svg',
-        category: 'logo'
+        id: "icas-logo",
+        name: "ICAS Logo",
+        description: "Official ICAS Manipal logo",
+        url: "/placeholder.svg",
+        category: "logo",
       },
       {
-        id: 'manipal-logo',
-        name: 'MAHE Logo',
-        description: 'Manipal Academy of Higher Education logo',
-        url: '/placeholder.svg',
-        category: 'logo'
+        id: "manipal-logo",
+        name: "MAHE Logo",
+        description: "Manipal Academy of Higher Education logo",
+        url: "/placeholder.svg",
+        category: "logo",
       },
       {
-        id: 'us-university',
-        name: 'US University',
-        description: 'Representative US university logo',
-        url: '/placeholder.svg',
-        category: 'university'
+        id: "us-university",
+        name: "US University",
+        description: "Representative US university logo",
+        url: "/placeholder.svg",
+        category: "university",
       },
       {
-        id: 'uk-university',
-        name: 'UK University',
-        description: 'Representative UK university logo',
-        url: '/placeholder.svg',
-        category: 'university'
+        id: "uk-university",
+        name: "UK University",
+        description: "Representative UK university logo",
+        url: "/placeholder.svg",
+        category: "university",
       },
       {
-        id: 'students-group',
-        name: 'Students Group',
-        description: 'Diverse group of international students',
-        url: '/placeholder.svg',
-        category: 'students'
+        id: "students-group",
+        name: "Students Group",
+        description: "Diverse group of international students",
+        url: "/placeholder.svg",
+        category: "students",
       },
       {
-        id: 'campus-building',
-        name: 'Campus Building',
-        description: 'Modern ICAS campus building',
-        url: '/placeholder.svg',
-        category: 'campus'
-      }
+        id: "campus-building",
+        name: "Campus Building",
+        description: "Modern ICAS campus building",
+        url: "/placeholder.svg",
+        category: "campus",
+      },
     ];
 
     // Get uploaded reference images
     const uploadedImages = await getUploadedReferenceImages();
-    
-    const allImages = [...defaultImages, ...uploadedImages];
 
+    const allImages = [...defaultImages, ...uploadedImages];
 
     res.json({ referenceImages: allImages });
   } catch (error) {
-    console.error('Get reference images error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get reference images error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 // Upload reference image
 export const handleUploadReferenceImage = async (req: MulterRequest, res: Response) => {
   try {
-    const uploadSingle = upload.single('image');
-    
+    const uploadSingle = upload.single("image");
+
     uploadSingle(req, res, async (err) => {
       if (err) {
-        console.error('Upload error:', err);
-        return res.status(400).json({ 
-          error: err.message || 'File upload failed' 
+        console.error("Upload error:", err);
+        return res.status(400).json({
+          error: err.message || "File upload failed",
         });
       }
 
       if (!req.file) {
-        return res.status(400).json({ 
-          error: 'No file uploaded' 
+        return res.status(400).json({
+          error: "No file uploaded",
         });
       }
 
@@ -702,24 +716,23 @@ export const handleUploadReferenceImage = async (req: MulterRequest, res: Respon
       if (!name || !category) {
         // Clean up uploaded file if validation fails
         fs.unlinkSync(req.file.path);
-        return res.status(400).json({ 
-          error: 'Name and category are required' 
+        return res.status(400).json({
+          error: "Name and category are required",
         });
       }
 
       const imageData = {
         id: `uploaded-${Date.now()}`,
         name: name.trim(),
-        description: description?.trim() || 'Uploaded reference image',
+        description: description?.trim() || "Uploaded reference image",
         url: `/uploads/reference-images/${req.file.filename}`,
         category: category,
         uploaded: true,
         filename: req.file.filename,
         originalName: req.file.originalname,
         size: req.file.size,
-        uploadedAt: new Date().toISOString()
+        uploadedAt: new Date().toISOString(),
       };
-
 
       // Save image metadata to a JSON file for persistence
       await saveImageMetadata(imageData);
@@ -727,14 +740,14 @@ export const handleUploadReferenceImage = async (req: MulterRequest, res: Respon
       res.json({
         success: true,
         image: imageData,
-        message: 'Reference image uploaded successfully'
+        message: "Reference image uploaded successfully",
       });
     });
   } catch (error: any) {
-    console.error('Upload reference image error:', error);
-    res.status(500).json({ 
-      error: 'Failed to upload reference image',
-      details: error.message 
+    console.error("Upload reference image error:", error);
+    res.status(500).json({
+      error: "Failed to upload reference image",
+      details: error.message,
     });
   }
 };
@@ -742,15 +755,15 @@ export const handleUploadReferenceImage = async (req: MulterRequest, res: Respon
 // Helper function to get uploaded reference images
 async function getUploadedReferenceImages() {
   try {
-    const metadataFile = 'uploads/reference-images/metadata.json';
-    
+    const metadataFile = "uploads/reference-images/metadata.json";
+
     if (!fs.existsSync(metadataFile)) {
       return [];
     }
 
-    const data = fs.readFileSync(metadataFile, 'utf8');
+    const data = fs.readFileSync(metadataFile, "utf8");
     const images = JSON.parse(data);
-    
+
     // Filter out images that no longer exist on disk
     const existingImages = images.filter((img: any) => {
       const imagePath = `uploads/reference-images/${img.filename}`;
@@ -764,7 +777,7 @@ async function getUploadedReferenceImages() {
 
     return existingImages;
   } catch (error) {
-    console.error('Error reading uploaded images metadata:', error);
+    console.error("Error reading uploaded images metadata:", error);
     return [];
   }
 }
@@ -772,23 +785,23 @@ async function getUploadedReferenceImages() {
 // Helper function to save image metadata
 async function saveImageMetadata(imageData: any) {
   try {
-    const metadataFile = 'uploads/reference-images/metadata.json';
-    const uploadDir = 'uploads/reference-images';
-    
+    const metadataFile = "uploads/reference-images/metadata.json";
+    const uploadDir = "uploads/reference-images";
+
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
     let images = [];
     if (fs.existsSync(metadataFile)) {
-      const data = fs.readFileSync(metadataFile, 'utf8');
+      const data = fs.readFileSync(metadataFile, "utf8");
       images = JSON.parse(data);
     }
 
     images.push(imageData);
     fs.writeFileSync(metadataFile, JSON.stringify(images, null, 2));
   } catch (error) {
-    console.error('Error saving image metadata:', error);
+    console.error("Error saving image metadata:", error);
     throw error;
   }
 }
@@ -797,19 +810,19 @@ async function saveImageMetadata(imageData: any) {
 export const handleUpdateReferenceImage = async (req: MulterRequest, res: Response) => {
   try {
     const imageId = String(req.params.imageId);
-    const uploadSingle = upload.single('image');
-    
+    const uploadSingle = upload.single("image");
+
     uploadSingle(req, res, async (err) => {
       if (err) {
-        console.error('Upload error:', err);
-        return res.status(400).json({ 
-          error: err.message || 'File upload failed' 
+        console.error("Upload error:", err);
+        return res.status(400).json({
+          error: err.message || "File upload failed",
         });
       }
 
       if (!imageId) {
-        return res.status(400).json({ 
-          error: 'Image ID is required' 
+        return res.status(400).json({
+          error: "Image ID is required",
         });
       }
 
@@ -820,27 +833,34 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
         if (req.file) {
           fs.unlinkSync(req.file.path);
         }
-        return res.status(400).json({ 
-          error: 'Name and category are required' 
+        return res.status(400).json({
+          error: "Name and category are required",
         });
       }
 
       // Check if this is a default image (starts with known default IDs)
-      const defaultImageIds = ['icas-logo', 'manipal-logo', 'us-university', 'uk-university', 'students-group', 'campus-building'];
+      const defaultImageIds = [
+        "icas-logo",
+        "manipal-logo",
+        "us-university",
+        "uk-university",
+        "students-group",
+        "campus-building",
+      ];
       const isDefaultImage = defaultImageIds.includes(imageId);
 
       if (isDefaultImage) {
         // For default images, create a new uploaded image to replace it
         if (!req.file) {
-          return res.status(400).json({ 
-            error: 'A new image file is required to replace default images' 
+          return res.status(400).json({
+            error: "A new image file is required to replace default images",
           });
         }
 
         const newImageData = {
           id: `uploaded-${Date.now()}`,
           name: name.trim(),
-          description: description?.trim() || 'Replaced default image',
+          description: description?.trim() || "Replaced default image",
           url: `/uploads/reference-images/${req.file.filename}`,
           category: category,
           uploaded: true,
@@ -848,9 +868,8 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
           originalName: req.file.originalname,
           size: req.file.size,
           uploadedAt: new Date().toISOString(),
-          replacedDefaultId: imageId
+          replacedDefaultId: imageId,
         };
-
 
         // Save the new image metadata
         await saveImageMetadata(newImageData);
@@ -858,7 +877,7 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
         res.json({
           success: true,
           image: newImageData,
-          message: 'Default image replaced successfully with custom image'
+          message: "Default image replaced successfully with custom image",
         });
         return;
       }
@@ -872,8 +891,8 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
         if (req.file) {
           fs.unlinkSync(req.file.path);
         }
-        return res.status(404).json({ 
-          error: 'Image not found' 
+        return res.status(404).json({
+          error: "Image not found",
         });
       }
 
@@ -895,28 +914,28 @@ export const handleUpdateReferenceImage = async (req: MulterRequest, res: Respon
         originalName: req.file ? req.file.originalname : imageToUpdate.originalName,
         size: req.file ? req.file.size : imageToUpdate.size,
         url: req.file ? `/uploads/reference-images/${req.file.filename}` : imageToUpdate.url,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
 
       // Update metadata
-      const updatedImages = uploadedImages.map((img: any) => 
-        img.id === imageId ? updatedImageData : img
+      const updatedImages = uploadedImages.map((img: any) =>
+        img.id === imageId ? updatedImageData : img,
       );
-      
-      const metadataFile = 'uploads/reference-images/metadata.json';
+
+      const metadataFile = "uploads/reference-images/metadata.json";
       fs.writeFileSync(metadataFile, JSON.stringify(updatedImages, null, 2));
 
       res.json({
         success: true,
         image: updatedImageData,
-        message: 'Reference image updated successfully'
+        message: "Reference image updated successfully",
       });
     });
   } catch (error: any) {
-    console.error('Update reference image error:', error);
-    res.status(500).json({ 
-      error: 'Failed to update reference image',
-      details: error.message 
+    console.error("Update reference image error:", error);
+    res.status(500).json({
+      error: "Failed to update reference image",
+      details: error.message,
     });
   }
 };
@@ -927,8 +946,8 @@ export const handleDeleteReferenceImage = async (req: Request, res: Response) =>
     const imageId = String(req.params.imageId);
 
     if (!imageId) {
-      return res.status(400).json({ 
-        error: 'Image ID is required' 
+      return res.status(400).json({
+        error: "Image ID is required",
       });
     }
 
@@ -937,8 +956,8 @@ export const handleDeleteReferenceImage = async (req: Request, res: Response) =>
     const imageToDelete = uploadedImages.find((img: any) => img.id === imageId);
 
     if (!imageToDelete) {
-      return res.status(404).json({ 
-        error: 'Image not found' 
+      return res.status(404).json({
+        error: "Image not found",
       });
     }
 
@@ -950,18 +969,18 @@ export const handleDeleteReferenceImage = async (req: Request, res: Response) =>
 
     // Remove from metadata
     const updatedImages = uploadedImages.filter((img: any) => img.id !== imageId);
-    const metadataFile = 'uploads/reference-images/metadata.json';
+    const metadataFile = "uploads/reference-images/metadata.json";
     fs.writeFileSync(metadataFile, JSON.stringify(updatedImages, null, 2));
 
     res.json({
       success: true,
-      message: 'Reference image deleted successfully'
+      message: "Reference image deleted successfully",
     });
   } catch (error: any) {
-    console.error('Delete reference image error:', error);
-    res.status(500).json({ 
-      error: 'Failed to delete reference image',
-      details: error.message 
+    console.error("Delete reference image error:", error);
+    res.status(500).json({
+      error: "Failed to delete reference image",
+      details: error.message,
     });
   }
-}; 
+};

@@ -14,15 +14,11 @@ const firebaseConfig = {
 };
 
 /** True when enough Firebase config is present to talk to Firestore. */
-export const isFirebaseConfigured = Boolean(
-  firebaseConfig.apiKey && firebaseConfig.projectId,
-);
+export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 
 // Only initialise Firebase when it is configured, so the rest of the site
 // still renders in local/demo setups without a Firebase project.
-const app: FirebaseApp | null = isFirebaseConfigured
-  ? initializeApp(firebaseConfig)
-  : null;
+const app: FirebaseApp | null = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
 
 if (!app && import.meta.env.DEV) {
   console.warn(

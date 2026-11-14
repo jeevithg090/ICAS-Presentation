@@ -1,4 +1,5 @@
 # 🎓 Student Life Assistant - ICAS Platform
+
 https://icas-one-stop-solution-zrqdvs.vercel.app/
 <div align="center">
 
@@ -6,7 +7,7 @@ https://icas-one-stop-solution-zrqdvs.vercel.app/
 ![Hackathon](https://img.shields.io/badge/Enigma%20Hackathon-2025-orange?style=for-the-badge)
 ![Team](https://img.shields.io/badge/Team-AXION-green?style=for-the-badge)
 
-*Revolutionizing the ICAS student experience through intelligent automation and seamless connectivity*
+_Revolutionizing the ICAS student experience through intelligent automation and seamless connectivity_
 
 [🔗 Live Demo](#demo) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [👥 Team](#team)
 
@@ -17,8 +18,9 @@ https://icas-one-stop-solution-zrqdvs.vercel.app/
 ## 🏆 Enigma Hackathon 2025 - Project Report
 
 ### 👥 Team AXION
+
 - **JEEVITH** - Full Stack Developer
-- **SHIVA TEJA** - Backend Architect  
+- **SHIVA TEJA** - Backend Architect
 - **ALI** - Frontend Specialist
 - **CHARAN** - Research & Analytics
 - **HITESH** - DevOps & Integration
@@ -27,18 +29,18 @@ https://icas-one-stop-solution-zrqdvs.vercel.app/
 
 ## 🎯 Problem Statement
 
-**Challenge:** *"Build something that improves the daily life of ICAS students."*
+**Challenge:** _"Build something that improves the daily life of ICAS students."_
 
 At ICAS (Manipal), students navigate a unique **2+2 transfer program** where they spend their first two years in India and final two years abroad. This model creates distinct challenges:
 
 ### 🔍 Key Pain Points Identified
 
-| **Student Challenges** | **Administrative Challenges** |
-|------------------------|------------------------------|
-| 📋 Complex foreign transfer process | 📊 Heavy manual workload in event management |
-| 🔗 Lack of structured peer/alumni connections | 📝 Time-consuming communication processes |
-| ⏰ Managing multiple deadlines & requirements | 📁 Inefficient student transfer tracking |
-| 📚 Scattered academic resources | 📈 Limited data insights for decision-making |
+| **Student Challenges**                        | **Administrative Challenges**                |
+| --------------------------------------------- | -------------------------------------------- |
+| 📋 Complex foreign transfer process           | 📊 Heavy manual workload in event management |
+| 🔗 Lack of structured peer/alumni connections | 📝 Time-consuming communication processes    |
+| ⏰ Managing multiple deadlines & requirements | 📁 Inefficient student transfer tracking     |
+| 📚 Scattered academic resources               | 📈 Limited data insights for decision-making |
 
 ---
 
@@ -68,6 +70,7 @@ graph TB
 ## 🚀 Features
 
 ### Core Platform
+
 - **Modern React + TypeScript** frontend with Tailwind CSS
 - **Express.js backend** with comprehensive API endpoints
 - **Real-time AI integrations** for content generation and automation
@@ -75,6 +78,7 @@ graph TB
 - **Responsive design** optimized for all devices
 
 ### AI-Powered Tools
+
 - **Photo-to-Video Conversion** using Stability AI models
 - **Smart Marketing Tool** with AI-generated content
 - **Alumni Automation System** with LinkedIn integration
@@ -82,6 +86,7 @@ graph TB
 - **Research Hub** with intelligent content organization
 
 ### Alumni Automation (NEW!)
+
 - **LinkedIn Profile Search** using SerpAPI
 - **AI Message Generation** with OpenRouter
 - **Direct LinkedIn Messaging** via PhantomBuster
@@ -95,17 +100,20 @@ graph TB
 ### 🎓 Student-Focused Features
 
 #### 📱 Smart Transfer Portal
+
 - **Comprehensive Tracker**: Deadlines, documents, visa submissions
 - **Automated Notifications**: Never miss critical steps
 - **Progress Visualization**: Real-time transfer journey tracking
 - **Document Management**: Secure upload and verification system
 
 #### 🏠 Unified Student Hub
+
 - **Centralized Resources**: All academic and campus resources in one place
 - **Quick Access Dashboard**: Streamlined navigation to essential tools
 - **Personalized Experience**: Tailored content based on student year and program
 
 #### 📹 Delegate Meeting Archive
+
 - **Smart Search**: Find specific topics across all recorded sessions
 - **Automatic Transcription**: AI-powered content indexing
 - **Guest Lecture Library**: Organized repository of educational content
@@ -113,22 +121,26 @@ graph TB
 ### 👨‍💼 Administrator-Focused Features
 
 #### 📊 Application Management Dashboard
+
 - **Real-time Tracking**: Student transfer requests and document status
 - **Verification Workflow**: Streamlined approval processes
 - **Bulk Operations**: Efficient handling of multiple applications
 
 #### 🎉 Event Management Suite
+
 - **One-Click Creation**: Rapid event setup and scheduling
 - **Smart Reminders**: Automated notifications to participants
 - **Room Booking Integration**: Seamless venue management
 - **Auto-Generated Invitations**: Professional event communications
 
 #### 🤖 AI-Powered Communication
+
 - **Instant Announcements**: Transform bullet points into polished notices
 - **Multi-format Generation**: Emails, circulars, and official communications
 - **Template Library**: Pre-built formats for common communications
 
 #### 📈 Analytics & Insights Dashboard
+
 - **Transfer Trends**: Data-driven insights into student patterns
 - **Success Metrics**: Alumni achievement tracking
 - **Participation Analytics**: Event and program engagement statistics
@@ -140,13 +152,13 @@ graph TB
 
 <div align="center">
 
-| **Category** | **Technology** | **Purpose** |
-|--------------|----------------|-------------|
-| **Frontend** | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) | Fast, modern UI development |
-| **Backend** | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black) | Authentication, Firestore DB, Storage |
-| **AI/ML** | ![OpenAI](https://img.shields.io/badge/OpenRouter-412991?style=flat&logo=openai&logoColor=white) | LLM integration with RAG pipelines |
-| **Automation** | ![MCP](https://img.shields.io/badge/MCP-Servers-blue?style=flat) | Structured query handling |
-| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat&logo=tailwind-css&logoColor=white) | Responsive design system |
+| **Category**   | **Technology**                                                                                                                                                                   | **Purpose**                           |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **Frontend**   | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) | Fast, modern UI development           |
+| **Backend**    | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)                                                                               | Authentication, Firestore DB, Storage |
+| **AI/ML**      | ![OpenAI](https://img.shields.io/badge/OpenRouter-412991?style=flat&logo=openai&logoColor=white)                                                                                 | LLM integration with RAG pipelines    |
+| **Automation** | ![MCP](https://img.shields.io/badge/MCP-Servers-blue?style=flat)                                                                                                                 | Structured query handling             |
+| **Styling**    | ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat&logo=tailwind-css&logoColor=white)                                                                           | Responsive design system              |
 
 </div>
 
@@ -168,12 +180,14 @@ graph LR
 ## 📋 Work Breakdown
 
 ### 🔬 Research Team Contributions
+
 - ✅ **User Research**: Conducted comprehensive surveys with 150+ students and 25+ faculty
 - ✅ **Competitive Analysis**: Analyzed existing solutions (LinkedIn Alumni, University ERPs)
 - ✅ **Workflow Mapping**: Documented ICAS-specific processes requiring automation
 - ✅ **Pain Point Validation**: Verified critical issues through stakeholder interviews
 
 ### 💻 Development Team Contributions
+
 - ✅ **UI/UX Design**: Created intuitive, responsive interface using React + Vite
 - ✅ **Backend Architecture**: Implemented scalable Firebase infrastructure
 - ✅ **Feature Development**: Built Transfer Portal, Event Management, and Research Hub
@@ -184,18 +198,19 @@ graph LR
 
 ## 🚧 Challenges Overcome
 
-| **Challenge** | **Solution** | **Impact** |
-|---------------|--------------|-----------|
-| **🗄️ Data Integration** | Designed flexible schema for alumni/student data | Enabled dynamic search and real-time updates |
-| **⚡ Real-time Queries** | Implemented MCP servers for structured data retrieval | Accurate, non-hardcoded information delivery |
-| **👥 Dual User Experience** | Created role-based interfaces with shared components | Streamlined experience for both students and admins |
-| **📈 Scalability** | Built cloud-native architecture with Firebase | Supports multiple batches and concurrent users |
+| **Challenge**               | **Solution**                                          | **Impact**                                          |
+| --------------------------- | ----------------------------------------------------- | --------------------------------------------------- |
+| **🗄️ Data Integration**     | Designed flexible schema for alumni/student data      | Enabled dynamic search and real-time updates        |
+| **⚡ Real-time Queries**    | Implemented MCP servers for structured data retrieval | Accurate, non-hardcoded information delivery        |
+| **👥 Dual User Experience** | Created role-based interfaces with shared components  | Streamlined experience for both students and admins |
+| **📈 Scalability**          | Built cloud-native architecture with Firebase         | Supports multiple batches and concurrent users      |
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or pnpm
 - Firebase account
@@ -221,6 +236,7 @@ pnpm dev
 ### 🔧 Configuration
 
 1. **Firebase Setup**
+
    ```bash
    # Initialize Firebase
    firebase init
@@ -235,7 +251,5 @@ pnpm dev
    ```
 
 ---
-
-
 
 </div>

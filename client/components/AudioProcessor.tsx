@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
-import { Label } from './ui/label';
-import { Music, Mic } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
+import { Music, Mic } from "lucide-react";
 
 interface AudioProcessorProps {
   jobId: string;
@@ -12,162 +12,164 @@ interface AudioProcessorProps {
   onError: (error: string) => void;
 }
 
-type AudioOption = 'background-music' | 'ai-dubbing';
+type AudioOption = "background-music" | "ai-dubbing";
 
-const AudioProcessor: React.FC<AudioProcessorProps> = ({ 
-  jobId, 
-  onAudioProcessed, 
-  onSkip, 
-  onError 
+const AudioProcessor: React.FC<AudioProcessorProps> = ({
+  jobId,
+  onAudioProcessed,
+  onSkip,
+  onError,
 }) => {
   const [selectedOption, setSelectedOption] = useState<AudioOption | null>(null);
   const [processing, setProcessing] = useState(false);
-  const [videoDescription, setVideoDescription] = useState('');
+  const [videoDescription, setVideoDescription] = useState("");
   const [backgroundMusicFile, setBackgroundMusicFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState('');
+  const [currentStep, setCurrentStep] = useState("");
 
   const handleBackgroundMusic = async () => {
     if (!backgroundMusicFile) {
-      onError('Please select a background music file');
+      onError("Please select a background music file");
       return;
     }
 
     setProcessing(true);
-    setCurrentStep('Uploading music...');
+    setCurrentStep("Uploading music...");
     setProgress(10);
 
     try {
       const formData = new FormData();
-      formData.append('music', backgroundMusicFile);
-      formData.append('videoJobId', jobId);
+      formData.append("music", backgroundMusicFile);
+      formData.append("videoJobId", jobId);
 
-      setCurrentStep('Mixing audio with video...');
+      setCurrentStep("Mixing audio with video...");
       setProgress(50);
 
-      const response = await fetch('/api/photo-to-video/add-background-music', {
-        method: 'POST',
+      const response = await fetch("/api/photo-to-video/add-background-music", {
+        method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        setCurrentStep('Finalizing video...');
+        setCurrentStep("Finalizing video...");
         setProgress(90);
 
         // Poll for completion
         const result = await response.json();
         const finalJobId = result.jobId;
         await pollForCompletion(finalJobId);
-        
+
         setProgress(100);
         onAudioProcessed(finalJobId);
       } else {
         const errorData = await response.json();
-        onError(errorData.error || 'Failed to add background music. Please try again.');
+        onError(errorData.error || "Failed to add background music. Please try again.");
         setProcessing(false);
       }
     } catch (error) {
-      console.error('Background music processing error:', error);
-      onError('Failed to add background music. Please try again.');
+      console.error("Background music processing error:", error);
+      onError("Failed to add background music. Please try again.");
       setProcessing(false);
     }
   };
 
   const handleAIDubbing = async () => {
     if (!videoDescription.trim()) {
-      onError('Please provide a description for the video');
+      onError("Please provide a description for the video");
       return;
     }
 
     setProcessing(true);
-    setCurrentStep('Generating script...');
+    setCurrentStep("Generating script...");
     setProgress(10);
 
     try {
       // Generate script with OpenRouter
-      setCurrentStep('Creating AI script...');
+      setCurrentStep("Creating AI script...");
       setProgress(25);
 
-      const scriptResponse = await fetch('/api/photo-to-video/generate-script', {
-        method: 'POST',
+      const scriptResponse = await fetch("/api/photo-to-video/generate-script", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           videoDescription: videoDescription.trim(),
-          videoJobId: jobId
+          videoJobId: jobId,
         }),
       });
 
       if (!scriptResponse.ok) {
         const errorData = await scriptResponse.json();
-        throw new Error(errorData.error || 'Failed to generate script');
+        throw new Error(errorData.error || "Failed to generate script");
       }
 
       const scriptData = await scriptResponse.json();
 
-      setCurrentStep('Generating speech...');
+      setCurrentStep("Generating speech...");
       setProgress(40);
 
       // Generate audio with ElevenLabs
-      const audioResponse = await fetch('/api/photo-to-video/generate-audio', {
-        method: 'POST',
+      const audioResponse = await fetch("/api/photo-to-video/generate-audio", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           script: scriptData.script,
-          videoJobId: jobId
+          videoJobId: jobId,
         }),
       });
 
       if (!audioResponse.ok) {
         const errorData = await audioResponse.json();
-        throw new Error(errorData.error || 'Failed to generate audio');
+        throw new Error(errorData.error || "Failed to generate audio");
       }
 
       const audioData = await audioResponse.json();
       const audioJobId = audioData.audioJobId;
-      
-      setCurrentStep('Processing audio...');
+
+      setCurrentStep("Processing audio...");
       setProgress(60);
 
       // Wait for audio generation to complete
       await pollForAudioCompletion(audioJobId);
 
-      setCurrentStep('Mixing audio with video...');
+      setCurrentStep("Mixing audio with video...");
       setProgress(75);
 
       // Mix audio with video
-      const finalResponse = await fetch('/api/photo-to-video/mix-ai-audio', {
-        method: 'POST',
+      const finalResponse = await fetch("/api/photo-to-video/mix-ai-audio", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           audioJobId: audioJobId,
-          videoJobId: jobId
+          videoJobId: jobId,
         }),
       });
 
       if (!finalResponse.ok) {
         const errorData = await finalResponse.json();
-        throw new Error(errorData.error || 'Failed to mix audio with video');
+        throw new Error(errorData.error || "Failed to mix audio with video");
       }
 
-      setCurrentStep('Finalizing video...');
+      setCurrentStep("Finalizing video...");
       setProgress(90);
 
       // Poll for completion
       const finalData = await finalResponse.json();
       const finalJobId = finalData.jobId;
       await pollForCompletion(finalJobId);
-      
+
       setProgress(100);
       onAudioProcessed(finalJobId);
     } catch (error) {
-      console.error('AI dubbing processing error:', error);
-      onError(error instanceof Error ? error.message : 'Failed to generate AI dubbing. Please try again.');
+      console.error("AI dubbing processing error:", error);
+      onError(
+        error instanceof Error ? error.message : "Failed to generate AI dubbing. Please try again.",
+      );
       setProcessing(false);
     }
   };
@@ -179,23 +181,23 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
           const statusResponse = await fetch(`/api/photo-to-video/audio-status/${audioJobId}`);
           if (statusResponse.ok) {
             const status = await statusResponse.json();
-            
-            if (status.status === 'completed') {
+
+            if (status.status === "completed") {
               resolve(audioJobId);
-            } else if (status.status === 'failed') {
-              reject(new Error(status.error || 'Audio generation failed'));
+            } else if (status.status === "failed") {
+              reject(new Error(status.error || "Audio generation failed"));
             } else {
               // Still processing, check again
               setTimeout(checkAudioStatus, 2000);
             }
           } else {
-            reject(new Error('Failed to check audio status'));
+            reject(new Error("Failed to check audio status"));
           }
         } catch (error) {
           reject(error);
         }
       };
-      
+
       checkAudioStatus();
     });
   };
@@ -207,23 +209,23 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
           const statusResponse = await fetch(`/api/photo-to-video/status/${finalJobId}`);
           if (statusResponse.ok) {
             const status = await statusResponse.json();
-            
-            if (status.status === 'completed') {
+
+            if (status.status === "completed") {
               resolve(finalJobId);
-            } else if (status.status === 'failed') {
-              reject(new Error(status.error || 'Processing failed'));
+            } else if (status.status === "failed") {
+              reject(new Error(status.error || "Processing failed"));
             } else {
               // Still processing, check again
               setTimeout(checkStatus, 2000);
             }
           } else {
-            reject(new Error('Failed to check status'));
+            reject(new Error("Failed to check status"));
           }
         } catch (error) {
           reject(error);
         }
       };
-      
+
       checkStatus();
     });
   };
@@ -232,9 +234,9 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
     const file = event.target.files?.[0];
     if (file) {
       // Validate audio file type
-      const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/m4a'];
+      const allowedTypes = ["audio/mp3", "audio/wav", "audio/ogg", "audio/m4a"];
       if (!allowedTypes.includes(file.type)) {
-        onError('Please select a valid audio file (MP3, WAV, OGG, M4A)');
+        onError("Please select a valid audio file (MP3, WAV, OGG, M4A)");
         return;
       }
       setBackgroundMusicFile(file);
@@ -253,8 +255,8 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
         <CardContent>
           <div className="space-y-4">
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
@@ -275,36 +277,40 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
           <Music className="h-5 w-5" />
           Add Audio to Your Video
         </CardTitle>
-        <CardDescription>
-          Choose how you'd like to enhance your video with audio
-        </CardDescription>
+        <CardDescription>Choose how you'd like to enhance your video with audio</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
           <div className="grid gap-4">
             {/* Background Music Option */}
-            <div className={`border rounded-lg p-4 transition-colors ${
-              selectedOption === 'background-music' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-            }`}>
-              <div 
+            <div
+              className={`border rounded-lg p-4 transition-colors ${
+                selectedOption === "background-music"
+                  ? "border-blue-500 bg-blue-50"
+                  : "border-gray-200"
+              }`}
+            >
+              <div
                 className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => setSelectedOption('background-music')}
+                onClick={() => setSelectedOption("background-music")}
               >
                 <input
                   type="radio"
                   name="audioOption"
                   value="background-music"
-                  checked={selectedOption === 'background-music'}
-                  onChange={() => setSelectedOption('background-music')}
+                  checked={selectedOption === "background-music"}
+                  onChange={() => setSelectedOption("background-music")}
                   className="text-blue-600"
                 />
                 <div>
                   <h3 className="font-medium">🎵 Background Music</h3>
-                  <p className="text-sm text-gray-600">Add your own background music to the slideshow</p>
+                  <p className="text-sm text-gray-600">
+                    Add your own background music to the slideshow
+                  </p>
                 </div>
               </div>
-              
-              {selectedOption === 'background-music' && (
+
+              {selectedOption === "background-music" && (
                 <div className="mt-4 space-y-3">
                   <div>
                     <Label htmlFor="music-file" className="text-sm font-medium">
@@ -323,7 +329,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                       </p>
                     )}
                   </div>
-                  <Button 
+                  <Button
                     onClick={handleBackgroundMusic}
                     disabled={!backgroundMusicFile}
                     className="w-full"
@@ -335,28 +341,32 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
             </div>
 
             {/* AI Dubbing Option */}
-            <div className={`border rounded-lg p-4 transition-colors ${
-              selectedOption === 'ai-dubbing' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
-            }`}>
-              <div 
+            <div
+              className={`border rounded-lg p-4 transition-colors ${
+                selectedOption === "ai-dubbing" ? "border-blue-500 bg-blue-50" : "border-gray-200"
+              }`}
+            >
+              <div
                 className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => setSelectedOption('ai-dubbing')}
+                onClick={() => setSelectedOption("ai-dubbing")}
               >
                 <input
                   type="radio"
                   name="audioOption"
                   value="ai-dubbing"
-                  checked={selectedOption === 'ai-dubbing'}
-                  onChange={() => setSelectedOption('ai-dubbing')}
+                  checked={selectedOption === "ai-dubbing"}
+                  onChange={() => setSelectedOption("ai-dubbing")}
                   className="text-blue-600"
                 />
                 <div>
                   <h3 className="font-medium">🤖 AI Generated Dubbing</h3>
-                  <p className="text-sm text-gray-600">Generate AI-powered narration based on your video content</p>
+                  <p className="text-sm text-gray-600">
+                    Generate AI-powered narration based on your video content
+                  </p>
                 </div>
               </div>
-              
-              {selectedOption === 'ai-dubbing' && (
+
+              {selectedOption === "ai-dubbing" && (
                 <div className="mt-4 space-y-3">
                   <div>
                     <Label htmlFor="video-description" className="text-sm font-medium">
@@ -371,10 +381,11 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
                       className="mt-1"
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      The AI will create a script and generate natural-sounding narration based on your description.
+                      The AI will create a script and generate natural-sounding narration based on
+                      your description.
                     </p>
                   </div>
-                  <Button 
+                  <Button
                     onClick={handleAIDubbing}
                     disabled={!videoDescription.trim()}
                     className="w-full"
@@ -388,11 +399,7 @@ const AudioProcessor: React.FC<AudioProcessorProps> = ({
           </div>
 
           <div className="pt-4 border-t">
-            <Button 
-              variant="outline" 
-              onClick={onSkip} 
-              className="w-full"
-            >
+            <Button variant="outline" onClick={onSkip} className="w-full">
               Skip Audio - Use Video As Is
             </Button>
           </div>

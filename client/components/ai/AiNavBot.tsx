@@ -10,12 +10,32 @@ interface Message {
 
 const ROUTES: { to: string; labels: string[] }[] = [
   { to: "/", labels: ["home", "homepage", "start"] },
-  { to: "/about", labels: ["about", "timeline", "history", "research stats", "icas", "international centre", "applied sciences"] },
-  { to: "/academics", labels: ["academics", "courses", "programs", "degree", "engineering", "specializations"] },
+  {
+    to: "/about",
+    labels: [
+      "about",
+      "timeline",
+      "history",
+      "research stats",
+      "icas",
+      "international centre",
+      "applied sciences",
+    ],
+  },
+  {
+    to: "/academics",
+    labels: ["academics", "courses", "programs", "degree", "engineering", "specializations"],
+  },
   { to: "/research", labels: ["research", "medicine", "labs", "case studies", "metrics"] },
   { to: "/student-life", labels: ["student", "life", "community", "feed", "campus", "clubs"] },
-  { to: "/admissions-aid", labels: ["admissions", "aid", "scholarships", "apply", "requirements", "eligibility"] },
-  { to: "/transfer", labels: ["transfer", "2+2", "pathway", "abroad", "international", "partner universities"] },
+  {
+    to: "/admissions-aid",
+    labels: ["admissions", "aid", "scholarships", "apply", "requirements", "eligibility"],
+  },
+  {
+    to: "/transfer",
+    labels: ["transfer", "2+2", "pathway", "abroad", "international", "partner universities"],
+  },
   { to: "/news", labels: ["news", "featured", "records", "clips"] },
   { to: "/events", labels: ["events", "calendar", "upcoming", "current"] },
   { to: "/faculty", labels: ["faculty", "directory", "staff", "professors"] },
@@ -23,31 +43,43 @@ const ROUTES: { to: string; labels: string[] }[] = [
   { to: "/medical-aid", labels: ["medical", "health", "insurance", "care"] },
   { to: "/impact", labels: ["impact", "outreach", "community", "global"] },
   { to: "/contact", labels: ["contact", "email", "address", "phone"] },
-  { to: "/ask-icas", labels: ["ask", "chat", "ai", "assistant", "help", "question", "what is icas", "tell me about icas"] },
+  {
+    to: "/ask-icas",
+    labels: [
+      "ask",
+      "chat",
+      "ai",
+      "assistant",
+      "help",
+      "question",
+      "what is icas",
+      "tell me about icas",
+    ],
+  },
 ];
 
 function matchRoutes(q: string) {
   const query = q.toLowerCase();
-  const matches = ROUTES.filter((r) =>
-    r.labels.some((l) => query.includes(l)),
-  ).slice(0, 5);
+  const matches = ROUTES.filter((r) => r.labels.some((l) => query.includes(l))).slice(0, 5);
   return matches.map((m) => ({ label: m.to.split("/").slice(-1)[0] || "home", to: m.to }));
 }
 
 export default function AiNavBot() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([{
-    role: "assistant",
-    content:
-      "Hi! I'm the ICAS navigator. Ask me to find pages, events, or resources—try 'what is ICAS', 'show upcoming events', 'financial aid', or 'transfer programs'.",
-    choices: [
-      { label: "About ICAS", to: "/about" },
-      { label: "Academics", to: "/academics" },
-      { label: "Transfer Programs", to: "/transfer" },
-      { label: "Ask ICAS AI", to: "/ask-icas" }
-    ],
-  }]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content:
+        "Hi! I'm the ICAS navigator. Ask me to find pages, events, or resources—try 'what is ICAS', 'show upcoming events', 'financial aid', or 'transfer programs'.",
+      choices: [
+        { label: "About ICAS", to: "/about" },
+        { label: "Academics", to: "/academics" },
+        { label: "Transfer Programs", to: "/transfer" },
+        { label: "Ask ICAS AI", to: "/ask-icas" },
+      ],
+    },
+  ]);
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -70,8 +102,7 @@ export default function AiNavBot() {
         }
       : {
           role: "assistant",
-          content:
-            "I didn’t catch that. Try keywords like ‘research’, ‘events’, or ‘contact’.",
+          content: "I didn’t catch that. Try keywords like ‘research’, ‘events’, or ‘contact’.",
         };
     setMessages((m) => [...m, response]);
     setInput("");
@@ -105,7 +136,9 @@ export default function AiNavBot() {
           <div ref={listRef} className="max-h-72 space-y-3 overflow-auto p-3">
             {messages.map((m, i) => (
               <div key={i} className={m.role === "assistant" ? "" : "text-right"}>
-                <div className={`inline-block rounded-lg px-3 py-2 text-sm ${m.role === "assistant" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}`}>
+                <div
+                  className={`inline-block rounded-lg px-3 py-2 text-sm ${m.role === "assistant" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}`}
+                >
                   {m.content}
                 </div>
                 {m.choices && (

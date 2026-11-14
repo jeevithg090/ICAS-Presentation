@@ -1,15 +1,13 @@
 export default function Testimonials() {
   const items = [
     {
-      quote:
-        "ICAS gave me a platform to turn research into real clinical impact.",
+      quote: "ICAS gave me a platform to turn research into real clinical impact.",
       name: "Aarav K.",
       role: "Alumni, Biomedical Engineering",
       avatar: "https://i.pravatar.cc/80?img=12",
     },
     {
-      quote:
-        "Mentorship and open collaboration make this community truly unique.",
+      quote: "Mentorship and open collaboration make this community truly unique.",
       name: "Priya S.",
       role: "Ph.D. Candidate, AI for Health",
       avatar: "https://i.pravatar.cc/80?img=32",

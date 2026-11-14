@@ -6,19 +6,19 @@ import type { ErrorRequestHandler } from "express";
 import { handleDemo } from "./routes/demo";
 import { handleTransferAssistant } from "./routes/transfer-assistant";
 import { handleAskICAS } from "./routes/ask-icas";
-import { 
-  handleImageUpload, 
-  handleVideoProcessing, 
+import {
+  handleImageUpload,
+  handleVideoProcessing,
   handleGenerateScript,
   handleGenerateAudio,
   handleAudioStatus,
   handleAddBackgroundMusic,
   handleMixAIAudio,
-  handleJobStatus, 
+  handleJobStatus,
   handleVideoDownload,
   handleVideoStream,
   handleVideoPreview,
-  handleAudioStream
+  handleAudioStream,
 } from "./routes/photo-to-video";
 import {
   handleContentGeneration,
@@ -26,7 +26,7 @@ import {
   handleGetFestivals,
   handleGetAspectRatios,
   handleGetModels,
-  handleContentDownload
+  handleContentDownload,
 } from "./routes/marketing-tool";
 
 import {
@@ -39,7 +39,7 @@ import {
   handleGetReferenceImages,
   handleUploadReferenceImage,
   handleUpdateReferenceImage,
-  handleDeleteReferenceImage
+  handleDeleteReferenceImage,
 } from "./routes/smart-marketing";
 
 import alumniRoutes from "./routes/alumni";
@@ -51,20 +51,16 @@ import {
   getRecentPosts,
   refreshAccountData,
   getAnalyticsSummary,
-  getEngagementTrends
+  getEngagementTrends,
 } from "./routes/social-media-analytics";
 
-import {
-  draftEmail,
-  searchWithMCP,
-  healthCheck
-} from "./routes/outreach";
+import { draftEmail, searchWithMCP, healthCheck } from "./routes/outreach";
 
 import {
   generateContent,
   optimizeContent,
   searchContentIdeas,
-  healthCheck as contentHealthCheck
+  healthCheck as contentHealthCheck,
 } from "./routes/content-management";
 
 function parseCorsOrigins(value: string | undefined): cors.CorsOptions["origin"] {
@@ -149,7 +145,11 @@ export function createServer() {
   app.use("/api/alumni", alumniRoutes);
 
   // Delegate Summary API route - handle raw binary data
-  app.post("/api/delegate/summary", express.raw({ type: 'audio/*', limit: '50mb' }), handleDelegateSummary);
+  app.post(
+    "/api/delegate/summary",
+    express.raw({ type: "audio/*", limit: "50mb" }),
+    handleDelegateSummary,
+  );
 
   // Social Media Analytics API routes
   app.get("/api/social-media/accounts", getAccounts);
@@ -189,11 +189,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
   if (res.headersSent) return next(err);
 
   const status =
-    typeof err?.status === "number"
-      ? err.status
-      : err?.name === "MulterError"
-        ? 400
-        : 500;
+    typeof err?.status === "number" ? err.status : err?.name === "MulterError" ? 400 : 500;
 
   if (status >= 500) console.error("Unhandled server error:", err);
 

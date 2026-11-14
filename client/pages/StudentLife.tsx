@@ -9,32 +9,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle 
-} from "@/components/ui/dialog";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import Timetable from "@/components/sections/Timetable";
 import AlumniPortal from "@/components/sections/AlumniPortal";
 import AlumniCountries from "@/components/sections/AlumniCountries";
 import { Link } from "react-router-dom";
-import { 
-  BookOpen, 
-  Users, 
-  Target, 
-  TrendingUp, 
-  Calendar, 
+import {
+  BookOpen,
+  Users,
+  Target,
+  TrendingUp,
+  Calendar,
   FileText,
   Globe,
-  GraduationCap
+  GraduationCap,
 } from "lucide-react";
 
 // Sample data for demonstration
@@ -56,7 +51,7 @@ const academicStats = {
   creditsCompleted: 45,
   creditsRequired: 120,
   coursesThisSemester: 5,
-  transferCredits: 15
+  transferCredits: 15,
 };
 
 const buddyMatches = [
@@ -67,7 +62,7 @@ const buddyMatches = [
     year: 3,
     targetCountry: "USA",
     matchScore: 95,
-    status: "active"
+    status: "active",
   },
   {
     id: 2,
@@ -76,8 +71,8 @@ const buddyMatches = [
     year: 4,
     targetCountry: "Canada",
     matchScore: 88,
-    status: "pending"
-  }
+    status: "pending",
+  },
 ];
 
 const researchProjects = [
@@ -88,7 +83,7 @@ const researchProjects = [
     difficulty: "intermediate",
     currentMembers: 3,
     maxMembers: 5,
-    status: "open"
+    status: "open",
   },
   {
     id: 2,
@@ -97,8 +92,8 @@ const researchProjects = [
     difficulty: "advanced",
     currentMembers: 2,
     maxMembers: 4,
-    status: "in_progress"
-  }
+    status: "in_progress",
+  },
 ];
 
 const studyGroups = [
@@ -108,7 +103,7 @@ const studyGroups = [
     members: 8,
     maxMembers: 12,
     meetingTime: "Mon, Wed 6-8 PM",
-    location: "Library Study Room 3"
+    location: "Library Study Room 3",
   },
   {
     id: 2,
@@ -116,8 +111,8 @@ const studyGroups = [
     members: 6,
     maxMembers: 10,
     meetingTime: "Tue, Thu 7-9 PM",
-    location: "Innovation Hub"
-  }
+    location: "Innovation Hub",
+  },
 ];
 
 export default function StudentLife() {
@@ -128,8 +123,11 @@ export default function StudentLife() {
 
   return (
     <main>
-      <SEO title="Student Life — ICAS" description="Comprehensive student hub with academic planning, mentorship, and research opportunities." />
-      
+      <SEO
+        title="Student Life — ICAS"
+        description="Comprehensive student hub with academic planning, mentorship, and research opportunities."
+      />
+
       <section className="container py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -167,7 +165,10 @@ export default function StudentLife() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{academicStats.currentGPA}</div>
-                  <Progress value={(academicStats.currentGPA / academicStats.targetGPA) * 100} className="mt-2" />
+                  <Progress
+                    value={(academicStats.currentGPA / academicStats.targetGPA) * 100}
+                    className="mt-2"
+                  />
                   <p className="text-xs text-muted-foreground mt-1">
                     Target: {academicStats.targetGPA}
                   </p>
@@ -181,7 +182,10 @@ export default function StudentLife() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{academicStats.creditsCompleted}</div>
-                  <Progress value={(academicStats.creditsCompleted / academicStats.creditsRequired) * 100} className="mt-2" />
+                  <Progress
+                    value={(academicStats.creditsCompleted / academicStats.creditsRequired) * 100}
+                    className="mt-2"
+                  />
                   <p className="text-xs text-muted-foreground mt-1">
                     of {academicStats.creditsRequired} required
                   </p>
@@ -195,9 +199,7 @@ export default function StudentLife() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{academicStats.transferCredits}</div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    International credits
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">International credits</p>
                 </CardContent>
               </Card>
 
@@ -208,9 +210,7 @@ export default function StudentLife() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{academicStats.coursesThisSemester}</div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    This semester
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">This semester</p>
                 </CardContent>
               </Card>
             </div>
@@ -341,18 +341,19 @@ export default function StudentLife() {
                     <div key={group.id} className="border rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-medium">{group.subject}</h4>
-                        <Badge variant="outline">{group.members}/{group.maxMembers}</Badge>
+                        <Badge variant="outline">
+                          {group.members}/{group.maxMembers}
+                        </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-2">{group.meetingTime}</p>
                       <p className="text-sm text-muted-foreground mb-3">{group.location}</p>
-                      <Button size="sm" variant="outline">Join Group</Button>
+                      <Button size="sm" variant="outline">
+                        Join Group
+                      </Button>
                     </div>
                   ))}
                 </div>
-                <Button 
-                  className="mt-4" 
-                  onClick={() => setShowCreateGroup(true)}
-                >
+                <Button className="mt-4" onClick={() => setShowCreateGroup(true)}>
                   Create New Study Group
                 </Button>
               </CardContent>
@@ -368,7 +369,10 @@ export default function StudentLife() {
               <CardContent>
                 <div className="space-y-4">
                   {buddyMatches.map((match) => (
-                    <div key={match.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={match.id}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center">
                           <GraduationCap className="h-6 w-6" />
@@ -381,7 +385,7 @@ export default function StudentLife() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <Badge variant={match.status === 'active' ? 'default' : 'secondary'}>
+                        <Badge variant={match.status === "active" ? "default" : "secondary"}>
                           {match.status}
                         </Badge>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -411,7 +415,7 @@ export default function StudentLife() {
                     <div key={project.id} className="border rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-medium">{project.title}</h4>
-                        <Badge variant={project.status === 'open' ? 'default' : 'secondary'}>
+                        <Badge variant={project.status === "open" ? "default" : "secondary"}>
                           {project.status}
                         </Badge>
                       </div>
@@ -422,14 +426,13 @@ export default function StudentLife() {
                       <p className="text-sm text-muted-foreground mb-3">
                         {project.currentMembers}/{project.maxMembers} members
                       </p>
-                      <Button size="sm" variant="outline">View Details</Button>
+                      <Button size="sm" variant="outline">
+                        View Details
+                      </Button>
                     </div>
                   ))}
                 </div>
-                <Button 
-                  className="mt-4" 
-                  onClick={() => setShowJoinProject(true)}
-                >
+                <Button className="mt-4" onClick={() => setShowJoinProject(true)}>
                   Browse All Projects
                 </Button>
               </CardContent>
@@ -536,9 +539,7 @@ export default function StudentLife() {
             <Button variant="outline" onClick={() => setShowCreateGroup(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setShowCreateGroup(false)}>
-              Create Group
-            </Button>
+            <Button onClick={() => setShowCreateGroup(false)}>Create Group</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -567,9 +568,7 @@ export default function StudentLife() {
             <Button variant="outline" onClick={() => setShowJoinProject(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setShowJoinProject(false)}>
-              Submit Application
-            </Button>
+            <Button onClick={() => setShowJoinProject(false)}>Submit Application</Button>
           </div>
         </DialogContent>
       </Dialog>

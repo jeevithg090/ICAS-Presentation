@@ -2,13 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -75,21 +69,11 @@ function useStudyCourses(userEmail: string | undefined) {
 function FilePreview({ item }: { item: Upload }) {
   const t = (item.type || "").toLowerCase();
   if (t.startsWith("image/")) {
-    return (
-      <img
-        src={item.url}
-        alt={item.name}
-        className="h-40 w-full rounded-md object-cover"
-      />
-    );
+    return <img src={item.url} alt={item.name} className="h-40 w-full rounded-md object-cover" />;
   }
   if (t.includes("pdf")) {
     return (
-      <object
-        data={item.url}
-        type="application/pdf"
-        className="h-40 w-full rounded-md"
-      >
+      <object data={item.url} type="application/pdf" className="h-40 w-full rounded-md">
         <a
           href={item.url}
           className="text-sm text-primary underline"
@@ -101,40 +85,22 @@ function FilePreview({ item }: { item: Upload }) {
       </object>
     );
   }
-  if (
-    item.name.toLowerCase().endsWith(".ppt") ||
-    item.name.toLowerCase().endsWith(".pptx")
-  ) {
+  if (item.name.toLowerCase().endsWith(".ppt") || item.name.toLowerCase().endsWith(".pptx")) {
     const src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.url)}`;
     return (
-      <iframe
-        src={src}
-        title={`Preview of ${item.name}`}
-        className="h-40 w-full rounded-md"
-      />
+      <iframe src={src} title={`Preview of ${item.name}`} className="h-40 w-full rounded-md" />
     );
   }
   return (
     <div className="flex h-40 w-full items-center justify-center rounded-md border text-sm">
-      <a
-        href={item.url}
-        className="text-primary underline"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href={item.url} className="text-primary underline" target="_blank" rel="noreferrer">
         Open {item.name}
       </a>
     </div>
   );
 }
 
-function NotesEditor({
-  initial,
-  onSave,
-}: {
-  initial: string;
-  onSave: (html: string) => void;
-}) {
+function NotesEditor({ initial, onSave }: { initial: string; onSave: (html: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (ref.current) ref.current.innerHTML = initial || "";
@@ -221,21 +187,13 @@ function CourseCard({ course, userId }: { course: Course; userId: string }) {
           <Button size="sm" onClick={() => setOpenSyllabus("view")}>
             View Syllabus
           </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => setOpenSyllabus("add")}
-          >
+          <Button size="sm" variant="secondary" onClick={() => setOpenSyllabus("add")}>
             Add Syllabus
           </Button>
           <Button size="sm" variant="outline" onClick={() => setOpenEdit(true)}>
             Edit
           </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => setNotesOpen(true)}
-          >
+          <Button size="sm" variant="outline" onClick={() => setNotesOpen(true)}>
             Notes
           </Button>
         </div>
@@ -326,10 +284,7 @@ function CourseCard({ course, userId }: { course: Course; userId: string }) {
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={openSyllabus === "add"}
-        onOpenChange={(o) => setOpenSyllabus(o ? "add" : null)}
-      >
+      <Dialog open={openSyllabus === "add"} onOpenChange={(o) => setOpenSyllabus(o ? "add" : null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Add Syllabus — {course.name}</DialogTitle>
@@ -337,27 +292,15 @@ function CourseCard({ course, userId }: { course: Course; userId: string }) {
           <div className="grid gap-3">
             <div className="grid gap-1">
               <Label>Sessional 1</Label>
-              <Textarea
-                value={s1}
-                onChange={(e) => setS1(e.target.value)}
-                rows={5}
-              />
+              <Textarea value={s1} onChange={(e) => setS1(e.target.value)} rows={5} />
             </div>
             <div className="grid gap-1">
               <Label>Sessional 2</Label>
-              <Textarea
-                value={s2}
-                onChange={(e) => setS2(e.target.value)}
-                rows={5}
-              />
+              <Textarea value={s2} onChange={(e) => setS2(e.target.value)} rows={5} />
             </div>
             <div className="grid gap-1">
               <Label>Sessional 3</Label>
-              <Textarea
-                value={s3}
-                onChange={(e) => setS3(e.target.value)}
-                rows={5}
-              />
+              <Textarea value={s3} onChange={(e) => setS3(e.target.value)} rows={5} />
             </div>
           </div>
           <DialogFooter>
@@ -385,10 +328,7 @@ function CourseCard({ course, userId }: { course: Course; userId: string }) {
 export default function StudyCentre() {
   const { user } = useAuth();
   const email = user?.email;
-  const userId = useMemo(
-    () => (email ? userIdFromEmail(email) : undefined),
-    [email],
-  );
+  const userId = useMemo(() => (email ? userIdFromEmail(email) : undefined), [email]);
   const { courses, loading, error } = useStudyCourses(email);
 
   return (
@@ -410,9 +350,12 @@ export default function StudyCentre() {
           </Button>
         </div>
         {!isFirebaseConfigured && (
-          <p role="status" className="mt-6 rounded-md border border-dashed p-4 text-sm text-muted-foreground">
-            The Study Centre needs a Firebase project. Set the VITE_FIREBASE_*
-            variables (see .env.example) to enable course storage.
+          <p
+            role="status"
+            className="mt-6 rounded-md border border-dashed p-4 text-sm text-muted-foreground"
+          >
+            The Study Centre needs a Firebase project. Set the VITE_FIREBASE_* variables (see
+            .env.example) to enable course storage.
           </p>
         )}
         {loading && (
@@ -426,10 +369,7 @@ export default function StudyCentre() {
           </p>
         )}
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {userId &&
-            courses.map((c) => (
-              <CourseCard key={c.id} course={c} userId={userId} />
-            ))}
+          {userId && courses.map((c) => <CourseCard key={c.id} course={c} userId={userId} />)}
         </div>
       </section>
     </main>

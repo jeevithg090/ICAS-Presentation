@@ -1,76 +1,216 @@
 export const programs = [
-  { id: "cse", name: "B.E. Computer Science & Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Core CS, AI/ML, systems and product engineering with 2 years at MAHE (Manipal) + 2 years at partner university abroad." },
-  { id: "mech", name: "B.E. Mechanical Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Design of machines, thermal systems, manufacturing, and robotics with strong labs and capstone projects." },
-  { id: "eee", name: "B.E. Electrical & Electronics Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Circuits, power systems, control, and embedded systems preparing graduates for modern E&E industries." },
-  { id: "civil", name: "B.E. Civil Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Infrastructure planning, structural analysis, transportation, water resources, and sustainable design." },
-  { id: "chem", name: "B.E. Chemical Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Process engineering, thermodynamics, reaction engineering, and sustainability in chemical industries." },
-  { id: "aero", name: "B.E. Aeronautical Engineering", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Aerodynamics, propulsion, structures, avionics; project-based labs and international exposure in years 3–4." },
-  { id: "mechatronics", name: "B.E. Mechatronics", level: "Undergraduate", duration: "4 years (2+2 Pathway)", summary: "Robotics, embedded systems, control, and manufacturing with industry‑aligned capstones." }
+  {
+    id: "cse",
+    name: "B.E. Computer Science & Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Core CS, AI/ML, systems and product engineering with 2 years at MAHE (Manipal) + 2 years at partner university abroad.",
+  },
+  {
+    id: "mech",
+    name: "B.E. Mechanical Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Design of machines, thermal systems, manufacturing, and robotics with strong labs and capstone projects.",
+  },
+  {
+    id: "eee",
+    name: "B.E. Electrical & Electronics Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Circuits, power systems, control, and embedded systems preparing graduates for modern E&E industries.",
+  },
+  {
+    id: "civil",
+    name: "B.E. Civil Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Infrastructure planning, structural analysis, transportation, water resources, and sustainable design.",
+  },
+  {
+    id: "chem",
+    name: "B.E. Chemical Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Process engineering, thermodynamics, reaction engineering, and sustainability in chemical industries.",
+  },
+  {
+    id: "aero",
+    name: "B.E. Aeronautical Engineering",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Aerodynamics, propulsion, structures, avionics; project-based labs and international exposure in years 3–4.",
+  },
+  {
+    id: "mechatronics",
+    name: "B.E. Mechatronics",
+    level: "Undergraduate",
+    duration: "4 years (2+2 Pathway)",
+    summary:
+      "Robotics, embedded systems, control, and manufacturing with industry‑aligned capstones.",
+  },
 ];
 
 export const courses = [
   { code: "ICS101", title: "Foundations of Applied Science", credits: 4 },
   { code: "BIO422", title: "Wearable Diagnostics", credits: 3 },
   { code: "CSE345", title: "Machine Learning for Medicine", credits: 3 },
-  { code: "MAT532", title: "Advanced Materials Characterization", credits: 4 }
+  { code: "MAT532", title: "Advanced Materials Characterization", credits: 4 },
 ];
 
 export const labs = [
   { name: "Software Systems Lab", pi: "Prof. A. Nair", focus: "Scalable backends, cloud, DevOps" },
   { name: "Aero Structures Lab", pi: "Dr. R. Shetty", focus: "Composites, CFD, flight testing" },
-  { name: "Robotics & Control Lab", pi: "Dr. P. Verma", focus: "Autonomous robots, mechatronic systems" }
+  {
+    name: "Robotics & Control Lab",
+    pi: "Dr. P. Verma",
+    focus: "Autonomous robots, mechatronic systems",
+  },
 ];
 
 export const caseStudies = [
-  { title: "Rapid Malaria Detection Strip", area: "Diagnostics", metrics: [{ label: "Sensitivity", value: "94%" }, { label: "Cost/kit", value: "$1.20" }], summary: "Paper‑based test with smartphone readout used in 5 countries." },
-  { title: "Wearable ECG Patch", area: "Cardiology", metrics: [{ label: "Patients", value: "1,200" }, { label: "Hospitals", value: "8" }], summary: "Continuous monitoring reduced ER readmissions by 18%." }
+  {
+    title: "Rapid Malaria Detection Strip",
+    area: "Diagnostics",
+    metrics: [
+      { label: "Sensitivity", value: "94%" },
+      { label: "Cost/kit", value: "$1.20" },
+    ],
+    summary: "Paper‑based test with smartphone readout used in 5 countries.",
+  },
+  {
+    title: "Wearable ECG Patch",
+    area: "Cardiology",
+    metrics: [
+      { label: "Patients", value: "1,200" },
+      { label: "Hospitals", value: "8" },
+    ],
+    summary: "Continuous monitoring reduced ER readmissions by 18%.",
+  },
 ];
 
 export const events = [
-  { date: "2025-11-18", title: "CSE Hack Day (Enigma Dev)", status: "current", location: "Innovation Hub" },
-  { date: "2025-12-02", title: "Aeronautics CFD Workshop", status: "upcoming", location: "Aero Lab" },
-  { date: "2025-12-12", title: "Robotics Challenge (Enigma)", status: "upcoming", location: "Makerspace" }
+  {
+    date: "2025-11-18",
+    title: "CSE Hack Day (Enigma Dev)",
+    status: "current",
+    location: "Innovation Hub",
+  },
+  {
+    date: "2025-12-02",
+    title: "Aeronautics CFD Workshop",
+    status: "upcoming",
+    location: "Aero Lab",
+  },
+  {
+    date: "2025-12-12",
+    title: "Robotics Challenge (Enigma)",
+    status: "upcoming",
+    location: "Makerspace",
+  },
 ];
 
 export const news = [
-  { title: "ICAS (MAHE) launches 2+2 international pathways", summary: "Students can complete 2 years at Manipal and 2 years abroad.", clip: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" },
-  { title: "Enigma wins National Robotics Meet", summary: "Robotics domain builds autonomous line‑follower bot.", clip: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" }
+  {
+    title: "ICAS (MAHE) launches 2+2 international pathways",
+    summary: "Students can complete 2 years at Manipal and 2 years abroad.",
+    clip: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  },
+  {
+    title: "Enigma wins National Robotics Meet",
+    summary: "Robotics domain builds autonomous line‑follower bot.",
+    clip: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  },
 ];
 
 export const faculty = [
-  { name: "Dr. Anita Iyer", title: "Professor", department: "Biomedical Engineering", qualifications: ["Ph.D., MIT", "Fellow, IEEE"], email: "anita.iyer@icas.edu" },
-  { name: "Prof. Nikhil Sharma", title: "Associate Professor", department: "Computer Science", qualifications: ["Ph.D., ETH Zürich", "Ex‑Google Research"], email: "nikhil.sharma@icas.edu" },
-  { name: "Dr. Mei Lin", title: "Assistant Professor", department: "Materials Science", qualifications: ["Ph.D., NUS"], email: "mei.lin@icas.edu" }
+  {
+    name: "Dr. Anita Iyer",
+    title: "Professor",
+    department: "Biomedical Engineering",
+    qualifications: ["Ph.D., MIT", "Fellow, IEEE"],
+    email: "anita.iyer@icas.edu",
+  },
+  {
+    name: "Prof. Nikhil Sharma",
+    title: "Associate Professor",
+    department: "Computer Science",
+    qualifications: ["Ph.D., ETH Zürich", "Ex‑Google Research"],
+    email: "nikhil.sharma@icas.edu",
+  },
+  {
+    name: "Dr. Mei Lin",
+    title: "Assistant Professor",
+    department: "Materials Science",
+    qualifications: ["Ph.D., NUS"],
+    email: "mei.lin@icas.edu",
+  },
 ];
 
 export const scholarships = [
-  { name: "Merit Scholarship", amount: "Up to 100% tuition", criteria: "Top 5% applicants, leadership" },
+  {
+    name: "Merit Scholarship",
+    amount: "Up to 100% tuition",
+    criteria: "Top 5% applicants, leadership",
+  },
   { name: "Need‑Based Grant", amount: "$2,000 – $12,000", criteria: "FAFSA/means assessment" },
-  { name: "Research Assistantship", amount: "$1,200/mo stipend", criteria: "Graduate research placements" }
+  {
+    name: "Research Assistantship",
+    amount: "$1,200/mo stipend",
+    criteria: "Graduate research placements",
+  },
 ];
 
 export const medicalAid = [
-  { service: "On‑campus Clinic", hours: "Mon–Fri 8am–8pm", notes: "Walk‑ins welcome; urgent care available" },
-  { service: "Insurance Desk", hours: "Mon–Fri 10am–5pm", notes: "Cashless tie‑ups with 40+ providers" },
-  { service: "Mental Health Counseling", hours: "By appointment", notes: "Confidential sessions, tele‑health" }
+  {
+    service: "On‑campus Clinic",
+    hours: "Mon–Fri 8am–8pm",
+    notes: "Walk‑ins welcome; urgent care available",
+  },
+  {
+    service: "Insurance Desk",
+    hours: "Mon–Fri 10am–5pm",
+    notes: "Cashless tie‑ups with 40+ providers",
+  },
+  {
+    service: "Mental Health Counseling",
+    hours: "By appointment",
+    notes: "Confidential sessions, tele‑health",
+  },
 ];
 
 export const outreach = [
-  { title: "Village Tech Labs", region: "Udupi, Karnataka", impact: "18 labs installed", partners: ["Local Schools", "CSR"] },
-  { title: "MAHE Community Makers", region: "Coastal Karnataka", impact: "800+ student volunteers", partners: ["MAHE", "NGOs"] }
+  {
+    title: "Village Tech Labs",
+    region: "Udupi, Karnataka",
+    impact: "18 labs installed",
+    partners: ["Local Schools", "CSR"],
+  },
+  {
+    title: "MAHE Community Makers",
+    region: "Coastal Karnataka",
+    impact: "800+ student volunteers",
+    partners: ["MAHE", "NGOs"],
+  },
 ];
 
 export const contacts = {
   address: "ICAS (MAHE), Manipal, Karnataka, India",
   email: "hello@icas.edu",
   phone: "+91 80 1234 5678",
-  map: "https://www.google.com/maps"
+  map: "https://www.google.com/maps",
 };
 
 export const twoPlusTwoPartners = [
   { name: "University of X", country: "USA" },
   { name: "Tech University Y", country: "Germany" },
-  { name: "Institute Z", country: "Australia" }
+  { name: "Institute Z", country: "Australia" },
 ];
 
 export const enigma = {
@@ -78,9 +218,21 @@ export const enigma = {
   description:
     "ICAS student club fostering innovation through Development, Robotics, and Research domains.",
   domains: [
-    { name: "Development", blurb: "Web, mobile, cloud; ship products and hackathons.", image: "https://images.pexels.com/photos/8636609/pexels-photo-8636609.jpeg" },
-    { name: "Robotics", blurb: "Mechanisms, electronics, control, competitions.", image: "https://images.pexels.com/photos/31121842/pexels-photo-31121842.jpeg" },
-    { name: "Research", blurb: "Papers, literature reviews, reproducible science.", image: "https://images.pexels.com/photos/8471835/pexels-photo-8471835.jpeg" }
+    {
+      name: "Development",
+      blurb: "Web, mobile, cloud; ship products and hackathons.",
+      image: "https://images.pexels.com/photos/8636609/pexels-photo-8636609.jpeg",
+    },
+    {
+      name: "Robotics",
+      blurb: "Mechanisms, electronics, control, competitions.",
+      image: "https://images.pexels.com/photos/31121842/pexels-photo-31121842.jpeg",
+    },
+    {
+      name: "Research",
+      blurb: "Papers, literature reviews, reproducible science.",
+      image: "https://images.pexels.com/photos/8471835/pexels-photo-8471835.jpeg",
+    },
   ],
 };
 
@@ -101,7 +253,14 @@ export type TimetableSlot = {
 };
 
 export const timetableSlots: TimetableSlot[] = [
-  { day: "Mon", start: "09:00", end: "10:00", course: "MATH S-III", code: "ICS 231", color: "violet" },
+  {
+    day: "Mon",
+    start: "09:00",
+    end: "10:00",
+    course: "MATH S-III",
+    code: "ICS 231",
+    color: "violet",
+  },
   { day: "Mon", start: "11:00", end: "12:00", course: "ML", code: "ICS 235", color: "emerald" },
 
   { day: "Tue", start: "08:00", end: "09:00", course: "SDOOP", code: "ICS 233", color: "pink" },
@@ -122,12 +281,22 @@ export const timetableSlots: TimetableSlot[] = [
   { day: "Fri", start: "14:30", end: "15:30", course: "MATH", code: "IMA 231", color: "violet" },
   { day: "Fri", start: "15:30", end: "16:30", course: "SDOOP", code: "ICS 233", color: "pink" },
 
-  { day: "Sat", start: "09:00", end: "12:00", course: "DMS LAB + MINI PROJECT", code: "ICS 241", color: "blue" },
+  {
+    day: "Sat",
+    start: "09:00",
+    end: "12:00",
+    course: "DMS LAB + MINI PROJECT",
+    code: "ICS 241",
+    color: "blue",
+  },
 ];
 
 export const transferUniversities: Record<string, { name: string; url: string }[]> = {
   "United States of America": [
-    { name: "Milwaukee School of Engineering, 1025 North Broadway, Milwaukee, WI", url: "https://www.msoe.edu" },
+    {
+      name: "Milwaukee School of Engineering, 1025 North Broadway, Milwaukee, WI",
+      url: "https://www.msoe.edu",
+    },
     { name: "Andrews University, Berrien Springs, Michigan", url: "https://www.andrews.edu" },
     { name: "North Dakota State University, Fargo, North Dakota", url: "https://www.ndsu.edu" },
     { name: "The State University of New York, Buffalo, NY", url: "https://www.buffalo.edu" },
@@ -150,7 +319,10 @@ export const transferUniversities: Record<string, { name: string; url: string }[
     { name: "Iowa State University, Ames, IOWA", url: "https://www.iastate.edu" },
     { name: "University of Nebraska, Lincoln, NE", url: "https://www.unl.edu" },
     { name: "Virginia Tech, Blacksburg, VA", url: "https://vt.edu" },
-    { name: "University of Minnesota- Twin Cities, Minneapolis, MN", url: "https://twin-cities.umn.edu" },
+    {
+      name: "University of Minnesota- Twin Cities, Minneapolis, MN",
+      url: "https://twin-cities.umn.edu",
+    },
     { name: "Columbia University, Broadway New York", url: "https://www.columbia.edu" },
     { name: "University of Florida, Gainesville, Florida", url: "https://www.ufl.edu" },
     { name: "Vanderbilt University, Nashville", url: "https://www.vanderbilt.edu" },
@@ -170,7 +342,10 @@ export const transferUniversities: Record<string, { name: string; url: string }[
     { name: "South Dakota State University, Brookings", url: "https://www.sdstate.edu" },
     { name: "Stony Brook University, Stony Brook, NY", url: "https://www.stonybrook.edu" },
     { name: "Pennsylvania State University, Pennsylvania", url: "https://www.psu.edu" },
-    { name: "California State University, Golden Shore, Long Beach, CA", url: "https://www.csulb.edu" },
+    {
+      name: "California State University, Golden Shore, Long Beach, CA",
+      url: "https://www.csulb.edu",
+    },
     { name: "New York University, NY", url: "https://www.nyu.edu" },
     { name: "Arizona State University, Tempe, Arizona", url: "https://www.asu.edu" },
     { name: "Cornell University, Ithaca, NY", url: "https://www.cornell.edu" },
@@ -184,7 +359,7 @@ export const transferUniversities: Record<string, { name: string; url: string }[
     { name: "San Jose State University, California", url: "https://www.sjsu.edu" },
     { name: "University of North Florida, Jacksonville", url: "https://www.unf.edu" },
     { name: "San Francisco State University, California", url: "https://www.sfsu.edu" },
-    { name: "Kansas State University, USA", url: "https://www.k-state.edu" }
+    { name: "Kansas State University, USA", url: "https://www.k-state.edu" },
   ],
   Australia: [
     { name: "Deakin University, Melbourne/Geelong, Victoria", url: "https://www.deakin.edu.au" },
@@ -201,21 +376,30 @@ export const transferUniversities: Record<string, { name: string; url: string }[
     { name: "Macquarie University, Sydney", url: "https://www.mq.edu.au" },
     { name: "Federation University", url: "https://federation.edu.au" },
     { name: "Monash University, Clayton, Victoria", url: "https://www.monash.edu" },
-    { name: "Curtin University, Kent St, Bentley", url: "https://www.curtin.edu.au" }
+    { name: "Curtin University, Kent St, Bentley", url: "https://www.curtin.edu.au" },
   ],
   "United Kingdom": [
-    { name: "City, University of London, Northampton Square, London", url: "https://www.city.ac.uk" },
+    {
+      name: "City, University of London, Northampton Square, London",
+      url: "https://www.city.ac.uk",
+    },
     { name: "Lancaster University, Lancaster", url: "https://www.lancaster.ac.uk" },
     { name: "University of Leicester, Leicester", url: "https://le.ac.uk" },
     { name: "University of Nottingham, Nottingham", url: "https://www.nottingham.ac.uk" },
-    { name: "University of Birmingham, Birmingham, West Midlands", url: "https://www.birmingham.ac.uk" },
-    { name: "Queen Mary University of London, Mile End Road, London", url: "https://www.qmul.ac.uk" },
+    {
+      name: "University of Birmingham, Birmingham, West Midlands",
+      url: "https://www.birmingham.ac.uk",
+    },
+    {
+      name: "Queen Mary University of London, Mile End Road, London",
+      url: "https://www.qmul.ac.uk",
+    },
     { name: "University of Strathclyde, Glasgow, Scotland", url: "https://www.strath.ac.uk" },
     { name: "Heriot-Watt University, Edinburgh", url: "https://www.hw.ac.uk" },
     { name: "University of Edinburgh, Edinburgh", url: "https://www.ed.ac.uk" },
     { name: "University of London, London", url: "https://london.ac.uk" },
     { name: "University of Central Lancashire, Preston", url: "https://www.uclan.ac.uk" },
-    { name: "Manchester Metropolitan University", url: "https://www.mmu.ac.uk" }
+    { name: "Manchester Metropolitan University", url: "https://www.mmu.ac.uk" },
   ],
   Canada: [
     { name: "Queen's University, Kingston", url: "https://www.queensu.ca" },
@@ -224,31 +408,30 @@ export const transferUniversities: Record<string, { name: string; url: string }[
     { name: "University of Toronto, Toronto", url: "https://www.utoronto.ca" },
     { name: "Concordia University, Montreal", url: "https://www.concordia.ca" },
     { name: "Carleton University, Ottawa", url: "https://carleton.ca" },
-    { name: "University of British Columbia, Vancouver", url: "https://www.ubc.ca" }
+    { name: "University of British Columbia, Vancouver", url: "https://www.ubc.ca" },
   ],
   Ireland: [
     { name: "University College Cork (UCC)", url: "https://www.ucc.ie" },
-    { name: "Trinity College Dublin (TCD)", url: "https://www.tcd.ie" }
+    { name: "Trinity College Dublin (TCD)", url: "https://www.tcd.ie" },
   ],
   France: [
-    { name: "Ecole Supérieure d'Ingénieurs de Rouen (ESIGELEC), Rouen", url: "https://www.esigelec.fr" }
+    {
+      name: "Ecole Supérieure d'Ingénieurs de Rouen (ESIGELEC), Rouen",
+      url: "https://www.esigelec.fr",
+    },
   ],
   Germany: [
-    { name: "Leibniz University of Hannover, Hannover", url: "https://www.uni-hannover.de" }
+    { name: "Leibniz University of Hannover, Hannover", url: "https://www.uni-hannover.de" },
   ],
   Netherlands: [
     { name: "University of Twente", url: "https://www.utwente.nl" },
-    { name: "Groningen University", url: "https://www.rug.nl" }
+    { name: "Groningen University", url: "https://www.rug.nl" },
   ],
-  Slovenia: [
-    { name: "Academia Maribor, Slovenia", url: "https://www.um.si" }
-  ],
+  Slovenia: [{ name: "Academia Maribor, Slovenia", url: "https://www.um.si" }],
   Malaysia: [
-    { name: "Manipal International University, Negeri Sembilan", url: "https://www.miu.edu.my" }
+    { name: "Manipal International University, Negeri Sembilan", url: "https://www.miu.edu.my" },
   ],
-  Dubai: [
-    { name: "Manipal University, Dubai", url: "https://www.manipaldubai.com" }
-  ],
+  Dubai: [{ name: "Manipal University, Dubai", url: "https://www.manipaldubai.com" }],
 };
 
 export type Alumni = {
@@ -262,28 +445,130 @@ export type Alumni = {
 };
 
 export const alumni: Alumni[] = [
-  { name: "Anika Iyer", gradYear: 2019, programId: "cse", role: "Senior Software Engineer", company: "Google", location: "Bengaluru, IN", linkedin: "https://www.linkedin.com/in/anikaiyer" },
-  { name: "Ravi Mehta", gradYear: 2018, programId: "cse", role: "Principal Engineer", company: "Amazon", location: "Hyderabad, IN", linkedin: "https://www.linkedin.com/in/ravimehta" },
-  { name: "Priya Nair", gradYear: 2020, programId: "aero", role: "Flight Dynamics Engineer", company: "Airbus", location: "Toulouse, FR", linkedin: "https://www.linkedin.com/in/priyanair" },
-  { name: "Arjun Verma", gradYear: 2017, programId: "mechatronics", role: "Robotics Engineer", company: "Boston Dynamics", location: "Boston, US", linkedin: "https://www.linkedin.com/in/arjunverma" },
-  { name: "Meera Shah", gradYear: 2019, programId: "cse", role: "Product Manager", company: "Microsoft", location: "Redmond, US", linkedin: "https://www.linkedin.com/in/meerashah" },
-  { name: "Karthik Rao", gradYear: 2016, programId: "aero", role: "Avionics Systems Lead", company: "ISRO", location: "Bengaluru, IN", linkedin: "https://www.linkedin.com/in/karthikrao" },
-  { name: "Sara Fernandes", gradYear: 2021, programId: "mechatronics", role: "Automation Engineer", company: "Siemens", location: "Munich, DE", linkedin: "https://www.linkedin.com/in/sarafernandes" },
-  { name: "Naveen Kulkarni", gradYear: 2018, programId: "cse", role: "Data Scientist", company: "NVIDIA", location: "Santa Clara, US", linkedin: "https://www.linkedin.com/in/naveenkulkarni" },
-  { name: "Aisha Khan", gradYear: 2020, programId: "aero", role: "Propulsion Analyst", company: "Rolls‑Royce", location: "Derby, UK", linkedin: "https://www.linkedin.com/in/aishakhan" },
+  {
+    name: "Anika Iyer",
+    gradYear: 2019,
+    programId: "cse",
+    role: "Senior Software Engineer",
+    company: "Google",
+    location: "Bengaluru, IN",
+    linkedin: "https://www.linkedin.com/in/anikaiyer",
+  },
+  {
+    name: "Ravi Mehta",
+    gradYear: 2018,
+    programId: "cse",
+    role: "Principal Engineer",
+    company: "Amazon",
+    location: "Hyderabad, IN",
+    linkedin: "https://www.linkedin.com/in/ravimehta",
+  },
+  {
+    name: "Priya Nair",
+    gradYear: 2020,
+    programId: "aero",
+    role: "Flight Dynamics Engineer",
+    company: "Airbus",
+    location: "Toulouse, FR",
+    linkedin: "https://www.linkedin.com/in/priyanair",
+  },
+  {
+    name: "Arjun Verma",
+    gradYear: 2017,
+    programId: "mechatronics",
+    role: "Robotics Engineer",
+    company: "Boston Dynamics",
+    location: "Boston, US",
+    linkedin: "https://www.linkedin.com/in/arjunverma",
+  },
+  {
+    name: "Meera Shah",
+    gradYear: 2019,
+    programId: "cse",
+    role: "Product Manager",
+    company: "Microsoft",
+    location: "Redmond, US",
+    linkedin: "https://www.linkedin.com/in/meerashah",
+  },
+  {
+    name: "Karthik Rao",
+    gradYear: 2016,
+    programId: "aero",
+    role: "Avionics Systems Lead",
+    company: "ISRO",
+    location: "Bengaluru, IN",
+    linkedin: "https://www.linkedin.com/in/karthikrao",
+  },
+  {
+    name: "Sara Fernandes",
+    gradYear: 2021,
+    programId: "mechatronics",
+    role: "Automation Engineer",
+    company: "Siemens",
+    location: "Munich, DE",
+    linkedin: "https://www.linkedin.com/in/sarafernandes",
+  },
+  {
+    name: "Naveen Kulkarni",
+    gradYear: 2018,
+    programId: "cse",
+    role: "Data Scientist",
+    company: "NVIDIA",
+    location: "Santa Clara, US",
+    linkedin: "https://www.linkedin.com/in/naveenkulkarni",
+  },
+  {
+    name: "Aisha Khan",
+    gradYear: 2020,
+    programId: "aero",
+    role: "Propulsion Analyst",
+    company: "Rolls‑Royce",
+    location: "Derby, UK",
+    linkedin: "https://www.linkedin.com/in/aishakhan",
+  },
 ];
 
 export const alumniStories = [
-  { name: "Anika Iyer", role: "Senior Software Engineer", company: "Google", quote: "The 2+2 pathway opened doors to global internships and a full‑time offer." },
-  { name: "Priya Nair", role: "Flight Dynamics Engineer", company: "Airbus", quote: "Hands‑on aero labs gave me the confidence to ship flight‑ready models." },
-  { name: "Arjun Verma", role: "Robotics Engineer", company: "Boston Dynamics", quote: "Capstone in autonomous systems directly translated to my current work." },
+  {
+    name: "Anika Iyer",
+    role: "Senior Software Engineer",
+    company: "Google",
+    quote: "The 2+2 pathway opened doors to global internships and a full‑time offer.",
+  },
+  {
+    name: "Priya Nair",
+    role: "Flight Dynamics Engineer",
+    company: "Airbus",
+    quote: "Hands‑on aero labs gave me the confidence to ship flight‑ready models.",
+  },
+  {
+    name: "Arjun Verma",
+    role: "Robotics Engineer",
+    company: "Boston Dynamics",
+    quote: "Capstone in autonomous systems directly translated to my current work.",
+  },
 ];
 
 export const alumniOpportunities = [
-  { title: "Mentor a final‑year capstone", org: "ICAS", location: "Remote / On‑campus", link: "/Contact" },
+  {
+    title: "Mentor a final‑year capstone",
+    org: "ICAS",
+    location: "Remote / On‑campus",
+    link: "/Contact",
+  },
   { title: "Host an industry talk", org: "Enigma", location: "Hybrid", link: "/Enigma" },
-  { title: "Refer for internships", org: "Partner Companies", location: "Global", link: "https://www.linkedin.com/school/mahemanipal/" },
-  { title: "Sponsor a student project", org: "Innovation Hub", location: "On‑campus", link: "/Contact" },
+  {
+    title: "Refer for internships",
+    org: "Partner Companies",
+    location: "Global",
+    link: "https://www.linkedin.com/school/mahemanipal/",
+  },
+  {
+    title: "Sponsor a student project",
+    org: "Innovation Hub",
+    location: "On‑campus",
+    link: "/Contact",
+  },
 ];
 
 export const portalCourses = [
@@ -293,15 +578,48 @@ export const portalCourses = [
 ];
 
 export const portalAssignments = [
-  { id: "a1", title: "DBMS Mini Project Proposal", course: "ICS 231", due: new Date().setDate(new Date().getDate() + 2), status: "open" },
-  { id: "a2", title: "ML Assignment 2 — Regression", course: "ICS 235", due: new Date().setDate(new Date().getDate() + 5), status: "open" },
-  { id: "a3", title: "OOP Lab 4 Submission", course: "ICS 233", due: new Date().setDate(new Date().getDate() - 1), status: "late" },
+  {
+    id: "a1",
+    title: "DBMS Mini Project Proposal",
+    course: "ICS 231",
+    due: new Date().setDate(new Date().getDate() + 2),
+    status: "open",
+  },
+  {
+    id: "a2",
+    title: "ML Assignment 2 — Regression",
+    course: "ICS 235",
+    due: new Date().setDate(new Date().getDate() + 5),
+    status: "open",
+  },
+  {
+    id: "a3",
+    title: "OOP Lab 4 Submission",
+    course: "ICS 233",
+    due: new Date().setDate(new Date().getDate() - 1),
+    status: "late",
+  },
 ];
 
 export const portalAnnouncements = [
-  { id: "n1", title: "Guest lecture: Data Lakes", course: "ICS 231", date: new Date().toISOString() },
-  { id: "n2", title: "Quiz 1 results published", course: "ICS 235", date: new Date().toISOString() },
-  { id: "n3", title: "Lab rescheduled to Friday", course: "ICS 233", date: new Date().toISOString() },
+  {
+    id: "n1",
+    title: "Guest lecture: Data Lakes",
+    course: "ICS 231",
+    date: new Date().toISOString(),
+  },
+  {
+    id: "n2",
+    title: "Quiz 1 results published",
+    course: "ICS 235",
+    date: new Date().toISOString(),
+  },
+  {
+    id: "n3",
+    title: "Lab rescheduled to Friday",
+    course: "ICS 233",
+    date: new Date().toISOString(),
+  },
 ];
 
 export const portalGrades = {
@@ -325,24 +643,49 @@ export const portalUsers = [
   { email: "admin@icas.edu", password: "icas123", name: "Admin", role: "admin" },
 ];
 
-export const portalCourseDetails: Record<string, { syllabus: string; assignments: { id: string; title: string; due: number; maxMarks: number }[] }> = {
+export const portalCourseDetails: Record<
+  string,
+  { syllabus: string; assignments: { id: string; title: string; due: number; maxMarks: number }[] }
+> = {
   "ICS 231": {
-    syllabus: "Relational algebra, SQL, normalization, transactions, indexing, query optimization, design project.",
+    syllabus:
+      "Relational algebra, SQL, normalization, transactions, indexing, query optimization, design project.",
     assignments: [
-      { id: "dbms-a1", title: "Schema Design (ER + 3NF)", due: new Date().setDate(new Date().getDate() + 3), maxMarks: 20 },
-      { id: "dbms-a2", title: "SQL Queries Set-1", due: new Date().setDate(new Date().getDate() + 10), maxMarks: 20 },
+      {
+        id: "dbms-a1",
+        title: "Schema Design (ER + 3NF)",
+        due: new Date().setDate(new Date().getDate() + 3),
+        maxMarks: 20,
+      },
+      {
+        id: "dbms-a2",
+        title: "SQL Queries Set-1",
+        due: new Date().setDate(new Date().getDate() + 10),
+        maxMarks: 20,
+      },
     ],
   },
   "ICS 235": {
-    syllabus: "Supervised learning, regression/classification, model selection, pipelines, evaluation.",
+    syllabus:
+      "Supervised learning, regression/classification, model selection, pipelines, evaluation.",
     assignments: [
-      { id: "ml-a1", title: "Regression Notebook", due: new Date().setDate(new Date().getDate() + 6), maxMarks: 25 },
+      {
+        id: "ml-a1",
+        title: "Regression Notebook",
+        due: new Date().setDate(new Date().getDate() + 6),
+        maxMarks: 25,
+      },
     ],
   },
   "ICS 233": {
     syllabus: "OOP principles, design patterns, testing, refactoring, SOLID.",
     assignments: [
-      { id: "oop-a1", title: "Refactor Legacy Codebase", due: new Date().setDate(new Date().getDate() + 7), maxMarks: 30 },
+      {
+        id: "oop-a1",
+        title: "Refactor Legacy Codebase",
+        due: new Date().setDate(new Date().getDate() + 7),
+        maxMarks: 30,
+      },
     ],
   },
 };

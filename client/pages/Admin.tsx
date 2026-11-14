@@ -2,17 +2,17 @@ import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Megaphone, 
-  GraduationCap, 
-  Users, 
-  Bot, 
-  TrendingUp, 
+import {
+  Megaphone,
+  GraduationCap,
+  Users,
+  Bot,
+  TrendingUp,
   Settings,
   ArrowRight,
   Activity,
   CheckCircle,
-  Clock
+  Clock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import AlumniAutomation from "@/components/admin/AlumniAutomation";
@@ -25,7 +25,7 @@ export default function Admin() {
       icon: <Megaphone className="h-6 w-6" />,
       color: "bg-blue-600",
       href: "/administration",
-      status: "active"
+      status: "active",
     },
     {
       title: "Courses & Faculty",
@@ -33,7 +33,7 @@ export default function Admin() {
       icon: <GraduationCap className="h-6 w-6" />,
       color: "bg-emerald-600",
       href: "/administration",
-      status: "active"
+      status: "active",
     },
     {
       title: "Student Records",
@@ -41,30 +41,46 @@ export default function Admin() {
       icon: <Users className="h-6 w-6" />,
       color: "bg-indigo-600",
       href: "/administration",
-      status: "active"
-    }
+      status: "active",
+    },
   ];
 
   const stats = [
-    { label: "Active Tools", value: "7", icon: <Settings className="h-4 w-4" />, change: "+2 this week", color: "text-blue-600", bgColor: "bg-blue-100" },
-    { label: "Recent Activity", value: "23", icon: <Activity className="h-4 w-4" />, change: "+12% from last week", color: "text-emerald-600", bgColor: "bg-emerald-100" },
-    { label: "System Status", value: "Online", icon: <CheckCircle className="h-4 w-4" />, change: "99.9% uptime", color: "text-green-600", bgColor: "bg-green-100" }
+    {
+      label: "Active Tools",
+      value: "7",
+      icon: <Settings className="h-4 w-4" />,
+      change: "+2 this week",
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+    },
+    {
+      label: "Recent Activity",
+      value: "23",
+      icon: <Activity className="h-4 w-4" />,
+      change: "+12% from last week",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-100",
+    },
+    {
+      label: "System Status",
+      value: "Online",
+      icon: <CheckCircle className="h-4 w-4" />,
+      change: "99.9% uptime",
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+    },
   ];
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <SEO
-        title="Admin Dashboard — ICAS"
-        description="University administrator console"
-      />
+      <SEO title="Admin Dashboard — ICAS" description="University administrator console" />
       <section className="container py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Administrator Dashboard
-              </h1>
+              <h1 className="text-3xl font-bold text-gray-900">Administrator Dashboard</h1>
               <p className="mt-2 text-gray-600">
                 Manage announcements, courses, student data, and alumni automation
               </p>
@@ -90,9 +106,7 @@ export default function Admin() {
                     <p className="text-xs text-gray-500 mt-1">{stat.change}</p>
                   </div>
                   <div className={`p-3 ${stat.bgColor} rounded-lg`}>
-                    <div className={stat.color}>
-                      {stat.icon}
-                    </div>
+                    <div className={stat.color}>{stat.icon}</div>
                   </div>
                 </div>
               </CardContent>
@@ -108,23 +122,20 @@ export default function Admin() {
               <Card key={index} className="border shadow-sm bg-white">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`p-3 rounded-lg ${action.color} text-white`}>
-                      {action.icon}
-                    </div>
+                    <div className={`p-3 rounded-lg ${action.color} text-white`}>{action.icon}</div>
                     <div className="flex-1">
-                      <CardTitle className="text-lg text-gray-900">
-                        {action.title}
-                      </CardTitle>
-                      <Badge variant="outline" className="mt-1 bg-green-50 text-green-700 border-green-200">
+                      <CardTitle className="text-lg text-gray-900">{action.title}</CardTitle>
+                      <Badge
+                        variant="outline"
+                        className="mt-1 bg-green-50 text-green-700 border-green-200"
+                      >
                         {action.status}
                       </Badge>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600 mb-4">
-                    {action.description}
-                  </p>
+                  <p className="text-sm text-gray-600 mb-4">{action.description}</p>
                   <Button asChild variant="outline" className="w-full">
                     <Link to={action.href} className="flex items-center justify-center gap-2">
                       Access Tool
@@ -169,7 +180,9 @@ export default function Admin() {
                   <p className="text-sm font-medium">Alumni automation completed</p>
                   <p className="text-xs text-gray-500">John Smith - 2 minutes ago</p>
                 </div>
-                <Badge variant="outline" className="bg-green-50 text-green-700">Completed</Badge>
+                <Badge variant="outline" className="bg-green-50 text-green-700">
+                  Completed
+                </Badge>
               </div>
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <div className="p-2 bg-blue-100 rounded-full">
@@ -179,7 +192,9 @@ export default function Admin() {
                   <p className="text-sm font-medium">Content management updated</p>
                   <p className="text-xs text-gray-500">University database - 1 hour ago</p>
                 </div>
-                <Badge variant="outline" className="bg-blue-50 text-blue-700">In Progress</Badge>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                  In Progress
+                </Badge>
               </div>
             </div>
           </CardContent>

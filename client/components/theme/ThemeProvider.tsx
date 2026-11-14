@@ -19,7 +19,10 @@ function applyTheme(t: Theme) {
 function readInitialTheme(): Theme {
   const stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
   if (stored === "dark" || stored === "light") return stored;
-  const prefersDark = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const prefersDark =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
   return prefersDark ? "dark" : "light";
 }
 
@@ -43,11 +46,14 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  const value = useMemo<ThemeContextValue>(() => ({
-    theme,
-    toggle: () => setThemeState((t) => (t === "dark" ? "light" : "dark")),
-    setTheme: (t) => setThemeState(t),
-  }), [theme]);
+  const value = useMemo<ThemeContextValue>(
+    () => ({
+      theme,
+      toggle: () => setThemeState((t) => (t === "dark" ? "light" : "dark")),
+      setTheme: (t) => setThemeState(t),
+    }),
+    [theme],
+  );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

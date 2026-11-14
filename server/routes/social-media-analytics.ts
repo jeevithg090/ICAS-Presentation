@@ -3,72 +3,74 @@ import { RequestHandler } from "express";
 // Mock data for demonstration - in production, these would be real API calls
 const mockAccounts = [
   {
-    id: '1',
-    platform: 'twitter',
-    username: 'icas_university',
-    displayName: 'ICAS University',
+    id: "1",
+    platform: "twitter",
+    username: "icas_university",
+    displayName: "ICAS University",
     followers: 12500,
     following: 850,
     posts: 1240,
     verified: true,
-    lastUpdated: new Date().toISOString()
+    lastUpdated: new Date().toISOString(),
   },
   {
-    id: '2',
-    platform: 'instagram',
-    username: 'icas_life',
-    displayName: 'ICAS Student Life',
+    id: "2",
+    platform: "instagram",
+    username: "icas_life",
+    displayName: "ICAS Student Life",
     followers: 8900,
     following: 1200,
     posts: 456,
     verified: false,
-    lastUpdated: new Date().toISOString()
-  }
+    lastUpdated: new Date().toISOString(),
+  },
 ];
 
 const mockPosts = [
   {
-    id: '1',
-    accountId: '1',
-    content: 'Exciting news! Our new research center is opening next month. Join us for the grand opening ceremony! 🎉',
-    media: ['https://via.placeholder.com/400x300'],
+    id: "1",
+    accountId: "1",
+    content:
+      "Exciting news! Our new research center is opening next month. Join us for the grand opening ceremony! 🎉",
+    media: ["https://via.placeholder.com/400x300"],
     likes: 234,
     comments: 45,
     shares: 67,
     views: 1200,
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
-    engagement: 8.2
+    engagement: 8.2,
   },
   {
-    id: '2',
-    accountId: '1',
-    content: 'Beautiful campus during sunset. There\'s something magical about studying here ✨ #ICASLife',
-    media: ['https://via.placeholder.com/400x300'],
+    id: "2",
+    accountId: "1",
+    content:
+      "Beautiful campus during sunset. There's something magical about studying here ✨ #ICASLife",
+    media: ["https://via.placeholder.com/400x300"],
     likes: 189,
     comments: 23,
     shares: 34,
     views: 890,
     timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
-    engagement: 6.8
+    engagement: 6.8,
   },
   {
-    id: '3',
-    accountId: '2',
-    content: 'Student life at ICAS is amazing! Here are some highlights from this week 📸',
-    media: ['https://via.placeholder.com/400x300'],
+    id: "3",
+    accountId: "2",
+    content: "Student life at ICAS is amazing! Here are some highlights from this week 📸",
+    media: ["https://via.placeholder.com/400x300"],
     likes: 156,
     comments: 12,
     shares: 28,
     views: 650,
     timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
-    engagement: 5.4
-  }
+    engagement: 5.4,
+  },
 ];
 
 // Interface for social media account data
 interface SocialMediaAccount {
   id: string;
-  platform: 'twitter' | 'instagram' | 'facebook' | 'youtube';
+  platform: "twitter" | "instagram" | "facebook" | "youtube";
   username: string;
   displayName: string;
   followers: number;
@@ -97,12 +99,12 @@ export const getAccounts: RequestHandler = (req, res) => {
   try {
     res.json({
       success: true,
-      data: mockAccounts
+      data: mockAccounts,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch accounts'
+      error: "Failed to fetch accounts",
     });
   }
 };
@@ -115,19 +117,19 @@ export const addAccount: RequestHandler = (req, res) => {
     if (!platform || !username) {
       return res.status(400).json({
         success: false,
-        error: 'Platform and username are required'
+        error: "Platform and username are required",
       });
     }
 
     // Check if account already exists
     const existingAccount = mockAccounts.find(
-      acc => acc.platform === platform && acc.username === username
+      (acc) => acc.platform === platform && acc.username === username,
     );
 
     if (existingAccount) {
       return res.status(409).json({
         success: false,
-        error: 'Account already exists'
+        error: "Account already exists",
       });
     }
 
@@ -146,19 +148,19 @@ export const addAccount: RequestHandler = (req, res) => {
       following: Math.floor(Math.random() * 2000) + 100,
       posts: Math.floor(Math.random() * 1000) + 50,
       verified: Math.random() > 0.7,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
 
     mockAccounts.push(newAccount);
 
     res.json({
       success: true,
-      data: newAccount
+      data: newAccount,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to add account'
+      error: "Failed to add account",
     });
   }
 };
@@ -168,12 +170,12 @@ export const removeAccount: RequestHandler = (req, res) => {
   try {
     const accountId = String(req.params.accountId);
 
-    const accountIndex = mockAccounts.findIndex(acc => acc.id === accountId);
-    
+    const accountIndex = mockAccounts.findIndex((acc) => acc.id === accountId);
+
     if (accountIndex === -1) {
       return res.status(404).json({
         success: false,
-        error: 'Account not found'
+        error: "Account not found",
       });
     }
 
@@ -181,12 +183,12 @@ export const removeAccount: RequestHandler = (req, res) => {
 
     res.json({
       success: true,
-      message: 'Account removed successfully'
+      message: "Account removed successfully",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to remove account'
+      error: "Failed to remove account",
     });
   }
 };
@@ -200,7 +202,7 @@ export const getRecentPosts: RequestHandler = (req, res) => {
 
     // Filter by account if specified
     if (accountId) {
-      posts = posts.filter(post => post.accountId === accountId);
+      posts = posts.filter((post) => post.accountId === accountId);
     }
 
     // Sort by timestamp (newest first) and limit results
@@ -210,12 +212,12 @@ export const getRecentPosts: RequestHandler = (req, res) => {
 
     res.json({
       success: true,
-      data: posts
+      data: posts,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch recent posts'
+      error: "Failed to fetch recent posts",
     });
   }
 };
@@ -225,12 +227,12 @@ export const refreshAccountData: RequestHandler = (req, res) => {
   try {
     const accountId = String(req.params.accountId);
 
-    const account = mockAccounts.find(acc => acc.id === accountId);
-    
+    const account = mockAccounts.find((acc) => acc.id === accountId);
+
     if (!account) {
       return res.status(404).json({
         success: false,
-        error: 'Account not found'
+        error: "Account not found",
       });
     }
 
@@ -246,12 +248,12 @@ export const refreshAccountData: RequestHandler = (req, res) => {
 
     res.json({
       success: true,
-      data: account
+      data: account,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to refresh account data'
+      error: "Failed to refresh account data",
     });
   }
 };
@@ -262,9 +264,10 @@ export const getAnalyticsSummary: RequestHandler = (req, res) => {
     const totalFollowers = mockAccounts.reduce((sum, acc) => sum + acc.followers, 0);
     const totalPosts = mockAccounts.reduce((sum, acc) => sum + acc.posts, 0);
     const totalReach = mockPosts.reduce((sum, post) => sum + (post.views || 0), 0);
-    const avgEngagement = mockPosts.length > 0 
-      ? mockPosts.reduce((sum, post) => sum + post.engagement, 0) / mockPosts.length 
-      : 0;
+    const avgEngagement =
+      mockPosts.length > 0
+        ? mockPosts.reduce((sum, post) => sum + post.engagement, 0) / mockPosts.length
+        : 0;
 
     const analytics = {
       totalFollowers,
@@ -272,20 +275,23 @@ export const getAnalyticsSummary: RequestHandler = (req, res) => {
       totalReach,
       avgEngagement: Math.round(avgEngagement * 10) / 10,
       totalAccounts: mockAccounts.length,
-      platformBreakdown: mockAccounts.reduce((breakdown, acc) => {
-        breakdown[acc.platform] = (breakdown[acc.platform] || 0) + 1;
-        return breakdown;
-      }, {} as Record<string, number>)
+      platformBreakdown: mockAccounts.reduce(
+        (breakdown, acc) => {
+          breakdown[acc.platform] = (breakdown[acc.platform] || 0) + 1;
+          return breakdown;
+        },
+        {} as Record<string, number>,
+      ),
     };
 
     res.json({
       success: true,
-      data: analytics
+      data: analytics,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch analytics summary'
+      error: "Failed to fetch analytics summary",
     });
   }
 };
@@ -301,23 +307,23 @@ export const getEngagementTrends: RequestHandler = (req, res) => {
     for (let i = daysCount; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      
+
       trends.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString().split("T")[0],
         engagement: Math.floor(Math.random() * 10) + 3, // Random between 3-12%
-        reach: Math.floor(Math.random() * 1000) + 500,   // Random between 500-1500
-        posts: Math.floor(Math.random() * 5) + 1         // Random between 1-5 posts
+        reach: Math.floor(Math.random() * 1000) + 500, // Random between 500-1500
+        posts: Math.floor(Math.random() * 5) + 1, // Random between 1-5 posts
       });
     }
 
     res.json({
       success: true,
-      data: trends
+      data: trends,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch engagement trends'
+      error: "Failed to fetch engagement trends",
     });
   }
 };

@@ -27,7 +27,9 @@ export default function PortalCourse() {
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
             <div className="text-sm text-muted-foreground">{code}</div>
           </div>
-          <Button asChild variant="outline"><a href="/portal/courses">All courses</a></Button>
+          <Button asChild variant="outline">
+            <a href="/portal/courses">All courses</a>
+          </Button>
         </div>
 
         <Tabs defaultValue="assignments" className="mt-6">
@@ -45,14 +47,21 @@ export default function PortalCourse() {
                     <CardTitle className="text-base">{a.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="grid gap-3 pt-0">
-                    <div className="text-xs text-muted-foreground">Due {new Date(a.due).toLocaleString()} · Max {a.maxMarks} marks</div>
+                    <div className="text-xs text-muted-foreground">
+                      Due {new Date(a.due).toLocaleString()} · Max {a.maxMarks} marks
+                    </div>
                     <form
                       onSubmit={(e) => {
                         e.preventDefault();
                         const fd = new FormData(e.currentTarget as HTMLFormElement);
                         const url = String(fd.get("url") || "");
                         const notes = String(fd.get("notes") || "");
-                        saveSubmission({ assignmentId: a.id, url, notes, submittedAt: new Date().toISOString() });
+                        saveSubmission({
+                          assignmentId: a.id,
+                          url,
+                          notes,
+                          submittedAt: new Date().toISOString(),
+                        });
                         toast.success("Submitted");
                         (e.currentTarget as HTMLFormElement).reset();
                       }}
@@ -62,9 +71,13 @@ export default function PortalCourse() {
                       <Textarea name="notes" placeholder="Notes (optional)" />
                       <div className="flex items-center justify-between">
                         <div className="text-xs text-muted-foreground">
-                          {s ? `Last submitted ${new Date(s.submittedAt).toLocaleString()}` : "Not submitted"}
+                          {s
+                            ? `Last submitted ${new Date(s.submittedAt).toLocaleString()}`
+                            : "Not submitted"}
                         </div>
-                        <Button type="submit" size="sm">Submit</Button>
+                        <Button type="submit" size="sm">
+                          Submit
+                        </Button>
                       </div>
                     </form>
                   </CardContent>

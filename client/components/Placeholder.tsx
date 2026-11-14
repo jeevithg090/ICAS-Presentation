@@ -11,7 +11,9 @@ export default function Placeholder({ title }: { title: string }) {
           This page is ready to be authored. Tell me to generate its full contents next.
         </p>
         <div className="mt-6 flex justify-center gap-3">
-          <Link to="/" className="rounded-md bg-primary px-4 py-2 text-primary-foreground">Back to Home</Link>
+          <Link to="/" className="rounded-md bg-primary px-4 py-2 text-primary-foreground">
+            Back to Home
+          </Link>
         </div>
       </div>
     </main>

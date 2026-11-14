@@ -4,7 +4,18 @@ import SEO from "@/components/SEO";
 import Testimonials from "@/components/sections/Testimonials";
 import Newsletter from "@/components/sections/Newsletter";
 import DelegateSessionsSummary from "@/components/sections/DelegateSessionsSummary";
-import { ArrowRight, Globe, GraduationCap, Users, Award, DollarSign, BookOpen, MapPin, Mic, FileText } from "lucide-react";
+import {
+  ArrowRight,
+  Globe,
+  GraduationCap,
+  Users,
+  Award,
+  DollarSign,
+  BookOpen,
+  MapPin,
+  Mic,
+  FileText,
+} from "lucide-react";
 
 const stats = [
   { label: "Years of Excellence", value: "30+" },
@@ -19,100 +30,161 @@ const engineeringPrograms = [
     description: "AI/ML, Cybersecurity, Big Data Analytics",
     icon: "💻",
     duration: "2+2 Years",
-    image: "https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image:
+      "https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     title: "Aeronautical Engineering",
     description: "Aircraft Design, Aviation Systems, Flight Mechanics",
     icon: "✈️",
     duration: "1+3 Years",
-    image: "https://images.pexels.com/photos/256219/pexels-photo-256219.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image:
+      "https://images.pexels.com/photos/256219/pexels-photo-256219.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     title: "Mechanical Engineering",
     description: "Design, Manufacturing, Robotics, Automotive",
     icon: "⚙️",
     duration: "2+2 Years",
-    image: "https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image:
+      "https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     title: "Electrical & Electronics",
     description: "Power Systems, Control, Telecommunications",
     icon: "⚡",
     duration: "2+2 Years",
-    image: "https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image:
+      "https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     title: "Chemical Engineering",
     description: "Process Engineering, Materials Science, Biotechnology",
     icon: "🧪",
     duration: "2+2 Years",
-    image: "https://images.pexels.com/photos/2280568/pexels-photo-2280568.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image:
+      "https://images.pexels.com/photos/2280568/pexels-photo-2280568.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
     title: "Civil Engineering",
     description: "Infrastructure, Construction, Environmental",
     icon: "🏗️",
     duration: "2+2 Years",
-    image: "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800"
-  }
+    image:
+      "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800",
+  },
 ];
 
 const keyBenefits = [
   {
     icon: DollarSign,
     title: "Save Up to 40%",
-    description: "Significant cost savings by completing first 2 years in India"
+    description: "Significant cost savings by completing first 2 years in India",
   },
   {
     icon: Globe,
     title: "Global Recognition",
-    description: "International degree from prestigious universities worldwide"
+    description: "International degree from prestigious universities worldwide",
   },
   {
     icon: GraduationCap,
     title: "Seamless Transfer",
-    description: "Guided pathway with guaranteed credit transfer to 100+ universities"
+    description: "Guided pathway with guaranteed credit transfer to 100+ universities",
   },
   {
     icon: Award,
     title: "High Earning Potential",
-    description: "Average starting salary of $50,000-$85,000 upon graduation"
-  }
+    description: "Average starting salary of $50,000-$85,000 upon graduation",
+  },
 ];
 
 const topUniversities = [
   { name: "University of California, Berkeley", country: "USA", logo: "🏛️", ranking: "Top 5" },
-  { name: "University of Illinois, Urbana-Champaign", country: "USA", logo: "🎓", ranking: "Top 10" },
+  {
+    name: "University of Illinois, Urbana-Champaign",
+    country: "USA",
+    logo: "🎓",
+    ranking: "Top 10",
+  },
   { name: "University of Toronto", country: "Canada", logo: "🍁", ranking: "Top 20" },
   { name: "University of Queensland", country: "Australia", logo: "🦘", ranking: "Top 50" },
   { name: "University of Edinburgh", country: "UK", logo: "🏰", ranking: "Top 30" },
-  { name: "Technical University of Munich", country: "Germany", logo: "⚙️", ranking: "Top 40" }
+  { name: "Technical University of Munich", country: "Germany", logo: "⚙️", ranking: "Top 40" },
 ];
 
 const admissionRequirements = [
-  { requirement: "12th Standard", description: "60% aggregate in English, Physics, Mathematics + 1 Science subject", icon: "📚" },
-  { requirement: "English Proficiency", description: "TOEFL 90+ or IELTS equivalent for non-English medium students", icon: "🌍" },
-  { requirement: "No Entrance Exam", description: "Merit-based admission on first-come, first-served basis", icon: "✅" },
-  { requirement: "Application Fee", description: "₹2,000 non-refundable application processing fee", icon: "💳" }
+  {
+    requirement: "12th Standard",
+    description: "60% aggregate in English, Physics, Mathematics + 1 Science subject",
+    icon: "📚",
+  },
+  {
+    requirement: "English Proficiency",
+    description: "TOEFL 90+ or IELTS equivalent for non-English medium students",
+    icon: "🌍",
+  },
+  {
+    requirement: "No Entrance Exam",
+    description: "Merit-based admission on first-come, first-served basis",
+    icon: "✅",
+  },
+  {
+    requirement: "Application Fee",
+    description: "₹2,000 non-refundable application processing fee",
+    icon: "💳",
+  },
 ];
 
 const campusFacilities = [
-  { facility: "State-of-the-Art Labs", description: "Advanced engineering laboratories with latest equipment", icon: "🔬", color: "blue" },
-  { facility: "World-Class Library", description: "Extensive digital and print resources with global access", icon: "📖", color: "green" },
-  { facility: "Sports Complex", description: "Marena sports facility with gym, courts, and swimming pool", icon: "🏊", color: "purple" },
-  { facility: "Innovation Center", description: "Dedicated space for research, prototyping, and entrepreneurship", icon: "💡", color: "orange" },
-  { facility: "Student Housing", description: "Comfortable hostels with modern amenities and security", icon: "🏠", color: "indigo" },
-  { facility: "Global Community", description: "Students from 55+ countries creating diverse environment", icon: "🌐", color: "pink" }
+  {
+    facility: "State-of-the-Art Labs",
+    description: "Advanced engineering laboratories with latest equipment",
+    icon: "🔬",
+    color: "blue",
+  },
+  {
+    facility: "World-Class Library",
+    description: "Extensive digital and print resources with global access",
+    icon: "📖",
+    color: "green",
+  },
+  {
+    facility: "Sports Complex",
+    description: "Marena sports facility with gym, courts, and swimming pool",
+    icon: "🏊",
+    color: "purple",
+  },
+  {
+    facility: "Innovation Center",
+    description: "Dedicated space for research, prototyping, and entrepreneurship",
+    icon: "💡",
+    color: "orange",
+  },
+  {
+    facility: "Student Housing",
+    description: "Comfortable hostels with modern amenities and security",
+    icon: "🏠",
+    color: "indigo",
+  },
+  {
+    facility: "Global Community",
+    description: "Students from 55+ countries creating diverse environment",
+    icon: "🌐",
+    color: "pink",
+  },
 ];
 
 const successMetrics = [
   { metric: "30+ Years", description: "Of excellence in international education", icon: "🏆" },
-  { metric: "1,500+ Alumni", description: "Successfully transferred to global universities", icon: "👥" },
+  {
+    metric: "1,500+ Alumni",
+    description: "Successfully transferred to global universities",
+    icon: "👥",
+  },
   { metric: "100+ Partners", description: "Universities across 10+ countries", icon: "🤝" },
   { metric: "$50K-$85K", description: "Average starting salary for graduates", icon: "💰" },
   { metric: "40% Savings", description: "On international education costs", icon: "💸" },
-  { metric: "95% Success", description: "Rate of successful university transfers", icon: "📈" }
+  { metric: "95% Success", description: "Rate of successful university transfers", icon: "📈" },
 ];
 
 const testimonials = [
@@ -120,23 +192,26 @@ const testimonials = [
     name: "Priya Sharma",
     program: "Computer Science",
     university: "UC Berkeley",
-    quote: "ICAS gave me the perfect foundation to excel at Berkeley. The curriculum was perfectly aligned and the transfer process was seamless.",
-    image: "👩‍💻"
+    quote:
+      "ICAS gave me the perfect foundation to excel at Berkeley. The curriculum was perfectly aligned and the transfer process was seamless.",
+    image: "👩‍💻",
   },
   {
     name: "Arjun Patel",
-    program: "Mechanical Engineering", 
+    program: "Mechanical Engineering",
     university: "University of Toronto",
-    quote: "The cost savings were incredible, and the quality of education at ICAS prepared me well for the rigorous program at UofT.",
-    image: "👨‍🔧"
+    quote:
+      "The cost savings were incredible, and the quality of education at ICAS prepared me well for the rigorous program at UofT.",
+    image: "👨‍🔧",
   },
   {
     name: "Sneha Reddy",
     program: "Aeronautical Engineering",
     university: "University of Illinois",
-    quote: "ICAS's 1+3 program for Aeronautical Engineering was perfect. I saved money and got into my dream university.",
-    image: "👩‍✈️"
-  }
+    quote:
+      "ICAS's 1+3 program for Aeronautical Engineering was perfect. I saved money and got into my dream university.",
+    image: "👩‍✈️",
+  },
 ];
 
 // Animated Card Component
@@ -151,7 +226,7 @@ const AnimatedCard = ({ children, delay = 0, className = "" }) => {
           setTimeout(() => setIsVisible(true), delay * 1000);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (ref.current) {
@@ -232,7 +307,7 @@ export default function Index() {
         <div className="relative">
           <div className="container py-20 md:py-32">
             <div className="max-w-4xl text-white">
-              <div 
+              <div
                 className={`inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold ring-1 ring-white/25 backdrop-blur-sm transition-all duration-700 ${
                   heroVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
                 }`}
@@ -241,33 +316,36 @@ export default function Index() {
                 <Globe className="h-4 w-4" />
                 International Centre for Applied Sciences
               </div>
-              <h1 
+              <h1
                 className={`mt-6 text-5xl font-extrabold tracking-tight md:text-7xl transition-all duration-800 ${
                   heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: "0.4s" }}
               >
                 Your Gateway to
-                <span 
+                <span
                   className={`block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent transition-all duration-800 ${
                     heroVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
                   }`}
                   style={{ transitionDelay: "0.6s" }}
                 >
                   Global Engineering Excellence
-              </span>
+                </span>
               </h1>
-              <p 
+              <p
                 className={`mt-6 max-w-3xl text-xl leading-relaxed text-blue-100 md:text-2xl transition-all duration-800 ${
                   heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "0.8s" }}
               >
-                Join ICAS Manipal's revolutionary <strong className="text-cyan-300">International Transfer Program</strong> — 
-                complete 2 years in India, transfer to 100+ prestigious universities worldwide. 
-                <span className="text-yellow-300 font-semibold">Save up to 40%</span> on education costs while earning a globally recognized engineering degree from top-ranked institutions.
+                Join ICAS Manipal's revolutionary{" "}
+                <strong className="text-cyan-300">International Transfer Program</strong> — complete
+                2 years in India, transfer to 100+ prestigious universities worldwide.
+                <span className="text-yellow-300 font-semibold">Save up to 40%</span> on education
+                costs while earning a globally recognized engineering degree from top-ranked
+                institutions.
               </p>
-              <div 
+              <div
                 className={`mt-10 flex flex-wrap gap-4 transition-all duration-800 ${
                   heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
@@ -298,17 +376,17 @@ export default function Index() {
           </div>
         </div>
         {/* Decorative wave */}
-          <svg
-            aria-hidden
+        <svg
+          aria-hidden
           className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 w-full text-background"
-            viewBox="0 0 1440 120"
-            preserveAspectRatio="none"
-          >
-            <path
-              fill="currentColor"
-              d="M0,64L48,58.7C96,53,192,43,288,53.3C384,64,480,96,576,122.7C672,149,768,171,864,154.7C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-            />
-          </svg>
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="currentColor"
+            d="M0,64L48,58.7C96,53,192,43,288,53.3C384,64,480,96,576,122.7C672,149,768,171,864,154.7C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+          />
+        </svg>
       </section>
 
       {/* Key Benefits Section */}
@@ -318,7 +396,8 @@ export default function Index() {
             Why Choose ICAS?
           </h2>
           <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-            Experience the perfect blend of quality education, cost savings, and global opportunities that sets ICAS apart from traditional engineering programs
+            Experience the perfect blend of quality education, cost savings, and global
+            opportunities that sets ICAS apart from traditional engineering programs
           </p>
         </AnimatedCard>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -349,7 +428,8 @@ export default function Index() {
               Simple Admission Process
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-              No entrance exams required! Our merit-based admission process is designed to be accessible and straightforward
+              No entrance exams required! Our merit-based admission process is designed to be
+              accessible and straightforward
             </p>
           </AnimatedCard>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -371,7 +451,7 @@ export default function Index() {
             ))}
           </div>
           <div className="text-center mt-12">
-          <Link
+            <Link
               to="/contact"
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-blue-600 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-2 hover:shadow-green-500/25 hover:scale-105"
             >
@@ -390,7 +470,7 @@ export default function Index() {
               Engineering Programs
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose from 6 specialized engineering disciplines. Complete your foundation in India, 
+              Choose from 6 specialized engineering disciplines. Complete your foundation in India,
               then transfer to world-class universities abroad with guaranteed credit transfer.
             </p>
           </AnimatedCard>
@@ -413,9 +493,11 @@ export default function Index() {
                       </span>
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{program.title}</h3>
-                        <span className="text-sm bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-semibold">{program.duration}</span>
-              </div>
-            </div>
+                        <span className="text-sm bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent font-semibold">
+                          {program.duration}
+                        </span>
+                      </div>
+                    </div>
                     <p className="text-gray-600 mb-6 leading-relaxed">{program.description}</p>
                     <Link
                       to="/academics"
@@ -423,11 +505,11 @@ export default function Index() {
                     >
                       Learn More
                       <ArrowRight className="h-4 w-4" />
-          </Link>
+                    </Link>
                   </div>
                 </div>
               </AnimatedCard>
-        ))}
+            ))}
           </div>
         </div>
       </section>
@@ -453,9 +535,7 @@ export default function Index() {
                   <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2 animate-counter">
                     {metric.metric}
                   </div>
-                  <div className="text-sm font-medium text-gray-600">
-                    {metric.description}
-                  </div>
+                  <div className="text-sm font-medium text-gray-600">{metric.description}</div>
                 </div>
               </AnimatedCard>
             ))}
@@ -471,27 +551,37 @@ export default function Index() {
               World-Class Campus Facilities
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-              Experience state-of-the-art facilities at the beautiful Manipal campus, designed to provide the perfect environment for academic excellence
+              Experience state-of-the-art facilities at the beautiful Manipal campus, designed to
+              provide the perfect environment for academic excellence
             </p>
           </AnimatedCard>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {campusFacilities.map((facility, index) => (
               <AnimatedCard key={index} delay={index * 0.1}>
-                <div className={`group relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all hover:-translate-y-3 hover:shadow-2xl hover:scale-105 ${
-                  facility.color === 'blue' ? 'bg-gradient-to-br from-blue-50 to-blue-100 ring-1 ring-blue-200' :
-                  facility.color === 'green' ? 'bg-gradient-to-br from-green-50 to-green-100 ring-1 ring-green-200' :
-                  facility.color === 'purple' ? 'bg-gradient-to-br from-purple-50 to-purple-100 ring-1 ring-purple-200' :
-                  facility.color === 'orange' ? 'bg-gradient-to-br from-orange-50 to-orange-100 ring-1 ring-orange-200' :
-                  facility.color === 'indigo' ? 'bg-gradient-to-br from-indigo-50 to-indigo-100 ring-1 ring-indigo-200' :
-                  'bg-gradient-to-br from-pink-50 to-pink-100 ring-1 ring-pink-200'
-                }`}>
+                <div
+                  className={`group relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all hover:-translate-y-3 hover:shadow-2xl hover:scale-105 ${
+                    facility.color === "blue"
+                      ? "bg-gradient-to-br from-blue-50 to-blue-100 ring-1 ring-blue-200"
+                      : facility.color === "green"
+                        ? "bg-gradient-to-br from-green-50 to-green-100 ring-1 ring-green-200"
+                        : facility.color === "purple"
+                          ? "bg-gradient-to-br from-purple-50 to-purple-100 ring-1 ring-purple-200"
+                          : facility.color === "orange"
+                            ? "bg-gradient-to-br from-orange-50 to-orange-100 ring-1 ring-orange-200"
+                            : facility.color === "indigo"
+                              ? "bg-gradient-to-br from-indigo-50 to-indigo-100 ring-1 ring-indigo-200"
+                              : "bg-gradient-to-br from-pink-50 to-pink-100 ring-1 ring-pink-200"
+                  }`}
+                >
                   <div className="relative">
                     <div className="flex flex-col items-center text-center">
                       <div className="text-4xl mb-4 transition-transform group-hover:scale-110 duration-300">
                         {facility.icon}
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-3">{facility.facility}</h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">{facility.description}</p>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {facility.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -506,13 +596,11 @@ export default function Index() {
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                The ICAS Advantage
-              </h2>
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">The ICAS Advantage</h2>
               <p className="mt-6 text-lg text-gray-600">
-                Our unique 2+2 International Transfer Program offers the perfect pathway 
-                to global engineering education. Start your journey in India, complete it 
-                at world-renowned universities abroad.
+                Our unique 2+2 International Transfer Program offers the perfect pathway to global
+                engineering education. Start your journey in India, complete it at world-renowned
+                universities abroad.
               </p>
               <div className="mt-8 space-y-6">
                 <div className="flex gap-4">
@@ -540,14 +628,14 @@ export default function Index() {
                 <div className="flex gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600">
                     <Users className="h-6 w-6" />
-            </div>
+                  </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Alumni Network</h3>
                     <p className="text-sm text-gray-600">
                       Join 1,500+ successful graduates working globally
                     </p>
-            </div>
-          </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="relative">
@@ -560,7 +648,9 @@ export default function Index() {
                     </div>
                     <div>
                       <h4 className="font-medium">Years 1-2: Foundation at Manipal</h4>
-                      <p className="text-sm text-gray-600">Complete core engineering subjects with international standards</p>
+                      <p className="text-sm text-gray-600">
+                        Complete core engineering subjects with international standards
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-4">
@@ -569,19 +659,23 @@ export default function Index() {
                     </div>
                     <div>
                       <h4 className="font-medium">Transfer Process</h4>
-                      <p className="text-sm text-gray-600">Guided application to 100+ partner universities worldwide</p>
+                      <p className="text-sm text-gray-600">
+                        Guided application to 100+ partner universities worldwide
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-4">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 text-white text-sm font-semibold">
                       3
-              </div>
+                    </div>
                     <div>
                       <h4 className="font-medium">Years 3-4: International Completion</h4>
-                      <p className="text-sm text-gray-600">Graduate with a globally recognized engineering degree</p>
-              </div>
-              </div>
-              </div>
+                      <p className="text-sm text-gray-600">
+                        Graduate with a globally recognized engineering degree
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -592,14 +686,12 @@ export default function Index() {
       <section className="py-20 bg-white">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Partner Universities
-          </h2>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Partner Universities</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-              Transfer to prestigious universities across the globe. Our students have successfully 
+              Transfer to prestigious universities across the globe. Our students have successfully
               joined top-ranked institutions in the USA, UK, Canada, Australia, and Europe.
             </p>
-        </div>
+          </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {topUniversities.map((university, index) => (
               <div
@@ -611,7 +703,7 @@ export default function Index() {
                   <div>
                     <h3 className="font-semibold text-gray-900">{university.name}</h3>
                     <p className="text-sm text-gray-600">{university.country}</p>
-        </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -632,11 +724,9 @@ export default function Index() {
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Life at ICAS Manipal
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Life at ICAS Manipal</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience world-class facilities, vibrant campus life, and a supportive community 
+              Experience world-class facilities, vibrant campus life, and a supportive community
               that prepares you for global success.
             </p>
           </div>
@@ -654,15 +744,16 @@ export default function Index() {
               <p className="text-gray-600">
                 Study alongside students from 55+ countries in a truly international environment
               </p>
-        </div>
+            </div>
             <div className="text-center p-6 rounded-2xl bg-white shadow-lg ring-1 ring-gray-200">
               <div className="text-4xl mb-4">🎯</div>
               <h3 className="text-xl font-semibold mb-2">Career Support</h3>
               <p className="text-gray-600">
-                Dedicated transfer team guides you through university applications and visa processes
+                Dedicated transfer team guides you through university applications and visa
+                processes
               </p>
-                </div>
-              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -756,10 +847,11 @@ export default function Index() {
               Student Tools & Resources
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-              Access powerful AI-powered tools designed to enhance your academic experience and streamline your learning process
+              Access powerful AI-powered tools designed to enhance your academic experience and
+              streamline your learning process
             </p>
           </AnimatedCard>
-          
+
           <div className="grid gap-8 lg:grid-cols-2">
             {/* Delegate Sessions Summary Tool */}
             <AnimatedCard delay={0.1}>
@@ -771,13 +863,18 @@ export default function Index() {
                       <Mic className="h-8 w-8" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">Meeting Transcription & Summary</h3>
-                      <p className="text-sm text-blue-600 font-semibold">AI-Powered Audio Analysis</p>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        Meeting Transcription & Summary
+                      </h3>
+                      <p className="text-sm text-blue-600 font-semibold">
+                        AI-Powered Audio Analysis
+                      </p>
                     </div>
                   </div>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    Upload MP3 audio recordings of delegate sessions, meetings, or lectures. Get instant transcription 
-                    and comprehensive summaries with key decisions, action items, and important highlights.
+                    Upload MP3 audio recordings of delegate sessions, meetings, or lectures. Get
+                    instant transcription and comprehensive summaries with key decisions, action
+                    items, and important highlights.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 text-sm text-gray-600">
@@ -812,12 +909,15 @@ export default function Index() {
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900">Academic Resources</h3>
-                      <p className="text-sm text-green-600 font-semibold">Study Materials & Support</p>
+                      <p className="text-sm text-green-600 font-semibold">
+                        Study Materials & Support
+                      </p>
                     </div>
                   </div>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    Access comprehensive study materials, course resources, and academic support tools 
-                    to excel in your engineering program and prepare for international transfer.
+                    Access comprehensive study materials, course resources, and academic support
+                    tools to excel in your engineering program and prepare for international
+                    transfer.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 text-sm text-gray-600">
@@ -868,7 +968,8 @@ export default function Index() {
               Success Stories
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from our alumni who have successfully transferred to top universities and are now building successful careers globally
+              Hear from our alumni who have successfully transferred to top universities and are now
+              building successful careers globally
             </p>
           </AnimatedCard>
           <div className="grid gap-8 md:grid-cols-3">
@@ -888,7 +989,7 @@ export default function Index() {
                     <blockquote className="text-gray-600 italic leading-relaxed">
                       "{testimonial.quote}"
                     </blockquote>
-                </div>
+                  </div>
                 </div>
               </AnimatedCard>
             ))}
@@ -912,8 +1013,9 @@ export default function Index() {
                 </span>
               </h2>
               <p className="text-xl text-blue-100 mb-12 max-w-4xl mx-auto leading-relaxed">
-                Join <span className="text-yellow-300 font-bold">1,500+ successful students</span> who have transformed their careers through ICAS. 
-                Apply now and secure your pathway to world-class engineering education at top-ranked universities worldwide.
+                Join <span className="text-yellow-300 font-bold">1,500+ successful students</span>{" "}
+                who have transformed their careers through ICAS. Apply now and secure your pathway
+                to world-class engineering education at top-ranked universities worldwide.
               </p>
               <div className="flex flex-wrap gap-6 justify-center">
                 <Link

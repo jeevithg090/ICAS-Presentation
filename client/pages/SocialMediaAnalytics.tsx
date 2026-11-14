@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Badge } from '../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { 
-  Twitter, 
-  Instagram, 
-  Facebook, 
-  Youtube, 
-  TrendingUp, 
-  Heart, 
-  MessageCircle, 
-  Share2, 
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Badge } from "../components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import {
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  TrendingUp,
+  Heart,
+  MessageCircle,
+  Share2,
   Eye,
   Calendar,
   BarChart3,
   Search,
   Plus,
   Trash2,
-  RefreshCw
-} from 'lucide-react';
-import { useTheme } from '../components/theme/ThemeProvider';
-import { 
-  SocialMediaAccount, 
-  SocialMediaPost, 
-  SocialMediaAnalytics as SocialMediaAnalyticsType, 
+  RefreshCw,
+} from "lucide-react";
+import { useTheme } from "../components/theme/ThemeProvider";
+import {
+  SocialMediaAccount,
+  SocialMediaPost,
+  SocialMediaAnalytics as SocialMediaAnalyticsType,
   EngagementTrend,
-  SocialMediaApiResponse 
-} from '@shared/api';
+  SocialMediaApiResponse,
+} from "@shared/api";
 
 // Remove duplicate interfaces since we're importing from shared/api
 
 const SocialMediaAnalytics: React.FC = () => {
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
-  
+  const isDark = theme === "dark";
+
   const [accounts, setAccounts] = useState<SocialMediaAccount[]>([]);
   const [newAccount, setNewAccount] = useState({
-    platform: 'twitter' as const,
-    username: ''
+    platform: "twitter" as const,
+    username: "",
   });
   const [recentPosts, setRecentPosts] = useState<SocialMediaPost[]>([]);
   const [analytics, setAnalytics] = useState<SocialMediaAnalyticsType | null>(null);
@@ -58,65 +58,65 @@ const SocialMediaAnalytics: React.FC = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await fetch('/api/social-media/accounts');
+      const response = await fetch("/api/social-media/accounts");
       const result: SocialMediaApiResponse<SocialMediaAccount[]> = await response.json();
-      
+
       if (result.success && result.data) {
         setAccounts(result.data);
       } else {
-        setError(result.error || 'Failed to fetch accounts');
+        setError(result.error || "Failed to fetch accounts");
       }
     } catch (error) {
-      setError('Failed to fetch accounts');
-      console.error('Error fetching accounts:', error);
+      setError("Failed to fetch accounts");
+      console.error("Error fetching accounts:", error);
     }
   };
 
   const fetchRecentPosts = async () => {
     try {
-      const response = await fetch('/api/social-media/posts?limit=20');
+      const response = await fetch("/api/social-media/posts?limit=20");
       const result: SocialMediaApiResponse<SocialMediaPost[]> = await response.json();
-      
+
       if (result.success && result.data) {
         setRecentPosts(result.data);
       } else {
-        setError(result.error || 'Failed to fetch recent posts');
+        setError(result.error || "Failed to fetch recent posts");
       }
     } catch (error) {
-      setError('Failed to fetch recent posts');
-      console.error('Error fetching recent posts:', error);
+      setError("Failed to fetch recent posts");
+      console.error("Error fetching recent posts:", error);
     }
   };
 
   const fetchAnalytics = async () => {
     try {
-      const response = await fetch('/api/social-media/analytics');
+      const response = await fetch("/api/social-media/analytics");
       const result: SocialMediaApiResponse<SocialMediaAnalyticsType> = await response.json();
-      
+
       if (result.success && result.data) {
         setAnalytics(result.data);
       } else {
-        setError(result.error || 'Failed to fetch analytics');
+        setError(result.error || "Failed to fetch analytics");
       }
     } catch (error) {
-      setError('Failed to fetch analytics');
-      console.error('Error fetching analytics:', error);
+      setError("Failed to fetch analytics");
+      console.error("Error fetching analytics:", error);
     }
   };
 
   const fetchEngagementTrends = async () => {
     try {
-      const response = await fetch('/api/social-media/trends?days=30');
+      const response = await fetch("/api/social-media/trends?days=30");
       const result: SocialMediaApiResponse<EngagementTrend[]> = await response.json();
-      
+
       if (result.success && result.data) {
         setEngagementTrends(result.data);
       } else {
-        setError(result.error || 'Failed to fetch engagement trends');
+        setError(result.error || "Failed to fetch engagement trends");
       }
     } catch (error) {
-      setError('Failed to fetch engagement trends');
-      console.error('Error fetching engagement trends:', error);
+      setError("Failed to fetch engagement trends");
+      console.error("Error fetching engagement trends:", error);
     }
   };
 
@@ -124,43 +124,43 @@ const SocialMediaAnalytics: React.FC = () => {
     twitter: <Twitter className="h-5 w-5" />,
     instagram: <Instagram className="h-5 w-5" />,
     facebook: <Facebook className="h-5 w-5" />,
-    youtube: <Youtube className="h-5 w-5" />
+    youtube: <Youtube className="h-5 w-5" />,
   };
 
   const platformColors = {
-    twitter: 'bg-blue-500',
-    instagram: 'bg-gradient-to-r from-purple-500 to-pink-500',
-    facebook: 'bg-blue-600',
-    youtube: 'bg-red-600'
+    twitter: "bg-blue-500",
+    instagram: "bg-gradient-to-r from-purple-500 to-pink-500",
+    facebook: "bg-blue-600",
+    youtube: "bg-red-600",
   };
 
   const handleAddAccount = async () => {
     if (!newAccount.username.trim()) return;
-    
+
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/social-media/accounts', {
-        method: 'POST',
+      const response = await fetch("/api/social-media/accounts", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newAccount),
       });
-      
+
       const result: SocialMediaApiResponse<SocialMediaAccount> = await response.json();
-      
+
       if (result.success && result.data) {
         setAccounts([...accounts, result.data]);
-        setNewAccount({ platform: 'twitter', username: '' });
+        setNewAccount({ platform: "twitter", username: "" });
         // Refresh analytics after adding account
         fetchAnalytics();
       } else {
-        setError(result.error || 'Failed to add account');
+        setError(result.error || "Failed to add account");
       }
     } catch (error) {
-      setError('Failed to add account');
-      console.error('Error adding account:', error);
+      setError("Failed to add account");
+      console.error("Error adding account:", error);
     } finally {
       setIsLoading(false);
     }
@@ -171,21 +171,21 @@ const SocialMediaAnalytics: React.FC = () => {
     setError(null);
     try {
       const response = await fetch(`/api/social-media/accounts/${accountId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      
+
       const result: SocialMediaApiResponse<null> = await response.json();
-      
+
       if (result.success) {
-        setAccounts(accounts.filter(acc => acc.id !== accountId));
+        setAccounts(accounts.filter((acc) => acc.id !== accountId));
         // Refresh analytics after removing account
         fetchAnalytics();
       } else {
-        setError(result.error || 'Failed to remove account');
+        setError(result.error || "Failed to remove account");
       }
     } catch (error) {
-      setError('Failed to remove account');
-      console.error('Error removing account:', error);
+      setError("Failed to remove account");
+      console.error("Error removing account:", error);
     } finally {
       setIsLoading(false);
     }
@@ -196,41 +196,39 @@ const SocialMediaAnalytics: React.FC = () => {
     setError(null);
     try {
       const response = await fetch(`/api/social-media/accounts/${accountId}/refresh`, {
-        method: 'POST',
+        method: "POST",
       });
-      
+
       const result: SocialMediaApiResponse<SocialMediaAccount> = await response.json();
-      
+
       if (result.success && result.data) {
-        setAccounts(accounts.map(acc => 
-          acc.id === accountId ? result.data! : acc
-        ));
+        setAccounts(accounts.map((acc) => (acc.id === accountId ? result.data! : acc)));
         // Refresh analytics after updating account
         fetchAnalytics();
       } else {
-        setError(result.error || 'Failed to refresh account data');
+        setError(result.error || "Failed to refresh account data");
       }
     } catch (error) {
-      setError('Failed to refresh account data');
-      console.error('Error refreshing data:', error);
+      setError("Failed to refresh account data");
+      console.error("Error refreshing data:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const formatNumber = (num: number) => {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
     return num.toString();
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -283,7 +281,9 @@ const SocialMediaAnalytics: React.FC = () => {
                 <select
                   id="platform"
                   value={newAccount.platform}
-                  onChange={(e) => setNewAccount({ ...newAccount, platform: e.target.value as any })}
+                  onChange={(e) =>
+                    setNewAccount({ ...newAccount, platform: e.target.value as any })
+                  }
                   className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 >
                   <option value="twitter">Twitter</option>
@@ -302,7 +302,7 @@ const SocialMediaAnalytics: React.FC = () => {
                   className="mt-1"
                 />
               </div>
-              <Button 
+              <Button
                 onClick={handleAddAccount}
                 disabled={!newAccount.username.trim() || isLoading}
                 className="bg-green-600 hover:bg-green-700"
@@ -332,7 +332,9 @@ const SocialMediaAnalytics: React.FC = () => {
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg text-white ${platformColors[account.platform]}`}>
+                        <div
+                          className={`p-2 rounded-lg text-white ${platformColors[account.platform]}`}
+                        >
                           {platformIcons[account.platform]}
                         </div>
                         <div>
@@ -386,7 +388,7 @@ const SocialMediaAnalytics: React.FC = () => {
                         onClick={() => handleRefreshData(account.id)}
                         disabled={isLoading}
                       >
-                        <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                        <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
                       </Button>
                     </div>
                   </CardContent>
@@ -399,18 +401,26 @@ const SocialMediaAnalytics: React.FC = () => {
           <TabsContent value="posts" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {recentPosts.map((post) => {
-                const account = accounts.find(acc => acc.id === post.accountId);
+                const account = accounts.find((acc) => acc.id === post.accountId);
                 return (
                   <Card key={post.id}>
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className={`p-2 rounded-lg text-white ${account ? platformColors[account.platform] : 'bg-gray-500'}`}>
-                            {account ? platformIcons[account.platform] : <Twitter className="h-5 w-5" />}
+                          <div
+                            className={`p-2 rounded-lg text-white ${account ? platformColors[account.platform] : "bg-gray-500"}`}
+                          >
+                            {account ? (
+                              platformIcons[account.platform]
+                            ) : (
+                              <Twitter className="h-5 w-5" />
+                            )}
                           </div>
                           <div>
-                            <CardTitle className="text-lg">{account?.displayName || 'Unknown Account'}</CardTitle>
-                            <CardDescription>@{account?.username || 'unknown'}</CardDescription>
+                            <CardTitle className="text-lg">
+                              {account?.displayName || "Unknown Account"}
+                            </CardTitle>
+                            <CardDescription>@{account?.username || "unknown"}</CardDescription>
                           </div>
                         </div>
                         <Badge variant="outline" className="text-green-600 border-green-600">
@@ -420,17 +430,17 @@ const SocialMediaAnalytics: React.FC = () => {
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-700 dark:text-gray-300 mb-4">{post.content}</p>
-                      
+
                       {post.media && post.media.length > 0 && (
                         <div className="mb-4">
-                          <img 
-                            src={post.media[0]} 
-                            alt="Post media" 
+                          <img
+                            src={post.media[0]}
+                            alt="Post media"
                             className="w-full h-48 object-cover rounded-lg"
                           />
                         </div>
                       )}
-                      
+
                       <div className="grid grid-cols-4 gap-4 mb-4">
                         <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
                           <Heart className="h-4 w-4" />
@@ -451,7 +461,7 @@ const SocialMediaAnalytics: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                         <Calendar className="h-4 w-4 mr-2" />
                         {formatDate(post.timestamp)}
@@ -474,12 +484,12 @@ const SocialMediaAnalytics: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {analytics ? formatNumber(analytics.totalFollowers) : '0'}
+                    {analytics ? formatNumber(analytics.totalFollowers) : "0"}
                   </div>
                   <p className="text-xs text-green-600 mt-1">+12% from last month</p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -488,12 +498,12 @@ const SocialMediaAnalytics: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {analytics ? formatNumber(analytics.totalPosts) : '0'}
+                    {analytics ? formatNumber(analytics.totalPosts) : "0"}
                   </div>
                   <p className="text-xs text-blue-600 mt-1">+8% from last month</p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -502,12 +512,12 @@ const SocialMediaAnalytics: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {analytics ? analytics.avgEngagement.toFixed(1) : '0'}%
+                    {analytics ? analytics.avgEngagement.toFixed(1) : "0"}%
                   </div>
                   <p className="text-xs text-purple-600 mt-1">+3% from last month</p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -516,7 +526,7 @@ const SocialMediaAnalytics: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {analytics ? formatNumber(analytics.totalReach) : '0'}
+                    {analytics ? formatNumber(analytics.totalReach) : "0"}
                   </div>
                   <p className="text-xs text-orange-600 mt-1">+15% from last month</p>
                 </CardContent>
@@ -526,9 +536,7 @@ const SocialMediaAnalytics: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Engagement Trends</CardTitle>
-                <CardDescription>
-                  Track your social media performance over time
-                </CardDescription>
+                <CardDescription>Track your social media performance over time</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">

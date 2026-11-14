@@ -40,7 +40,11 @@ export function resolveUploadUrl(uploadsDir: string, url: unknown): string | nul
  */
 export function sanitizeFilename(name: unknown, fallback = "file"): string {
   const raw = typeof name === "string" ? path.basename(name.replace(/\\/g, "/")) : "";
-  const ext = path.extname(raw).toLowerCase().replace(/[^a-z0-9.]/g, "").slice(0, 10);
+  const ext = path
+    .extname(raw)
+    .toLowerCase()
+    .replace(/[^a-z0-9.]/g, "")
+    .slice(0, 10);
   const stem = path
     .basename(raw, path.extname(raw))
     .normalize("NFKD")

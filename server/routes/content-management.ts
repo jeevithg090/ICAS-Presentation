@@ -4,15 +4,15 @@ import { config } from "../config";
 
 // OpenRouter API configuration
 const OPENROUTER_API_KEY = config.openRouterApiKey;
-const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 interface ContentGenerationRequest {
-  type: 'blog' | 'social' | 'video' | 'image' | 'document' | 'presentation';
+  type: "blog" | "social" | "video" | "image" | "document" | "presentation";
   topic: string;
   requirements: string;
   targetAudience: string;
-  tone?: 'professional' | 'casual' | 'academic' | 'marketing';
-  length?: 'short' | 'medium' | 'long';
+  tone?: "professional" | "casual" | "academic" | "marketing";
+  length?: "short" | "medium" | "long";
 }
 
 interface ContentGenerationResponse {
@@ -41,17 +41,24 @@ interface ContentOptimizationResponse {
 // Generate content using OpenRouter and MCP servers
 export const generateContent: RequestHandler = async (req, res) => {
   try {
-    const { type, topic, requirements, targetAudience, tone = 'professional', length = 'medium' }: ContentGenerationRequest = req.body;
+    const {
+      type,
+      topic,
+      requirements,
+      targetAudience,
+      tone = "professional",
+      length = "medium",
+    }: ContentGenerationRequest = req.body;
 
     if (!type || !topic || !requirements || !targetAudience) {
-      return res.status(400).json({ 
-        error: "Missing required fields: type, topic, requirements, targetAudience" 
+      return res.status(400).json({
+        error: "Missing required fields: type, topic, requirements, targetAudience",
       });
     }
 
     if (!OPENROUTER_API_KEY) {
-      return res.status(500).json({ 
-        error: "OpenRouter API key not configured" 
+      return res.status(500).json({
+        error: "OpenRouter API key not configured",
       });
     }
 
@@ -62,20 +69,20 @@ export const generateContent: RequestHandler = async (req, res) => {
 
     // Try multiple OpenRouter models as fallbacks
     const models = [
-      'openrouter/auto', // Auto-selects best available
-      'mistralai/mistral-7b-instruct:free',
-      'meta-llama/llama-3.1-8b-instruct:free',
-      'google/gemini-flash-1.5:free'
+      "openrouter/auto", // Auto-selects best available
+      "mistralai/mistral-7b-instruct:free",
+      "meta-llama/llama-3.1-8b-instruct:free",
+      "google/gemini-flash-1.5:free",
     ];
 
     let response;
-    let modelUsed = '';
+    let modelUsed = "";
     let lastError;
 
     for (const model of models) {
       try {
         console.log(`Trying OpenRouter model: ${model}`);
-        
+
         const openRouterResponse = await axios.post(
           `${OPENROUTER_BASE_URL}/chat/completions`,
           {
@@ -83,28 +90,29 @@ export const generateContent: RequestHandler = async (req, res) => {
             messages: [
               {
                 role: "system",
-                content: "You are a professional content creator for ICAS Manipal (International Centre for Applied Sciences). Create high-quality, engaging content that reflects ICAS's reputation as a leading international education institution. Always maintain professionalism and provide valuable, accurate information."
+                content:
+                  "You are a professional content creator for ICAS Manipal (International Centre for Applied Sciences). Create high-quality, engaging content that reflects ICAS's reputation as a leading international education institution. Always maintain professionalism and provide valuable, accurate information.",
               },
               {
                 role: "user",
-                content: prompt
-              }
+                content: prompt,
+              },
             ],
             max_tokens: 2000,
             temperature: 0.7,
             top_p: 0.9,
             frequency_penalty: 0.1,
-            presence_penalty: 0.1
+            presence_penalty: 0.1,
           },
           {
             headers: {
-              'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-              'Content-Type': 'application/json',
-              'HTTP-Referer': 'https://icas-manipal.com',
-              'X-Title': 'ICAS Content Management'
+              Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://icas-manipal.com",
+              "X-Title": "ICAS Content Management",
             },
-            timeout: 30000
-          }
+            timeout: 30000,
+          },
         );
 
         response = openRouterResponse;
@@ -122,9 +130,9 @@ export const generateContent: RequestHandler = async (req, res) => {
     }
 
     const generatedContent = response.data.choices[0]?.message?.content?.trim();
-    
+
     if (!generatedContent) {
-      throw new Error('No content generated from OpenRouter');
+      throw new Error("No content generated from OpenRouter");
     }
 
     // Parse and structure the generated content
@@ -134,25 +142,26 @@ export const generateContent: RequestHandler = async (req, res) => {
       content: structuredContent,
       model: modelUsed,
       timestamp: new Date().toISOString(),
-      totalGenerated: structuredContent.length
+      totalGenerated: structuredContent.length,
     };
 
-    console.log(`✅ Successfully generated ${structuredContent.length} content pieces using model: ${modelUsed}`);
+    console.log(
+      `✅ Successfully generated ${structuredContent.length} content pieces using model: ${modelUsed}`,
+    );
     res.json(result);
-
   } catch (error: any) {
-    console.error('Content generation error:', error);
-    
+    console.error("Content generation error:", error);
+
     if (error.response?.data?.error) {
-      return res.status(500).json({ 
-        error: "OpenRouter API error", 
-        detail: error.response.data.error.message || error.response.data.error 
+      return res.status(500).json({
+        error: "OpenRouter API error",
+        detail: error.response.data.error.message || error.response.data.error,
       });
     }
-    
-    res.status(500).json({ 
-      error: "Failed to generate content", 
-      detail: error.message 
+
+    res.status(500).json({
+      error: "Failed to generate content",
+      detail: error.message,
     });
   }
 };
@@ -163,14 +172,14 @@ export const optimizeContent: RequestHandler = async (req, res) => {
     const { content, type, targetAudience, goals }: ContentOptimizationRequest = req.body;
 
     if (!content || !type || !targetAudience || !goals) {
-      return res.status(400).json({ 
-        error: "Missing required fields: content, type, targetAudience, goals" 
+      return res.status(400).json({
+        error: "Missing required fields: content, type, targetAudience, goals",
       });
     }
 
     if (!OPENROUTER_API_KEY) {
-      return res.status(500).json({ 
-        error: "OpenRouter API key not configured" 
+      return res.status(500).json({
+        error: "OpenRouter API key not configured",
       });
     }
 
@@ -183,36 +192,37 @@ export const optimizeContent: RequestHandler = async (req, res) => {
     const response = await axios.post(
       `${OPENROUTER_BASE_URL}/chat/completions`,
       {
-        model: 'openrouter/auto',
+        model: "openrouter/auto",
         messages: [
           {
             role: "system",
-            content: "You are a professional content optimizer and SEO specialist for ICAS Manipal. Analyze content and provide specific, actionable improvements for better engagement, SEO performance, and audience appeal. Always maintain ICAS's professional standards."
+            content:
+              "You are a professional content optimizer and SEO specialist for ICAS Manipal. Analyze content and provide specific, actionable improvements for better engagement, SEO performance, and audience appeal. Always maintain ICAS's professional standards.",
           },
           {
             role: "user",
-            content: prompt
-          }
+            content: prompt,
+          },
         ],
         max_tokens: 1500,
         temperature: 0.5,
-        top_p: 0.9
+        top_p: 0.9,
       },
       {
         headers: {
-          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://icas-manipal.com',
-          'X-Title': 'ICAS Content Optimization'
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://icas-manipal.com",
+          "X-Title": "ICAS Content Optimization",
         },
-        timeout: 30000
-      }
+        timeout: 30000,
+      },
     );
 
     const optimizationResult = response.data.choices[0]?.message?.content?.trim();
-    
+
     if (!optimizationResult) {
-      throw new Error('No optimization result generated');
+      throw new Error("No optimization result generated");
     }
 
     // Parse optimization results
@@ -223,26 +233,25 @@ export const optimizeContent: RequestHandler = async (req, res) => {
       seoScore: parsedOptimization.seoScore,
       suggestions: parsedOptimization.suggestions,
       keywords: parsedOptimization.keywords,
-      model: response.data.model || 'openrouter/auto',
-      timestamp: new Date().toISOString()
+      model: response.data.model || "openrouter/auto",
+      timestamp: new Date().toISOString(),
     };
 
     console.log(`✅ Content optimization completed with SEO score: ${parsedOptimization.seoScore}`);
     res.json(result);
-
   } catch (error: any) {
-    console.error('Content optimization error:', error);
-    
+    console.error("Content optimization error:", error);
+
     if (error.response?.data?.error) {
-      return res.status(500).json({ 
-        error: "OpenRouter API error", 
-        detail: error.response.data.error.message || error.response.data.error 
+      return res.status(500).json({
+        error: "OpenRouter API error",
+        detail: error.response.data.error.message || error.response.data.error,
       });
     }
-    
-    res.status(500).json({ 
-      error: "Failed to optimize content", 
-      detail: error.message 
+
+    res.status(500).json({
+      error: "Failed to optimize content",
+      detail: error.message,
     });
   }
 };
@@ -253,42 +262,42 @@ export const searchContentIdeas: RequestHandler = async (req, res) => {
     const { topic, category, targetAudience } = req.body;
 
     if (!topic) {
-      return res.status(400).json({ 
-        error: "Missing required field: topic" 
+      return res.status(400).json({
+        error: "Missing required field: topic",
       });
     }
 
     console.log(`🔍 Searching content ideas for: ${topic}`);
 
-    const searchQuery = `${topic} content ideas trends ${category || ''} ${targetAudience || ''}`;
+    const searchQuery = `${topic} content ideas trends ${category || ""} ${targetAudience || ""}`;
     const results = [];
 
     // 1. Use Brave Search API for content research
     try {
-      console.log('🌐 Searching with Brave Search API...');
+      console.log("🌐 Searching with Brave Search API...");
       const braveResults = await performBraveContentSearch(searchQuery, topic, category);
       results.push(...braveResults);
     } catch (error) {
-      console.error('Brave Search error:', error);
+      console.error("Brave Search error:", error);
     }
 
     // 2. Use SerpAPI for Google search results
     try {
-      console.log('🔍 Searching with SerpAPI...');
+      console.log("🔍 Searching with SerpAPI...");
       const serpResults = await performSerpAPIContentSearch(searchQuery, topic, category);
       results.push(...serpResults);
     } catch (error) {
-      console.error('SerpAPI error:', error);
+      console.error("SerpAPI error:", error);
     }
 
     // 3. Generate AI-powered content ideas
     if (OPENROUTER_API_KEY) {
       try {
-        console.log('🤖 Generating AI content ideas...');
+        console.log("🤖 Generating AI content ideas...");
         const aiIdeas = await generateAIContentIdeas(topic, category, targetAudience);
         results.push(...aiIdeas);
       } catch (error) {
-        console.error('AI content ideas error:', error);
+        console.error("AI content ideas error:", error);
       }
     }
 
@@ -305,36 +314,36 @@ export const searchContentIdeas: RequestHandler = async (req, res) => {
       searchQuery,
       topic,
       category,
-      sources: results.length > 0 ? 
-        (results.some(r => r.source.includes('Brave')) && results.some(r => r.source.includes('SerpAPI')) ? 
-          ['Brave Search API', 'SerpAPI', 'AI Generation'] : 
-          results.map(r => r.source).filter((v, i, a) => a.indexOf(v) === i)
-        ) : 
-        ['Brave Search API', 'SerpAPI', 'AI Generation']
+      sources:
+        results.length > 0
+          ? results.some((r) => r.source.includes("Brave")) &&
+            results.some((r) => r.source.includes("SerpAPI"))
+            ? ["Brave Search API", "SerpAPI", "AI Generation"]
+            : results.map((r) => r.source).filter((v, i, a) => a.indexOf(v) === i)
+          : ["Brave Search API", "SerpAPI", "AI Generation"],
     });
-
   } catch (error: any) {
-    console.error('Content ideas search error:', error);
-    res.status(500).json({ 
-      error: "Failed to search content ideas", 
-      detail: error.message 
+    console.error("Content ideas search error:", error);
+    res.status(500).json({
+      error: "Failed to search content ideas",
+      detail: error.message,
     });
   }
 };
 
 // Create comprehensive prompt for content generation
 function createContentPrompt(
-  type: string, 
-  topic: string, 
-  requirements: string, 
+  type: string,
+  topic: string,
+  requirements: string,
   targetAudience: string,
   tone: string,
-  length: string
+  length: string,
 ): string {
   const typeContext = getTypeContext(type);
   const toneContext = getToneContext(tone);
   const lengthContext = getLengthContext(length);
-  
+
   return `
 You are creating ${type} content for ICAS Manipal (International Centre for Applied Sciences).
 
@@ -378,10 +387,10 @@ Please generate comprehensive, high-quality content that ICAS can use for ${type
 
 // Create optimization prompt
 function createOptimizationPrompt(
-  content: string, 
-  type: string, 
-  targetAudience: string, 
-  goals: string[]
+  content: string,
+  type: string,
+  targetAudience: string,
+  goals: string[],
 ): string {
   return `
 You are optimizing content for ICAS Manipal. Analyze the following content and provide specific improvements.
@@ -391,7 +400,7 @@ ${content}
 
 CONTENT TYPE: ${type}
 TARGET AUDIENCE: ${targetAudience}
-GOALS: ${goals.join(', ')}
+GOALS: ${goals.join(", ")}
 
 Please provide:
 1. **Optimized Content**: Improved version of the original content
@@ -424,56 +433,61 @@ SUGGESTIONS:
 // Get type-specific context
 function getTypeContext(type: string): string {
   switch (type) {
-    case 'blog':
-      return 'Blog Post - Educational, informative content for website';
-    case 'social':
-      return 'Social Media Content - Engaging posts for social platforms';
-    case 'video':
-      return 'Video Script - Content for video production';
-    case 'image':
-      return 'Image Content - Visual content descriptions and captions';
-    case 'document':
-      return 'Document - Formal documents and reports';
-    case 'presentation':
-      return 'Presentation - Content for slides and presentations';
+    case "blog":
+      return "Blog Post - Educational, informative content for website";
+    case "social":
+      return "Social Media Content - Engaging posts for social platforms";
+    case "video":
+      return "Video Script - Content for video production";
+    case "image":
+      return "Image Content - Visual content descriptions and captions";
+    case "document":
+      return "Document - Formal documents and reports";
+    case "presentation":
+      return "Presentation - Content for slides and presentations";
     default:
-      return 'General Content - Multi-purpose content';
+      return "General Content - Multi-purpose content";
   }
 }
 
 // Get tone-specific context
 function getToneContext(tone: string): string {
   switch (tone) {
-    case 'professional':
-      return 'Professional and formal tone suitable for business and academic contexts';
-    case 'casual':
-      return 'Friendly and approachable tone for social media and informal communication';
-    case 'academic':
-      return 'Academic and scholarly tone for educational content';
-    case 'marketing':
-      return 'Persuasive and engaging tone for marketing and promotional content';
+    case "professional":
+      return "Professional and formal tone suitable for business and academic contexts";
+    case "casual":
+      return "Friendly and approachable tone for social media and informal communication";
+    case "academic":
+      return "Academic and scholarly tone for educational content";
+    case "marketing":
+      return "Persuasive and engaging tone for marketing and promotional content";
     default:
-      return 'Professional tone suitable for ICAS communications';
+      return "Professional tone suitable for ICAS communications";
   }
 }
 
 // Get length-specific context
 function getLengthContext(length: string): string {
   switch (length) {
-    case 'short':
-      return 'Concise and brief (200-400 words)';
-    case 'medium':
-      return 'Moderate length (500-800 words)';
-    case 'long':
-      return 'Comprehensive and detailed (1000+ words)';
+    case "short":
+      return "Concise and brief (200-400 words)";
+    case "medium":
+      return "Moderate length (500-800 words)";
+    case "long":
+      return "Comprehensive and detailed (1000+ words)";
     default:
-      return 'Moderate length suitable for the content type';
+      return "Moderate length suitable for the content type";
   }
 }
 
 // Parse generated content into structured format
-function parseGeneratedContent(content: string, type: string, topic: string, targetAudience: string): any[] {
-  const variations = content.split(/(?=Title:|# )/).filter(section => section.trim());
+function parseGeneratedContent(
+  content: string,
+  type: string,
+  topic: string,
+  targetAudience: string,
+): any[] {
+  const variations = content.split(/(?=Title:|# )/).filter((section) => section.trim());
   const results = [];
 
   variations.forEach((variation, index) => {
@@ -485,10 +499,10 @@ function parseGeneratedContent(content: string, type: string, topic: string, tar
         type: type,
         topic: topic,
         targetAudience: targetAudience,
-        status: 'draft',
+        status: "draft",
         createdAt: new Date().toISOString(),
-        wordCount: variation.split(' ').length,
-        variation: index + 1
+        wordCount: variation.split(" ").length,
+        variation: index + 1,
       });
     }
   });
@@ -499,7 +513,7 @@ function parseGeneratedContent(content: string, type: string, topic: string, tar
 // Extract title from content
 function extractTitle(content: string): string {
   const titleMatch = content.match(/(?:Title:|# )([^\n]+)/);
-  return titleMatch ? titleMatch[1].trim() : 'Generated Content';
+  return titleMatch ? titleMatch[1].trim() : "Generated Content";
 }
 
 // Parse optimization result
@@ -512,12 +526,18 @@ function parseOptimizationResult(result: string, originalContent: string): any {
   return {
     optimizedContent: optimizedMatch ? optimizedMatch[1].trim() : originalContent,
     seoScore: scoreMatch ? parseInt(scoreMatch[1]) : 75,
-    suggestions: suggestionsMatch ? 
-      suggestionsMatch[1].split('\n').filter(s => s.trim()).map(s => s.replace(/^\d+\.\s*/, '').trim()) : 
-      ['Improve readability', 'Add more engaging content', 'Optimize for SEO'],
-    keywords: keywordsMatch ? 
-      keywordsMatch[1].split(',').map(k => k.trim()).filter(k => k) : 
-      ['ICAS Manipal', 'education', 'professional development']
+    suggestions: suggestionsMatch
+      ? suggestionsMatch[1]
+          .split("\n")
+          .filter((s) => s.trim())
+          .map((s) => s.replace(/^\d+\.\s*/, "").trim())
+      : ["Improve readability", "Add more engaging content", "Optimize for SEO"],
+    keywords: keywordsMatch
+      ? keywordsMatch[1]
+          .split(",")
+          .map((k) => k.trim())
+          .filter((k) => k)
+      : ["ICAS Manipal", "education", "professional development"],
   };
 }
 
@@ -527,17 +547,20 @@ async function performBraveContentSearch(query: string, topic: string, category:
   const timestamp = new Date().toISOString();
 
   try {
-    const response = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=8&offset=0&safesearch=moderate`, {
-      headers: {
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip',
-        'X-Subscription-Token': 'BSA' // Free tier token
-      }
-    });
+    const response = await fetch(
+      `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=8&offset=0&safesearch=moderate`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Accept-Encoding": "gzip",
+          "X-Subscription-Token": "BSA", // Free tier token
+        },
+      },
+    );
 
     if (response.ok) {
       const data = await response.json();
-      
+
       if (data.web && data.web.results) {
         data.web.results.forEach((result: any, index: number) => {
           results.push({
@@ -545,24 +568,24 @@ async function performBraveContentSearch(query: string, topic: string, category:
             title: result.title || `${topic} Content Ideas`,
             description: result.description || `Content ideas and trends for ${topic}`,
             url: result.url,
-            source: 'Brave Search API',
-            category: 'content_ideas',
-            relevance: 95 - (index * 3),
+            source: "Brave Search API",
+            category: "content_ideas",
+            relevance: 95 - index * 3,
             data: {
-              type: 'content_idea',
+              type: "content_idea",
               title: result.title,
               description: result.description,
               url: result.url,
               publishedDate: result.published_date,
-              contentType: category || 'general'
+              contentType: category || "general",
             },
-            timestamp
+            timestamp,
           });
         });
       }
     }
   } catch (error) {
-    console.error('Brave Search API error:', error);
+    console.error("Brave Search API error:", error);
   }
 
   return results;
@@ -579,11 +602,13 @@ async function performSerpAPIContentSearch(query: string, topic: string, categor
       return results;
     }
 
-    const response = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${config.serpApiKey}&engine=google&num=8&gl=us&hl=en&safe=active`);
-    
+    const response = await fetch(
+      `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${config.serpApiKey}&engine=google&num=8&gl=us&hl=en&safe=active`,
+    );
+
     if (response.ok) {
       const data = await response.json();
-      
+
       if (data.organic_results) {
         data.organic_results.forEach((result: any, index: number) => {
           results.push({
@@ -591,24 +616,24 @@ async function performSerpAPIContentSearch(query: string, topic: string, categor
             title: result.title || `${topic} Content Trends`,
             description: result.snippet || `Latest trends and ideas for ${topic} content`,
             url: result.link,
-            source: 'SerpAPI (Google)',
-            category: 'content_trends',
-            relevance: 90 - (index * 3),
+            source: "SerpAPI (Google)",
+            category: "content_trends",
+            relevance: 90 - index * 3,
             data: {
-              type: 'content_trend',
+              type: "content_trend",
               title: result.title,
               snippet: result.snippet,
               link: result.link,
               position: result.position,
-              contentType: category || 'general'
+              contentType: category || "general",
             },
-            timestamp
+            timestamp,
           });
         });
       }
     }
   } catch (error) {
-    console.error('SerpAPI error:', error);
+    console.error("SerpAPI error:", error);
   }
 
   return results;
@@ -621,7 +646,7 @@ async function generateAIContentIdeas(topic: string, category: string, targetAud
 
   try {
     const prompt = `Generate 5 creative content ideas for ${topic} targeting ${targetAudience}. 
-    Category: ${category || 'general'}
+    Category: ${category || "general"}
     
     For each idea, provide:
     - Title
@@ -635,33 +660,34 @@ async function generateAIContentIdeas(topic: string, category: string, targetAud
     const response = await axios.post(
       `${OPENROUTER_BASE_URL}/chat/completions`,
       {
-        model: 'openrouter/auto',
+        model: "openrouter/auto",
         messages: [
           {
             role: "system",
-            content: "You are a creative content strategist for ICAS Manipal. Generate innovative, engaging content ideas that align with our educational mission and professional standards."
+            content:
+              "You are a creative content strategist for ICAS Manipal. Generate innovative, engaging content ideas that align with our educational mission and professional standards.",
           },
           {
             role: "user",
-            content: prompt
-          }
+            content: prompt,
+          },
         ],
         max_tokens: 1000,
-        temperature: 0.8
+        temperature: 0.8,
       },
       {
         headers: {
-          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://icas-manipal.com',
-          'X-Title': 'ICAS Content Ideas'
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://icas-manipal.com",
+          "X-Title": "ICAS Content Ideas",
         },
-        timeout: 30000
-      }
+        timeout: 30000,
+      },
     );
 
     const aiIdeas = response.data.choices[0]?.message?.content?.trim();
-    
+
     if (aiIdeas) {
       try {
         const parsedIdeas = JSON.parse(aiIdeas);
@@ -670,26 +696,26 @@ async function generateAIContentIdeas(topic: string, category: string, targetAud
             id: `ai-idea-${index + 1}`,
             title: idea.title || `${topic} Content Idea`,
             description: idea.description || `AI-generated content idea for ${topic}`,
-            source: 'AI Content Generator',
-            category: 'ai_generated',
-            relevance: 85 - (index * 2),
+            source: "AI Content Generator",
+            category: "ai_generated",
+            relevance: 85 - index * 2,
             data: {
-              type: 'ai_content_idea',
+              type: "ai_content_idea",
               title: idea.title,
               description: idea.description,
               contentType: idea.type,
               keyPoints: idea.keyPoints,
-              engagement: idea.engagement
+              engagement: idea.engagement,
             },
-            timestamp
+            timestamp,
           });
         });
       } catch (parseError) {
-        console.error('Error parsing AI ideas:', parseError);
+        console.error("Error parsing AI ideas:", parseError);
       }
     }
   } catch (error) {
-    console.error('AI content ideas error:', error);
+    console.error("AI content ideas error:", error);
   }
 
   return results;
@@ -698,8 +724,8 @@ async function generateAIContentIdeas(topic: string, category: string, targetAud
 // Remove duplicate results based on URL and title
 function removeDuplicateResults(results: any[]) {
   const seen = new Set<string>();
-  return results.filter(result => {
-    const key = `${result.url || ''}-${result.title}`;
+  return results.filter((result) => {
+    const key = `${result.url || ""}-${result.title}`;
     if (seen.has(key)) {
       return false;
     }
@@ -711,23 +737,23 @@ function removeDuplicateResults(results: any[]) {
 // Health check for content management service
 export const healthCheck: RequestHandler = async (req, res) => {
   try {
-    const openRouterStatus = OPENROUTER_API_KEY ? 'configured' : 'not_configured';
-    
+    const openRouterStatus = OPENROUTER_API_KEY ? "configured" : "not_configured";
+
     res.json({
-      status: 'healthy',
+      status: "healthy",
       services: {
         openrouter: openRouterStatus,
-        content_generation: 'available',
-        seo_optimization: 'available',
-        content_research: 'available'
+        content_generation: "available",
+        seo_optimization: "available",
+        content_research: "available",
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'unhealthy',
+      status: "unhealthy",
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 };

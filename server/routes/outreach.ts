@@ -4,10 +4,10 @@ import { config } from "../config";
 
 // OpenRouter API configuration
 const OPENROUTER_API_KEY = config.openRouterApiKey;
-const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 interface OutreachRequest {
-  category: 'college' | 'company' | 'event' | 'person';
+  category: "college" | "company" | "event" | "person";
   name: string;
   details: string;
   searchResults: any[];
@@ -25,14 +25,14 @@ export const draftEmail: RequestHandler = async (req, res) => {
     const { category, name, details, searchResults }: OutreachRequest = req.body;
 
     if (!category || !name || !details) {
-      return res.status(400).json({ 
-        error: "Missing required fields: category, name, details" 
+      return res.status(400).json({
+        error: "Missing required fields: category, name, details",
       });
     }
 
     if (!OPENROUTER_API_KEY) {
-      return res.status(500).json({ 
-        error: "OpenRouter API key not configured" 
+      return res.status(500).json({
+        error: "OpenRouter API key not configured",
       });
     }
 
@@ -41,20 +41,20 @@ export const draftEmail: RequestHandler = async (req, res) => {
 
     // Try multiple OpenRouter models as fallbacks
     const models = [
-      'openrouter/auto', // Auto-selects best available
-      'mistralai/mistral-7b-instruct:free',
-      'meta-llama/llama-3.1-8b-instruct:free',
-      'google/gemini-flash-1.5:free'
+      "openrouter/auto", // Auto-selects best available
+      "mistralai/mistral-7b-instruct:free",
+      "meta-llama/llama-3.1-8b-instruct:free",
+      "google/gemini-flash-1.5:free",
     ];
 
     let response;
-    let modelUsed = '';
+    let modelUsed = "";
     let lastError;
 
     for (const model of models) {
       try {
         console.log(`Trying OpenRouter model: ${model}`);
-        
+
         const openRouterResponse = await axios.post(
           `${OPENROUTER_BASE_URL}/chat/completions`,
           {
@@ -62,28 +62,29 @@ export const draftEmail: RequestHandler = async (req, res) => {
             messages: [
               {
                 role: "system",
-                content: "You are a professional email writer for ICAS Manipal (International Centre for Applied Sciences). Write formal, engaging collaboration emails that are professional yet warm. Always maintain ICAS's reputation as a leading international education institution."
+                content:
+                  "You are a professional email writer for ICAS Manipal (International Centre for Applied Sciences). Write formal, engaging collaboration emails that are professional yet warm. Always maintain ICAS's reputation as a leading international education institution.",
               },
               {
                 role: "user",
-                content: prompt
-              }
+                content: prompt,
+              },
             ],
             max_tokens: 1000,
             temperature: 0.7,
             top_p: 0.9,
             frequency_penalty: 0.1,
-            presence_penalty: 0.1
+            presence_penalty: 0.1,
           },
           {
             headers: {
-              'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-              'Content-Type': 'application/json',
-              'HTTP-Referer': 'https://icas-manipal.com',
-              'X-Title': 'ICAS Outreach Management'
+              Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://icas-manipal.com",
+              "X-Title": "ICAS Outreach Management",
             },
-            timeout: 30000
-          }
+            timeout: 30000,
+          },
         );
 
         response = openRouterResponse;
@@ -101,42 +102,46 @@ export const draftEmail: RequestHandler = async (req, res) => {
     }
 
     const emailDraft = response.data.choices[0]?.message?.content?.trim();
-    
+
     if (!emailDraft) {
-      throw new Error('No email content generated from OpenRouter');
+      throw new Error("No email content generated from OpenRouter");
     }
 
     const result: OutreachResponse = {
       emailDraft,
       model: modelUsed,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     console.log(`Successfully generated email using model: ${modelUsed}`);
     res.json(result);
-
   } catch (error: any) {
-    console.error('Email drafting error:', error);
-    
+    console.error("Email drafting error:", error);
+
     if (error.response?.data?.error) {
-      return res.status(500).json({ 
-        error: "OpenRouter API error", 
-        detail: error.response.data.error.message || error.response.data.error 
+      return res.status(500).json({
+        error: "OpenRouter API error",
+        detail: error.response.data.error.message || error.response.data.error,
       });
     }
-    
-    res.status(500).json({ 
-      error: "Failed to draft email", 
-      detail: error.message 
+
+    res.status(500).json({
+      error: "Failed to draft email",
+      detail: error.message,
     });
   }
 };
 
 // Create comprehensive prompt for email generation
-function createEmailPrompt(category: string, name: string, details: string, searchResults: any[]): string {
+function createEmailPrompt(
+  category: string,
+  name: string,
+  details: string,
+  searchResults: any[],
+): string {
   const categoryContext = getCategoryContext(category);
   const searchContext = formatSearchResults(searchResults);
-  
+
   return `
 You are writing a professional collaboration email from ICAS Manipal (International Centre for Applied Sciences) to ${name}.
 
@@ -179,34 +184,36 @@ Please generate a complete, professional email that ICAS can send to ${name} for
 // Get category-specific context
 function getCategoryContext(category: string): string {
   switch (category) {
-    case 'college':
-      return 'University/College - Potential academic partnership, student exchange, research collaboration';
-    case 'company':
-      return 'Company/Organization - Industry partnership, internship opportunities, research collaboration, recruitment';
-    case 'event':
-      return 'Event/Conference - Participation, sponsorship, speaking opportunities, networking';
-    case 'person':
-      return 'Individual/Contact - Professional networking, collaboration, mentorship, speaking opportunities';
+    case "college":
+      return "University/College - Potential academic partnership, student exchange, research collaboration";
+    case "company":
+      return "Company/Organization - Industry partnership, internship opportunities, research collaboration, recruitment";
+    case "event":
+      return "Event/Conference - Participation, sponsorship, speaking opportunities, networking";
+    case "person":
+      return "Individual/Contact - Professional networking, collaboration, mentorship, speaking opportunities";
     default:
-      return 'Potential partner - General collaboration opportunities';
+      return "Potential partner - General collaboration opportunities";
   }
 }
 
 // Format search results for the prompt
 function formatSearchResults(searchResults: any[]): string {
   if (!searchResults || searchResults.length === 0) {
-    return 'No specific search results available. Use general collaboration opportunities.';
+    return "No specific search results available. Use general collaboration opportunities.";
   }
 
-  return searchResults.map((result, index) => {
-    return `
+  return searchResults
+    .map((result, index) => {
+      return `
 ${index + 1}. ${result.title}
    - Source: ${result.source}
    - Description: ${result.description}
    - Relevance: ${result.relevance}%
    - Data: ${JSON.stringify(result.data, null, 2)}
 `;
-  }).join('\n');
+    })
+    .join("\n");
 }
 
 // Search with real MCP servers using multiple search APIs
@@ -215,8 +222,8 @@ export const searchWithMCP: RequestHandler = async (req, res) => {
     const { category, name, details } = req.body;
 
     if (!category || !name || !details) {
-      return res.status(400).json({ 
-        error: "Missing required fields: category, name, details" 
+      return res.status(400).json({
+        error: "Missing required fields: category, name, details",
       });
     }
 
@@ -227,41 +234,41 @@ export const searchWithMCP: RequestHandler = async (req, res) => {
 
     // 1. Use Brave Search API for comprehensive web search (MANDATORY)
     try {
-      console.log('🌐 Searching with Brave Search API...');
+      console.log("🌐 Searching with Brave Search API...");
       const braveResults = await performBraveSearch(searchQuery, name, category);
       results.push(...braveResults);
     } catch (error) {
-      console.error('Brave Search error:', error);
+      console.error("Brave Search error:", error);
     }
 
     // 2. Use SerpAPI for Google search results (MANDATORY)
     try {
-      console.log('🔍 Searching with SerpAPI...');
+      console.log("🔍 Searching with SerpAPI...");
       const serpResults = await performSerpAPISearch(searchQuery, name, category);
       results.push(...serpResults);
     } catch (error) {
-      console.error('SerpAPI error:', error);
+      console.error("SerpAPI error:", error);
     }
 
     // 3. Fallback: Use DuckDuckGo if main APIs fail
     if (results.length === 0) {
       try {
-        console.log('🔄 Fallback: Using DuckDuckGo API...');
+        console.log("🔄 Fallback: Using DuckDuckGo API...");
         const ddgResults = await performDuckDuckGoSearch(searchQuery, name, category);
         results.push(...ddgResults);
       } catch (error) {
-        console.error('DuckDuckGo fallback error:', error);
+        console.error("DuckDuckGo fallback error:", error);
       }
     }
 
     // 4. Fallback: Use Wikipedia if still no results
     if (results.length === 0) {
       try {
-        console.log('🔄 Fallback: Using Wikipedia API...');
+        console.log("🔄 Fallback: Using Wikipedia API...");
         const wikiResults = await performWikipediaSearch(name, details);
         results.push(...wikiResults);
       } catch (error) {
-        console.error('Wikipedia fallback error:', error);
+        console.error("Wikipedia fallback error:", error);
       }
     }
 
@@ -275,16 +282,16 @@ export const searchWithMCP: RequestHandler = async (req, res) => {
     let summary = null;
     if (sortedResults.length > 0) {
       try {
-        console.log('📝 Generating comprehensive summary...');
-        console.log('OpenRouter API Key available:', !!OPENROUTER_API_KEY);
+        console.log("📝 Generating comprehensive summary...");
+        console.log("OpenRouter API Key available:", !!OPENROUTER_API_KEY);
         summary = await generateComprehensiveSummary(name, category, details, sortedResults);
-        console.log('✅ Summary generated successfully');
+        console.log("✅ Summary generated successfully");
       } catch (error) {
-        console.error('Summary generation error:', error);
-        console.error('Error details:', error.message);
+        console.error("Summary generation error:", error);
+        console.error("Error details:", error.message);
       }
     } else {
-      console.log('⚠️ No search results available for summary generation');
+      console.log("⚠️ No search results available for summary generation");
     }
 
     res.json({
@@ -294,19 +301,19 @@ export const searchWithMCP: RequestHandler = async (req, res) => {
       searchQuery,
       category,
       summary,
-      sources: results.length > 0 ? 
-        (results.some(r => r.source.includes('Brave')) && results.some(r => r.source.includes('SerpAPI')) ? 
-          ['Brave Search API', 'SerpAPI'] : 
-          results.map(r => r.source).filter((v, i, a) => a.indexOf(v) === i)
-        ) : 
-        ['Brave Search API', 'SerpAPI', 'DuckDuckGo', 'Wikipedia']
+      sources:
+        results.length > 0
+          ? results.some((r) => r.source.includes("Brave")) &&
+            results.some((r) => r.source.includes("SerpAPI"))
+            ? ["Brave Search API", "SerpAPI"]
+            : results.map((r) => r.source).filter((v, i, a) => a.indexOf(v) === i)
+          : ["Brave Search API", "SerpAPI", "DuckDuckGo", "Wikipedia"],
     });
-
   } catch (error: any) {
-    console.error('MCP search error:', error);
-    res.status(500).json({ 
-      error: "Failed to search with MCP servers", 
-      detail: error.message 
+    console.error("MCP search error:", error);
+    res.status(500).json({
+      error: "Failed to search with MCP servers",
+      detail: error.message,
     });
   }
 };
@@ -317,29 +324,31 @@ async function performDuckDuckGoSearch(query: string, name: string, category: st
   const timestamp = new Date().toISOString();
 
   try {
-    const response = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
+    const response = await fetch(
+      `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`,
+    );
     const data = await response.json();
 
     // Extract comprehensive information
     if (data.Abstract) {
       results.push({
-        id: 'ddg-1',
+        id: "ddg-1",
         title: `${name} - Comprehensive Overview`,
         description: data.Abstract,
         url: data.AbstractURL,
-        source: 'DuckDuckGo Instant Answer',
-        category: 'overview',
+        source: "DuckDuckGo Instant Answer",
+        category: "overview",
         relevance: 98,
         data: {
-          type: 'comprehensive_overview',
+          type: "comprehensive_overview",
           summary: data.Abstract,
           source: data.AbstractSource,
           url: data.AbstractURL,
           relatedTopics: data.RelatedTopics?.slice(0, 5) || [],
           definition: data.Definition,
-          answer: data.Answer
+          answer: data.Answer,
         },
-        timestamp
+        timestamp,
       });
     }
 
@@ -349,18 +358,18 @@ async function performDuckDuckGoSearch(query: string, name: string, category: st
         if (topic.Text && topic.FirstURL) {
           results.push({
             id: `ddg-${index + 2}`,
-            title: topic.Text.split(' - ')[0] || `${name} Related Information`,
+            title: topic.Text.split(" - ")[0] || `${name} Related Information`,
             description: topic.Text,
             url: topic.FirstURL,
-            source: 'DuckDuckGo Related Topics',
-            category: 'related',
-            relevance: 85 - (index * 5),
+            source: "DuckDuckGo Related Topics",
+            category: "related",
+            relevance: 85 - index * 5,
             data: {
-              type: 'related_topic',
+              type: "related_topic",
               content: topic.Text,
-              url: topic.FirstURL
+              url: topic.FirstURL,
             },
-            timestamp
+            timestamp,
           });
         }
       });
@@ -369,24 +378,23 @@ async function performDuckDuckGoSearch(query: string, name: string, category: st
     // Add definition if available
     if (data.Definition) {
       results.push({
-        id: 'ddg-definition',
+        id: "ddg-definition",
         title: `${name} - Definition & Details`,
         description: data.Definition,
-        source: 'DuckDuckGo Definition',
-        category: 'definition',
+        source: "DuckDuckGo Definition",
+        category: "definition",
         relevance: 90,
         data: {
-          type: 'definition',
+          type: "definition",
           definition: data.Definition,
           definitionSource: data.DefinitionSource,
-          definitionURL: data.DefinitionURL
+          definitionURL: data.DefinitionURL,
         },
-        timestamp
+        timestamp,
       });
     }
-
   } catch (error) {
-    console.error('DuckDuckGo API error:', error);
+    console.error("DuckDuckGo API error:", error);
   }
 
   return results;
@@ -399,17 +407,20 @@ async function performBraveSearch(query: string, name: string, category: string)
 
   try {
     // Use Brave Search API with proper headers
-    const response = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=8&offset=0&safesearch=moderate`, {
-      headers: {
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip',
-        'X-Subscription-Token': 'BSA' // Free tier token
-      }
-    });
+    const response = await fetch(
+      `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=8&offset=0&safesearch=moderate`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Accept-Encoding": "gzip",
+          "X-Subscription-Token": "BSA", // Free tier token
+        },
+      },
+    );
 
     if (response.ok) {
       const data = await response.json();
-      
+
       if (data.web && data.web.results) {
         data.web.results.forEach((result: any, index: number) => {
           results.push({
@@ -417,11 +428,11 @@ async function performBraveSearch(query: string, name: string, category: string)
             title: result.title || `${name} - Web Search Result`,
             description: result.description || `Comprehensive information about ${name}`,
             url: result.url,
-            source: 'Brave Search API',
-            category: 'web_search',
-            relevance: 98 - (index * 3),
+            source: "Brave Search API",
+            category: "web_search",
+            relevance: 98 - index * 3,
             data: {
-              type: 'brave_search_result',
+              type: "brave_search_result",
               title: result.title,
               description: result.description,
               url: result.url,
@@ -429,17 +440,17 @@ async function performBraveSearch(query: string, name: string, category: string)
               age: result.age,
               extraSnippets: result.extra_snippets || [],
               language: result.language,
-              location: result.location
+              location: result.location,
             },
-            timestamp
+            timestamp,
           });
         });
       }
     } else {
-      console.log('Brave Search API response not ok:', response.status);
+      console.log("Brave Search API response not ok:", response.status);
     }
   } catch (error) {
-    console.error('Brave Search API error:', error);
+    console.error("Brave Search API error:", error);
   }
 
   return results;
@@ -457,11 +468,13 @@ async function performSerpAPISearch(query: string, name: string, category: strin
       return results;
     }
 
-    const response = await fetch(`https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${config.serpApiKey}&engine=google&num=8&gl=us&hl=en&safe=active`);
-    
+    const response = await fetch(
+      `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&api_key=${config.serpApiKey}&engine=google&num=8&gl=us&hl=en&safe=active`,
+    );
+
     if (response.ok) {
       const data = await response.json();
-      
+
       if (data.organic_results) {
         data.organic_results.forEach((result: any, index: number) => {
           results.push({
@@ -469,20 +482,20 @@ async function performSerpAPISearch(query: string, name: string, category: strin
             title: result.title || `${name} - Google Search Result`,
             description: result.snippet || `Comprehensive information about ${name}`,
             url: result.link,
-            source: 'SerpAPI (Google)',
-            category: 'web_search',
-            relevance: 95 - (index * 3),
+            source: "SerpAPI (Google)",
+            category: "web_search",
+            relevance: 95 - index * 3,
             data: {
-              type: 'serp_search_result',
+              type: "serp_search_result",
               title: result.title,
               snippet: result.snippet,
               link: result.link,
               position: result.position,
               date: result.date,
               displayedLink: result.displayed_link,
-              source: result.source
+              source: result.source,
             },
-            timestamp
+            timestamp,
           });
         });
       }
@@ -491,29 +504,29 @@ async function performSerpAPISearch(query: string, name: string, category: strin
       if (data.knowledge_graph) {
         const kg = data.knowledge_graph;
         results.push({
-          id: 'serp-knowledge-graph',
+          id: "serp-knowledge-graph",
           title: `${name} - Knowledge Graph`,
           description: kg.description || `Official information about ${name}`,
           url: kg.website,
-          source: 'SerpAPI (Google Knowledge Graph)',
-          category: 'knowledge_graph',
+          source: "SerpAPI (Google Knowledge Graph)",
+          category: "knowledge_graph",
           relevance: 100,
           data: {
-            type: 'knowledge_graph',
+            type: "knowledge_graph",
             title: kg.title,
             description: kg.description,
             website: kg.website,
             entityType: kg.type,
-            attributes: kg.attributes || {}
+            attributes: kg.attributes || {},
           },
-          timestamp
+          timestamp,
         });
       }
     } else {
-      console.log('SerpAPI response not ok:', response.status);
+      console.log("SerpAPI response not ok:", response.status);
     }
   } catch (error) {
-    console.error('SerpAPI error:', error);
+    console.error("SerpAPI error:", error);
   }
 
   return results;
@@ -526,35 +539,37 @@ async function performWikipediaSearch(name: string, details: string) {
 
   try {
     // Search Wikipedia for the entity
-    const searchResponse = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`);
-    
+    const searchResponse = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`,
+    );
+
     if (searchResponse.ok) {
       const data = await searchResponse.json();
-      
+
       if (data.extract) {
         results.push({
-          id: 'wikipedia-1',
+          id: "wikipedia-1",
           title: `${name} - Wikipedia`,
           description: data.extract,
           url: data.content_urls?.desktop?.page,
-          source: 'Wikipedia API',
-          category: 'encyclopedia',
+          source: "Wikipedia API",
+          category: "encyclopedia",
           relevance: 95,
           data: {
-            type: 'wikipedia_article',
+            type: "wikipedia_article",
             title: data.title,
             extract: data.extract,
             description: data.description,
             url: data.content_urls?.desktop?.page,
             thumbnail: data.thumbnail?.source,
-            coordinates: data.coordinates
+            coordinates: data.coordinates,
           },
-          timestamp
+          timestamp,
         });
       }
     }
   } catch (error) {
-    console.error('Wikipedia API error:', error);
+    console.error("Wikipedia API error:", error);
   }
 
   return results;
@@ -567,43 +582,45 @@ async function performArxivSearch(name: string, details: string) {
 
   try {
     // Search ArXiv for academic papers
-    const response = await fetch(`http://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(name)}&start=0&max_results=3&sortBy=relevance&sortOrder=descending`);
-    
+    const response = await fetch(
+      `http://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(name)}&start=0&max_results=3&sortBy=relevance&sortOrder=descending`,
+    );
+
     if (response.ok) {
       const xmlData = await response.text();
-      
+
       // Parse XML response (simplified)
       const entries = xmlData.match(/<entry>[\s\S]*?<\/entry>/g);
-      
+
       if (entries) {
         entries.forEach((entry: string, index: number) => {
           const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
           const summaryMatch = entry.match(/<summary>([^<]+)<\/summary>/);
           const linkMatch = entry.match(/<link[^>]*href="([^"]+)"/);
-          
+
           if (titleMatch && summaryMatch) {
             results.push({
               id: `arxiv-${index + 1}`,
               title: titleMatch[1] || `${name} - Research Paper`,
-              description: summaryMatch[1].substring(0, 200) + '...',
+              description: summaryMatch[1].substring(0, 200) + "...",
               url: linkMatch ? linkMatch[1] : null,
-              source: 'ArXiv API',
-              category: 'academic',
-              relevance: 85 - (index * 5),
+              source: "ArXiv API",
+              category: "academic",
+              relevance: 85 - index * 5,
               data: {
-                type: 'arxiv_paper',
+                type: "arxiv_paper",
                 title: titleMatch[1],
                 summary: summaryMatch[1],
-                link: linkMatch ? linkMatch[1] : null
+                link: linkMatch ? linkMatch[1] : null,
               },
-              timestamp
+              timestamp,
             });
           }
         });
       }
     }
   } catch (error) {
-    console.error('ArXiv API error:', error);
+    console.error("ArXiv API error:", error);
   }
 
   return results;
@@ -616,11 +633,13 @@ async function performNewsSearch(name: string, details: string) {
 
   try {
     // Use NewsAPI (free tier available)
-    const response = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(name)}&apiKey=demo&pageSize=3&sortBy=relevancy`);
-    
+    const response = await fetch(
+      `https://newsapi.org/v2/everything?q=${encodeURIComponent(name)}&apiKey=demo&pageSize=3&sortBy=relevancy`,
+    );
+
     if (response.ok) {
       const data = await response.json();
-      
+
       if (data.articles) {
         data.articles.forEach((article: any, index: number) => {
           results.push({
@@ -628,25 +647,25 @@ async function performNewsSearch(name: string, details: string) {
             title: article.title || `${name} - News Article`,
             description: article.description || `Recent news about ${name}`,
             url: article.url,
-            source: 'News API',
-            category: 'news',
-            relevance: 80 - (index * 5),
+            source: "News API",
+            category: "news",
+            relevance: 80 - index * 5,
             data: {
-              type: 'news_article',
+              type: "news_article",
               title: article.title,
               description: article.description,
               url: article.url,
               publishedAt: article.publishedAt,
               source: article.source?.name,
-              author: article.author
+              author: article.author,
             },
-            timestamp
+            timestamp,
           });
         });
       }
     }
   } catch (error) {
-    console.error('News API error:', error);
+    console.error("News API error:", error);
   }
 
   return results;
@@ -655,8 +674,8 @@ async function performNewsSearch(name: string, details: string) {
 // Remove duplicate results based on URL and title
 function removeDuplicateResults(results: any[]) {
   const seen = new Set<string>();
-  return results.filter(result => {
-    const key = `${result.url || ''}-${result.title}`;
+  return results.filter((result) => {
+    const key = `${result.url || ""}-${result.title}`;
     if (seen.has(key)) {
       return false;
     }
@@ -666,24 +685,31 @@ function removeDuplicateResults(results: any[]) {
 }
 
 // Generate comprehensive summary using OpenRouter
-async function generateComprehensiveSummary(name: string, category: string, details: string, searchResults: any[]) {
+async function generateComprehensiveSummary(
+  name: string,
+  category: string,
+  details: string,
+  searchResults: any[],
+) {
   try {
     // Prepare search data for summarization
-    const searchData = searchResults.map((result, index) => {
-      let content = '';
-      
-      if (result.data.type === 'serp_search_result') {
-        content = `Title: ${result.data.title}\nDescription: ${result.data.snippet}\nSource: ${result.data.source}\nURL: ${result.data.link}`;
-      } else if (result.data.type === 'wikipedia_article') {
-        content = `Title: ${result.data.title}\nDescription: ${result.data.description}\nExtract: ${result.data.extract}\nURL: ${result.data.url}`;
-      } else if (result.data.type === 'knowledge_graph') {
-        content = `Title: ${result.data.title}\nDescription: ${result.data.description}\nType: ${result.data.entityType}\nWebsite: ${result.data.website}`;
-      } else {
-        content = `Title: ${result.title}\nDescription: ${result.description}\nSource: ${result.source}`;
-      }
-      
-      return `Result ${index + 1}:\n${content}`;
-    }).join('\n\n');
+    const searchData = searchResults
+      .map((result, index) => {
+        let content = "";
+
+        if (result.data.type === "serp_search_result") {
+          content = `Title: ${result.data.title}\nDescription: ${result.data.snippet}\nSource: ${result.data.source}\nURL: ${result.data.link}`;
+        } else if (result.data.type === "wikipedia_article") {
+          content = `Title: ${result.data.title}\nDescription: ${result.data.description}\nExtract: ${result.data.extract}\nURL: ${result.data.url}`;
+        } else if (result.data.type === "knowledge_graph") {
+          content = `Title: ${result.data.title}\nDescription: ${result.data.description}\nType: ${result.data.entityType}\nWebsite: ${result.data.website}`;
+        } else {
+          content = `Title: ${result.title}\nDescription: ${result.description}\nSource: ${result.source}`;
+        }
+
+        return `Result ${index + 1}:\n${content}`;
+      })
+      .join("\n\n");
 
     const prompt = `You are a professional research analyst. Based on the following search results about "${name}" (${category}), create a comprehensive summary document.
 
@@ -708,25 +734,25 @@ Format the summary in a professional, structured manner suitable for business ou
 
 Make it comprehensive but concise, highlighting the most important and relevant information for outreach purposes.`;
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'http://localhost:8081',
-        'X-Title': 'ICAS Outreach Management'
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:8081",
+        "X-Title": "ICAS Outreach Management",
       },
       body: JSON.stringify({
-        model: 'openrouter/auto',
+        model: "openrouter/auto",
         messages: [
           {
-            role: 'user',
-            content: prompt
-          }
+            role: "user",
+            content: prompt,
+          },
         ],
         max_tokens: 2000,
-        temperature: 0.7
-      })
+        temperature: 0.7,
+      }),
     });
 
     if (!response.ok) {
@@ -737,19 +763,18 @@ Make it comprehensive but concise, highlighting the most important and relevant 
     const summaryContent = data.choices?.[0]?.message?.content;
 
     if (!summaryContent) {
-      throw new Error('No summary content generated');
+      throw new Error("No summary content generated");
     }
 
     return {
       content: summaryContent,
       generatedAt: new Date().toISOString(),
-      model: data.model || 'openrouter/auto',
+      model: data.model || "openrouter/auto",
       searchResultsCount: searchResults.length,
-      wordCount: summaryContent.split(' ').length
+      wordCount: summaryContent.split(" ").length,
     };
-
   } catch (error) {
-    console.error('Summary generation error:', error);
+    console.error("Summary generation error:", error);
     throw error;
   }
 }
@@ -757,139 +782,179 @@ Make it comprehensive but concise, highlighting the most important and relevant 
 // Get category-specific information (fallback for when APIs fail)
 function getCategorySpecificInfo(category: string, name: string, details: string) {
   const timestamp = new Date().toISOString();
-  
+
   switch (category) {
-    case 'college':
+    case "college":
       return {
-        id: 'category-college',
+        id: "category-college",
         title: `${name} - Academic Profile`,
         description: `Comprehensive academic information about ${name}`,
-        source: 'Academic Database MCP',
-        category: 'academic',
+        source: "Academic Database MCP",
+        category: "academic",
         relevance: 95,
         data: {
-          type: 'academic_profile',
+          type: "academic_profile",
           institution: name,
           overview: details,
-          programs: ['Undergraduate Programs', 'Graduate Programs', 'Research Programs', 'Professional Development'],
-          researchAreas: ['Applied Sciences', 'Engineering', 'Management', 'Research', 'Innovation'],
-          faculty: '500+ faculty members',
-          students: '15000+ students',
-          established: 'Established educational institution',
-          ranking: 'Recognized institution with strong reputation',
-          partnerships: ['International collaborations', 'Industry partnerships', 'Research collaborations'],
-          facilities: ['Modern laboratories', 'Research centers', 'Library resources', 'Student facilities'],
+          programs: [
+            "Undergraduate Programs",
+            "Graduate Programs",
+            "Research Programs",
+            "Professional Development",
+          ],
+          researchAreas: [
+            "Applied Sciences",
+            "Engineering",
+            "Management",
+            "Research",
+            "Innovation",
+          ],
+          faculty: "500+ faculty members",
+          students: "15000+ students",
+          established: "Established educational institution",
+          ranking: "Recognized institution with strong reputation",
+          partnerships: [
+            "International collaborations",
+            "Industry partnerships",
+            "Research collaborations",
+          ],
+          facilities: [
+            "Modern laboratories",
+            "Research centers",
+            "Library resources",
+            "Student facilities",
+          ],
           collaborationOpportunities: [
-            'Student exchange programs',
-            'Faculty research collaboration',
-            'Joint degree programs',
-            'Research partnerships',
-            'Academic conferences and events'
-          ]
+            "Student exchange programs",
+            "Faculty research collaboration",
+            "Joint degree programs",
+            "Research partnerships",
+            "Academic conferences and events",
+          ],
         },
-        timestamp
+        timestamp,
       };
 
-    case 'company':
+    case "company":
       return {
-        id: 'category-company',
+        id: "category-company",
         title: `${name} - Business Profile`,
         description: `Comprehensive business information about ${name}`,
-        source: 'Company Database MCP',
-        category: 'business',
+        source: "Company Database MCP",
+        category: "business",
         relevance: 95,
         data: {
-          type: 'company_profile',
+          type: "company_profile",
           company: name,
           overview: details,
-          industry: 'Technology/Education/Services/Manufacturing',
-          size: 'Medium to Large organization',
-          founded: 'Established company with strong market presence',
-          headquarters: 'Global presence with multiple locations',
-          website: `https://${name.toLowerCase().replace(/\s+/g, '')}.com`,
+          industry: "Technology/Education/Services/Manufacturing",
+          size: "Medium to Large organization",
+          founded: "Established company with strong market presence",
+          headquarters: "Global presence with multiple locations",
+          website: `https://${name.toLowerCase().replace(/\s+/g, "")}.com`,
           contact: {
-            email: `info@${name.toLowerCase().replace(/\s+/g, '')}.com`,
-            phone: 'Contact information available',
-            address: 'Multiple locations worldwide'
+            email: `info@${name.toLowerCase().replace(/\s+/g, "")}.com`,
+            phone: "Contact information available",
+            address: "Multiple locations worldwide",
           },
-          services: ['Professional services', 'Consulting', 'Solutions', 'Technology services'],
-          partnerships: ['Industry collaborations', 'Strategic partnerships', 'Technology partnerships'],
+          services: ["Professional services", "Consulting", "Solutions", "Technology services"],
+          partnerships: [
+            "Industry collaborations",
+            "Strategic partnerships",
+            "Technology partnerships",
+          ],
           collaborationOpportunities: [
-            'Industry partnerships',
-            'Research and development collaboration',
-            'Internship programs',
-            'Technology transfer',
-            'Joint ventures'
-          ]
+            "Industry partnerships",
+            "Research and development collaboration",
+            "Internship programs",
+            "Technology transfer",
+            "Joint ventures",
+          ],
         },
-        timestamp
+        timestamp,
       };
 
-    case 'event':
+    case "event":
       return {
-        id: 'category-event',
+        id: "category-event",
         title: `${name} - Event Information`,
         description: `Comprehensive event details for ${name}`,
-        source: 'Event Calendar MCP',
-        category: 'event',
+        source: "Event Calendar MCP",
+        category: "event",
         relevance: 95,
         data: {
-          type: 'event_profile',
+          type: "event_profile",
           event: name,
           overview: details,
-          date: 'Upcoming event with flexible scheduling',
-          location: 'Multiple venues and virtual options',
-          format: 'Hybrid (In-person and Virtual)',
-          speakers: ['Industry experts', 'Academic leaders', 'Thought leaders', 'Innovation experts'],
-          topics: ['Innovation', 'Technology', 'Education', 'Research', 'Industry trends'],
-          registration: 'Open for registration',
-          cost: 'Various pricing options available',
-          agenda: ['Keynote presentations', 'Panel discussions', 'Networking sessions', 'Workshops'],
-          targetAudience: ['Professionals', 'Academics', 'Students', 'Industry leaders', 'Researchers'],
+          date: "Upcoming event with flexible scheduling",
+          location: "Multiple venues and virtual options",
+          format: "Hybrid (In-person and Virtual)",
+          speakers: [
+            "Industry experts",
+            "Academic leaders",
+            "Thought leaders",
+            "Innovation experts",
+          ],
+          topics: ["Innovation", "Technology", "Education", "Research", "Industry trends"],
+          registration: "Open for registration",
+          cost: "Various pricing options available",
+          agenda: [
+            "Keynote presentations",
+            "Panel discussions",
+            "Networking sessions",
+            "Workshops",
+          ],
+          targetAudience: [
+            "Professionals",
+            "Academics",
+            "Students",
+            "Industry leaders",
+            "Researchers",
+          ],
           collaborationOpportunities: [
-            'Speaking opportunities',
-            'Sponsorship opportunities',
-            'Partnership discussions',
-            'Networking events',
-            'Knowledge sharing'
-          ]
+            "Speaking opportunities",
+            "Sponsorship opportunities",
+            "Partnership discussions",
+            "Networking events",
+            "Knowledge sharing",
+          ],
         },
-        timestamp
+        timestamp,
       };
 
-    case 'person':
+    case "person":
       return {
-        id: 'category-person',
+        id: "category-person",
         title: `${name} - Professional Profile`,
         description: `Professional background and expertise of ${name}`,
-        source: 'People Search MCP',
-        category: 'person',
+        source: "People Search MCP",
+        category: "person",
         relevance: 95,
         data: {
-          type: 'professional_profile',
+          type: "professional_profile",
           person: name,
           overview: details,
-          title: 'Professional/Expert/Leader/Researcher',
-          organization: 'Current organization or affiliation',
-          expertise: ['Leadership', 'Innovation', 'Research', 'Management', 'Industry expertise'],
-          education: 'Advanced degree and professional qualifications',
-          experience: 'Extensive professional experience',
-          achievements: ['Industry recognition', 'Awards', 'Publications', 'Leadership roles'],
+          title: "Professional/Expert/Leader/Researcher",
+          organization: "Current organization or affiliation",
+          expertise: ["Leadership", "Innovation", "Research", "Management", "Industry expertise"],
+          education: "Advanced degree and professional qualifications",
+          experience: "Extensive professional experience",
+          achievements: ["Industry recognition", "Awards", "Publications", "Leadership roles"],
           contact: {
-            email: `${name.toLowerCase().replace(/\s+/g, '.')}@email.com`,
-            linkedin: `linkedin.com/in/${name.toLowerCase().replace(/\s+/g, '-')}`,
-            twitter: `@${name.toLowerCase().replace(/\s+/g, '')}`
+            email: `${name.toLowerCase().replace(/\s+/g, ".")}@email.com`,
+            linkedin: `linkedin.com/in/${name.toLowerCase().replace(/\s+/g, "-")}`,
+            twitter: `@${name.toLowerCase().replace(/\s+/g, "")}`,
           },
-          interests: ['Professional development', 'Innovation', 'Collaboration', 'Research'],
+          interests: ["Professional development", "Innovation", "Collaboration", "Research"],
           collaborationOpportunities: [
-            'Professional networking',
-            'Mentorship opportunities',
-            'Collaborative research',
-            'Speaking engagements',
-            'Advisory roles'
-          ]
+            "Professional networking",
+            "Mentorship opportunities",
+            "Collaborative research",
+            "Speaking engagements",
+            "Advisory roles",
+          ],
         },
-        timestamp
+        timestamp,
       };
 
     default:
@@ -900,21 +965,21 @@ function getCategorySpecificInfo(category: string, name: string, details: string
 // Health check for outreach service
 export const healthCheck: RequestHandler = async (req, res) => {
   try {
-    const openRouterStatus = OPENROUTER_API_KEY ? 'configured' : 'not_configured';
-    
+    const openRouterStatus = OPENROUTER_API_KEY ? "configured" : "not_configured";
+
     res.json({
-      status: 'healthy',
+      status: "healthy",
       services: {
         openrouter: openRouterStatus,
-        mcp_servers: 'available'
+        mcp_servers: "available",
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
     res.status(500).json({
-      status: 'unhealthy',
+      status: "unhealthy",
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 };

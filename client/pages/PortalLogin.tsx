@@ -44,12 +44,8 @@ export default function PortalLogin() {
               setError("");
               const fd = new FormData(e.currentTarget as HTMLFormElement);
               try {
-                const u = await login(
-                  String(fd.get("email")),
-                  String(fd.get("password")),
-                );
-                const dest =
-                  next ?? (u.role === "admin" ? "/admin" : "/portal");
+                const u = await login(String(fd.get("email")), String(fd.get("password")));
+                const dest = next ?? (u.role === "admin" ? "/admin" : "/portal");
                 window.location.assign(dest);
               } catch (err: any) {
                 setError(err?.message || "Failed to sign in");
@@ -57,12 +53,7 @@ export default function PortalLogin() {
             }}
           >
             <Input name="email" type="email" placeholder="Email" required />
-            <Input
-              name="password"
-              type="password"
-              placeholder="Password"
-              required
-            />
+            <Input name="password" type="password" placeholder="Password" required />
             {error && <div className="text-sm text-destructive">{error}</div>}
             <Button type="submit" className="w-full">
               Sign in
@@ -81,8 +72,7 @@ export default function PortalLogin() {
                   String(fd.get("email")),
                   String(fd.get("password")),
                 );
-                const dest =
-                  next ?? (u.role === "admin" ? "/admin" : "/portal");
+                const dest = next ?? (u.role === "admin" ? "/admin" : "/portal");
                 window.location.assign(dest);
               } catch (err: any) {
                 setError(err?.message || "Failed to sign up");
@@ -90,18 +80,8 @@ export default function PortalLogin() {
             }}
           >
             <Input name="name" type="text" placeholder="Full name" required />
-            <Input
-              name="email"
-              type="email"
-              placeholder="Student email"
-              required
-            />
-            <Input
-              name="password"
-              type="password"
-              placeholder="Password"
-              required
-            />
+            <Input name="email" type="email" placeholder="Student email" required />
+            <Input name="password" type="password" placeholder="Password" required />
             {error && <div className="text-sm text-destructive">{error}</div>}
             <Button type="submit" className="w-full">
               Create account
@@ -110,9 +90,7 @@ export default function PortalLogin() {
         )}
 
         <div className="mt-8 max-w-sm space-y-3">
-          <div className="text-xs text-muted-foreground">
-            Or skip authentication:
-          </div>
+          <div className="text-xs text-muted-foreground">Or skip authentication:</div>
           <div className="flex gap-2">
             <Button
               variant="secondary"
@@ -120,8 +98,7 @@ export default function PortalLogin() {
               onClick={async () => {
                 try {
                   const u = await login("student@icas.edu", "icas123");
-                  const dest =
-                    next ?? (u.role === "admin" ? "/admin" : "/portal");
+                  const dest = next ?? (u.role === "admin" ? "/admin" : "/portal");
                   window.location.assign(dest);
                 } catch (err: any) {
                   setError(err?.message || "Failed to skip as student");
@@ -136,8 +113,7 @@ export default function PortalLogin() {
               onClick={async () => {
                 try {
                   const u = await login("admin@icas.edu", "icas123");
-                  const dest =
-                    next ?? (u.role === "admin" ? "/admin" : "/portal");
+                  const dest = next ?? (u.role === "admin" ? "/admin" : "/portal");
                   window.location.assign(dest);
                 } catch (err: any) {
                   setError(err?.message || "Failed to skip as admin");

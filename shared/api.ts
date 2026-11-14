@@ -43,7 +43,7 @@ export interface DelegateSummaryResponse {
 // Social Media Analytics Types
 export interface SocialMediaAccount {
   id: string;
-  platform: 'twitter' | 'instagram' | 'facebook' | 'youtube';
+  platform: "twitter" | "instagram" | "facebook" | "youtube";
   username: string;
   displayName: string;
   followers: number;
