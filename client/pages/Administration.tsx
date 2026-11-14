@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../components/theme/ThemeProvider";
+import SEO from "@/components/SEO";
 
 const Administration: React.FC = () => {
   const { theme } = useTheme();
@@ -201,6 +202,10 @@ const Administration: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? "bg-gray-900" : "bg-gray-50"}`}>
+      <SEO
+        title="Administration — ICAS"
+        description="AI-assisted tools for the ICAS administration team."
+      />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
