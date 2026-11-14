@@ -1,255 +1,187 @@
-# 🎓 Student Life Assistant - ICAS Platform
+# ICAS Student Life Assistant
 
-https://icas-one-stop-solution-zrqdvs.vercel.app/
-<div align="center">
+A web platform for **ICAS Manipal** (International Centre for Applied Sciences). It brings
+together guidance for students on the 2+2 international transfer program, an AI assistant
+grounded in ICAS information, and a set of AI-assisted tools for the administration team
+(marketing content, outreach, alumni messaging, media generation).
 
-![ICAS Platform](https://img.shields.io/badge/ICAS-Student%20Platform-blue?style=for-the-badge)
-![Hackathon](https://img.shields.io/badge/Enigma%20Hackathon-2025-orange?style=for-the-badge)
-![Team](https://img.shields.io/badge/Team-AXION-green?style=for-the-badge)
-
-_Revolutionizing the ICAS student experience through intelligent automation and seamless connectivity_
-
-[🔗 Live Demo](#demo) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [👥 Team](#team)
-
-</div>
+Built by **Team AXION** for the Enigma Hackathon 2025. Original hackathon deployment:
+<https://icas-one-stop-solution-zrqdvs.vercel.app/>
 
 ---
 
-## 🏆 Enigma Hackathon 2025 - Project Report
+## Why
 
-### 👥 Team AXION
+ICAS students spend two years in Manipal and then transfer to a partner university abroad.
+That means juggling transfer requirements, deadlines, course planning and alumni contacts,
+while the staff running the program handle a lot of manual communication. This project puts
+the student-facing information and the staff tooling in one React + Express app.
 
-- **JEEVITH** - Full Stack Developer
-- **SHIVA TEJA** - Backend Architect
-- **ALI** - Frontend Specialist
-- **CHARAN** - Research & Analytics
-- **HITESH** - DevOps & Integration
+## Features
 
----
+### For students
 
-## 🎯 Problem Statement
+| Area                                      | What it does                                                                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Ask ICAS** (`/ask-icas`)                | Chat assistant that answers questions about programs, transfers and admissions, using a curated ICAS knowledge base + OpenRouter |
+| **Transfer & academics pages**            | Transfer pathways, academics, admissions/aid, student life, events, faculty and contact information                              |
+| **Academic Planner**                      | Plan your course journey and track progress toward graduation                                                                    |
+| **Student portal** (`/portal`)            | Course pages, delegate-session summaries and a dashboard for signed-in students                                                  |
+| **Study Centre** (`/portal/study-centre`) | Per-course notes, syllabus and file uploads stored in Firebase (Firestore + Storage)                                             |
+| **Alumni map & timetable**                | Where alumni went and a class timetable on the Student Life page                                                                 |
 
-**Challenge:** _"Build something that improves the daily life of ICAS students."_
+### For administrators (`/administration`, admin role)
 
-At ICAS (Manipal), students navigate a unique **2+2 transfer program** where they spend their first two years in India and final two years abroad. This model creates distinct challenges:
+| Tool                       | What it does                                                                                                       | External services                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| **Photo to Video**         | Turns uploaded photos into a slideshow video, with an optional AI script and voice-over                            | FFmpeg, Hugging Face, ElevenLabs, OpenRouter |
+| **Marketing Tool**         | Festival / announcement post builder with logo upload — **generation is currently simulated** (placeholder images) | —                                            |
+| **Smart Marketing**        | Writes Instagram-style posts and generates images, optionally from uploaded reference images                       | Google Gemini, OpenRouter                    |
+| **Content Management**     | Drafts and optimises blog / social content and searches for content ideas                                          | OpenRouter, SerpAPI                          |
+| **Outreach Management**    | Researches a college / company and drafts an outreach email                                                        | OpenRouter, SerpAPI                          |
+| **Alumni Automation**      | Generates personalised alumni messages and hands them to LinkedIn / CRM automation                                 | OpenRouter, PhantomBuster, HubSpot           |
+| **Social Media Analytics** | Dashboard UI for account and engagement stats — **currently backed by mock data**                                  | —                                            |
+| **Delegate summaries**     | Transcribes an uploaded session recording and summarises it                                                        | Sarvam AI, OpenRouter                        |
 
-### 🔍 Key Pain Points Identified
+Every integration is optional. When a key is missing, the related endpoint either returns
+demo data or responds with `503`/an explanatory error, and the rest of the site keeps working.
 
-| **Student Challenges**                        | **Administrative Challenges**                |
-| --------------------------------------------- | -------------------------------------------- |
-| 📋 Complex foreign transfer process           | 📊 Heavy manual workload in event management |
-| 🔗 Lack of structured peer/alumni connections | 📝 Time-consuming communication processes    |
-| ⏰ Managing multiple deadlines & requirements | 📁 Inefficient student transfer tracking     |
-| 📚 Scattered academic resources               | 📈 Limited data insights for decision-making |
+> **Demo authentication.** Sign-in is handled entirely in the browser (`client/context/AuthContext.tsx`)
+> with seeded demo accounts stored in `localStorage` — e.g. `student@icas.edu`, `prof@icas.edu`
+> and `admin@icas.edu` (password `icas123`). It gates the UI only; **the API itself is not
+> authenticated**. Put real authentication in front of the `/api` routes before exposing the
+> admin tools publicly.
 
----
+## Tech stack
 
-## 💡 Solution Overview
+- **Frontend:** React 18, React Router 6, TypeScript, Vite 7, Tailwind CSS 3, Radix UI, lucide-react, Recharts, TanStack Query
+- **Backend:** Express 5 (mounted inside the Vite dev server in development), Zod validation, Multer uploads, helmet, express-rate-limit
+- **Data:** Firebase Firestore + Storage (Study Centre), local JSON/`uploads/` for generated media
+- **AI & integrations:** OpenRouter, Google Gemini, Hugging Face, ElevenLabs, Sarvam AI, SerpAPI, HubSpot, PhantomBuster
+- **Tooling:** pnpm, Vitest + Supertest, ESLint (typescript-eslint), Prettier, GitHub Actions
 
-We developed the **Student Life Assistant** - a comprehensive web platform designed specifically for ICAS with dual objectives:
-
-<div align="center">
-
-```mermaid
-graph TB
-    A[Student Life Assistant] --> B[Student Features]
-    A --> C[Admin Features]
-    B --> D[Smart Transfer Portal]
-    B --> E[Unified Student Hub]
-    B --> F[Meeting Archive Access]
-    C --> G[Management Dashboard]
-    C --> H[Event Management]
-    C --> I[AI Communication]
-    C --> J[Analytics Dashboard]
-```
-
-</div>
-
----
-
-## 🚀 Features
-
-### Core Platform
-
-- **Modern React + TypeScript** frontend with Tailwind CSS
-- **Express.js backend** with comprehensive API endpoints
-- **Real-time AI integrations** for content generation and automation
-- **File upload and processing** with video generation capabilities
-- **Responsive design** optimized for all devices
-
-### AI-Powered Tools
-
-- **Photo-to-Video Conversion** using Stability AI models
-- **Smart Marketing Tool** with AI-generated content
-- **Alumni Automation System** with LinkedIn integration
-- **AI Navigation Bot** for enhanced user experience
-- **Research Hub** with intelligent content organization
-
-### Alumni Automation (NEW!)
-
-- **LinkedIn Profile Search** using SerpAPI
-- **AI Message Generation** with OpenRouter
-- **Direct LinkedIn Messaging** via PhantomBuster
-- **CRM Integration** with HubSpot
-- **Complete automation workflow** from search to message delivery
-
----
-
-## ✨ Key Features
-
-### 🎓 Student-Focused Features
-
-#### 📱 Smart Transfer Portal
-
-- **Comprehensive Tracker**: Deadlines, documents, visa submissions
-- **Automated Notifications**: Never miss critical steps
-- **Progress Visualization**: Real-time transfer journey tracking
-- **Document Management**: Secure upload and verification system
-
-#### 🏠 Unified Student Hub
-
-- **Centralized Resources**: All academic and campus resources in one place
-- **Quick Access Dashboard**: Streamlined navigation to essential tools
-- **Personalized Experience**: Tailored content based on student year and program
-
-#### 📹 Delegate Meeting Archive
-
-- **Smart Search**: Find specific topics across all recorded sessions
-- **Automatic Transcription**: AI-powered content indexing
-- **Guest Lecture Library**: Organized repository of educational content
-
-### 👨‍💼 Administrator-Focused Features
-
-#### 📊 Application Management Dashboard
-
-- **Real-time Tracking**: Student transfer requests and document status
-- **Verification Workflow**: Streamlined approval processes
-- **Bulk Operations**: Efficient handling of multiple applications
-
-#### 🎉 Event Management Suite
-
-- **One-Click Creation**: Rapid event setup and scheduling
-- **Smart Reminders**: Automated notifications to participants
-- **Room Booking Integration**: Seamless venue management
-- **Auto-Generated Invitations**: Professional event communications
-
-#### 🤖 AI-Powered Communication
-
-- **Instant Announcements**: Transform bullet points into polished notices
-- **Multi-format Generation**: Emails, circulars, and official communications
-- **Template Library**: Pre-built formats for common communications
-
-#### 📈 Analytics & Insights Dashboard
-
-- **Transfer Trends**: Data-driven insights into student patterns
-- **Success Metrics**: Alumni achievement tracking
-- **Participation Analytics**: Event and program engagement statistics
-- **Predictive Analytics**: Early identification of at-risk students
-
----
-
-## 🛠️ Technology Stack
-
-<div align="center">
-
-| **Category**   | **Technology**                                                                                                                                                                   | **Purpose**                           |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| **Frontend**   | ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) | Fast, modern UI development           |
-| **Backend**    | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)                                                                               | Authentication, Firestore DB, Storage |
-| **AI/ML**      | ![OpenAI](https://img.shields.io/badge/OpenRouter-412991?style=flat&logo=openai&logoColor=white)                                                                                 | LLM integration with RAG pipelines    |
-| **Automation** | ![MCP](https://img.shields.io/badge/MCP-Servers-blue?style=flat)                                                                                                                 | Structured query handling             |
-| **Styling**    | ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat&logo=tailwind-css&logoColor=white)                                                                           | Responsive design system              |
-
-</div>
-
-### 🏗️ Architecture Overview
+## Architecture
 
 ```mermaid
 graph LR
-    A[React Frontend] --> B[Firebase Auth]
-    A --> C[Firestore DB]
-    A --> D[MCP Servers]
-    D --> E[OpenRouter LLM]
-    E --> F[RAG Pipeline]
-    C --> G[Real-time Updates]
-    B --> H[Role-based Access]
+    Browser["React SPA<br/>(client/)"] -->|/api/*| API["Express app<br/>(server/index.ts)"]
+    Browser -->|Firestore / Storage| Firebase[(Firebase)]
+    API --> Routes["Route handlers<br/>(server/routes/*)"]
+    Routes --> AI["OpenRouter · Gemini ·<br/>Hugging Face · ElevenLabs · Sarvam"]
+    Routes --> Outreach["SerpAPI · HubSpot ·<br/>PhantomBuster"]
+    Routes --> FS[("uploads/<br/>generated media")]
+    Routes --> KB["server/data/<br/>icas-features.md"]
 ```
 
----
+- `createServer()` in `server/index.ts` builds one Express app that is reused everywhere:
+  - **development:** a Vite plugin mounts it as middleware, so the SPA and API share port 8080;
+  - **production (Node):** `server/node-build.ts` serves `dist/spa` plus the API and falls back to `index.html` for client routes;
+  - **serverless:** `api/index.ts` (Vercel) and `netlify/functions/api.ts` (Netlify) wrap the same app.
+- Server-side hardening: security headers (helmet), configurable CORS, request size limits,
+  rate limiting on mutating `/api` requests, JSON 404s, a central error handler, and path
+  validation so client-supplied file names/URLs can only resolve inside `uploads/`.
+- Routes are code-split with `React.lazy`, so each page downloads only its own bundle.
 
-## 📋 Work Breakdown
-
-### 🔬 Research Team Contributions
-
-- ✅ **User Research**: Conducted comprehensive surveys with 150+ students and 25+ faculty
-- ✅ **Competitive Analysis**: Analyzed existing solutions (LinkedIn Alumni, University ERPs)
-- ✅ **Workflow Mapping**: Documented ICAS-specific processes requiring automation
-- ✅ **Pain Point Validation**: Verified critical issues through stakeholder interviews
-
-### 💻 Development Team Contributions
-
-- ✅ **UI/UX Design**: Created intuitive, responsive interface using React + Vite
-- ✅ **Backend Architecture**: Implemented scalable Firebase infrastructure
-- ✅ **Feature Development**: Built Transfer Portal, Event Management, and Research Hub
-- ✅ **AI Integration**: Connected MCP servers with OpenRouter LLM for dynamic responses
-- ✅ **Testing & Deployment**: Comprehensive testing and production deployment
-
----
-
-## 🚧 Challenges Overcome
-
-| **Challenge**               | **Solution**                                          | **Impact**                                          |
-| --------------------------- | ----------------------------------------------------- | --------------------------------------------------- |
-| **🗄️ Data Integration**     | Designed flexible schema for alumni/student data      | Enabled dynamic search and real-time updates        |
-| **⚡ Real-time Queries**    | Implemented MCP servers for structured data retrieval | Accurate, non-hardcoded information delivery        |
-| **👥 Dual User Experience** | Created role-based interfaces with shared components  | Streamlined experience for both students and admins |
-| **📈 Scalability**          | Built cloud-native architecture with Firebase         | Supports multiple batches and concurrent users      |
-
----
-
-## 🚀 Quick Start
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or pnpm
-- Firebase account
+- Node.js 20+ (CI uses Node 22)
+- pnpm 10 (`corepack enable` picks up the version pinned in `package.json`)
+- Optional: `ffmpeg` on your `PATH` for the photo-to-video tool
 
-### Installation
+### Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/team-axion/icas-platform.git
-cd icas-platform
-
-# Install dependencies
+git clone https://github.com/jeevithg090/ICAS-Presentation.git
+cd ICAS-Presentation
 pnpm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Add your Firebase configuration
-
-# Start development server
-pnpm dev
+cp .env.example .env   # fill in only the keys for the features you want
+pnpm dev               # http://localhost:8080
 ```
 
-### 🔧 Configuration
+### Environment variables
 
-1. **Firebase Setup**
+All variables are documented in [`.env.example`](.env.example). Summary:
 
-   ```bash
-   # Initialize Firebase
-   firebase init
-   # Select Firestore, Authentication, and Hosting
-   ```
+| Variable                                                               | Used for                                                             |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `OPENROUTER_API_KEY`                                                   | Ask ICAS, content/outreach/alumni drafting, video scripts, summaries |
+| `GOOGLE_API_KEY`                                                       | Smart Marketing image generation (Gemini)                            |
+| `HUGGING_FACE_TOKEN`, `VIDEO_MODEL`                                    | AI video generation                                                  |
+| `ELEVENLABS_API_KEY`, `AUDIO_MODEL`                                    | AI voice-over                                                        |
+| `SARVAM_API_KEY`                                                       | Speech-to-text for delegate summaries                                |
+| `SERP_API_KEY`                                                         | Web search for content ideas and outreach                            |
+| `HUBSPOT_API_KEY`, `PHANTOMBUSTER_API_KEY`, `PHANTOMBUSTER_PHANTOM_ID` | Alumni CRM and LinkedIn automation                                   |
+| `VITE_FIREBASE_*`                                                      | Study Centre (Firestore + Storage); exposed to the browser by design |
+| `PORT`, `CORS_ORIGIN`, `JSON_BODY_LIMIT`, `TRUST_PROXY`                | Server behaviour                                                     |
+| `RATE_LIMIT_WINDOW`, `RATE_LIMIT_MAX`                                  | Throttling of POST/PUT/DELETE requests under `/api`                  |
+| `UPLOAD_DIR`, `MAX_FILE_SIZE`                                          | Upload settings                                                      |
 
-2. **Environment Variables**
-   ```env
-   VITE_FIREBASE_API_KEY=your_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_domain
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   ```
+Never commit `.env`; it is git-ignored.
 
----
+## Scripts
 
-</div>
+| Command          | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `pnpm dev`       | Vite dev server with the Express API on port 8080              |
+| `pnpm build`     | Build the SPA (`dist/spa`) and the Node server (`dist/server`) |
+| `pnpm start`     | Run the production build (`PORT`, default 3000)                |
+| `pnpm test`      | Run the Vitest suite once (`pnpm test:watch` to watch)         |
+| `pnpm lint`      | ESLint (`pnpm lint:fix` to auto-fix)                           |
+| `pnpm format`    | Prettier write (`pnpm format:check` in CI)                     |
+| `pnpm typecheck` | TypeScript type-check                                          |
+
+Manual smoke scripts that hit a running server live in `scripts/smoke/`
+(e.g. `BASE_URL=http://localhost:8080 node scripts/smoke/outreach.mjs`).
+
+## Testing
+
+`pnpm test` runs unit tests for the server helpers (path safety, text cleaning) and
+Supertest integration tests against `createServer()` covering health endpoints, JSON 404s,
+security headers, input validation, missing-key behaviour, rate limiting and error handling.
+Tests never call external APIs. CI (`.github/workflows/ci.yml`) runs format check, lint,
+type-check, tests and the production build on every push and pull request.
+
+## Deployment
+
+- **Node server / container:** `pnpm build && pnpm start`. Serves the SPA and API from one
+  process. Mount a persistent volume at `uploads/` if generated media must survive restarts,
+  and install `ffmpeg` for video generation.
+- **Vercel:** `vercel.json` builds the SPA as static files and deploys `api/index.ts` as a
+  serverless function (the ICAS knowledge base in `server/data/` is bundled with it).
+- **Netlify:** `netlify.toml` publishes `dist/spa` and routes `/api/*` to `netlify/functions/api.ts`.
+
+Set the environment variables in your host's dashboard. On serverless hosts the filesystem
+is ephemeral and the rate limiter is per instance, so long-running video jobs and uploaded
+reference images are best suited to the Node deployment.
+
+## Project structure
+
+```
+client/                  React SPA
+├── App.tsx              Router, providers, lazy-loaded routes
+├── pages/               One component per route
+├── components/          Layout, sections, admin tools, AI widgets, ui/ (Radix-based kit)
+├── context/             Demo auth context
+├── data/                Static content (programs, partners, demo users)
+└── lib/                 Firebase setup, Study Centre data access, API clients
+server/
+├── index.ts             createServer(): middleware, routes, error handling
+├── node-build.ts        Production entry (static SPA + API)
+├── config.ts            Environment-driven configuration
+├── data/                ICAS knowledge base used by Ask ICAS
+├── lib/                 Shared helpers (path safety, text cleaning, Gemini client)
+└── routes/              API handlers per feature
+shared/                  Types shared by client and server
+api/, netlify/           Serverless entry points
+docs/                    Per-feature setup guides
+scripts/smoke/           Manual end-to-end smoke scripts
+```
+
+Feature-specific guides (Alumni Automation, Ask ICAS, MCP integration, outreach, PhantomBuster,
+social media) are in [`docs/`](docs/).
+
+## Team AXION
+
+Jeevith · Shiva Teja · Ali · Charan · Hitesh
