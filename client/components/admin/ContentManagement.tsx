@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -6,41 +6,26 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Badge } from '../ui/badge';
-import { Separator } from '../ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { 
-  Search, 
   FileText, 
   Image, 
   Video, 
   Share2, 
-  Calendar, 
-  Users, 
   TrendingUp,
   ExternalLink,
   Loader2,
-  CheckCircle,
-  AlertCircle,
-  Globe,
-  Edit3,
   Copy,
   Download,
-  Plus,
-  Filter,
-  BarChart3,
   Lightbulb,
   Target,
   Zap,
-  BookOpen,
-  MessageSquare,
-  Camera,
-  FileImage,
   Presentation,
   File
 } from 'lucide-react';
 import { useTheme } from '../theme/ThemeProvider';
 import { toast } from '../ui/use-toast';
-import { contentMCPService, ContentItem } from '../../lib/content-mcp-service';
+import { ContentItem } from '../../lib/content-mcp-service';
 
 interface ContentGenerationRequest {
   type: 'blog' | 'social' | 'video' | 'image' | 'document' | 'presentation';
@@ -636,7 +621,7 @@ const ContentManagement: React.FC = () => {
                           <div className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                             {optimizedContent.optimizedContent.split('\n').map((line: string, index: number) => {
                               // Clean up the line first
-                              let cleanLine = line.trim();
+                              const cleanLine = line.trim();
                               
                               // Skip empty lines and separator lines
                               if (cleanLine === '' || cleanLine === '---' || cleanLine === '**') {
@@ -963,7 +948,7 @@ const ContentManagement: React.FC = () => {
                           <div className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                             {selectedContent.content.split('\n').map((line: string, index: number) => {
                               // Clean up the line first
-                              let cleanLine = line.trim();
+                              const cleanLine = line.trim();
                               
                               // Skip empty lines and separator lines
                               if (cleanLine === '' || cleanLine === '---' || cleanLine === '**') {

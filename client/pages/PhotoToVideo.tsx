@@ -1,12 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Progress } from '../components/ui/progress';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Textarea } from '../components/ui/textarea';
-import { Upload, Video, Music, Download, RotateCcw, Play, Pause, Volume2, VolumeX, Mic, MicOff } from 'lucide-react';
 import ImageUploader from '../components/ImageUploader';
 import VideoProcessor from '../components/VideoProcessor';
 import AudioProcessor from '../components/AudioProcessor';

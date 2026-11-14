@@ -229,8 +229,10 @@ async function createVideoWithEditly(imageFiles: string[], outputPath: string, d
   // Dynamic import of editly (since it might not be installed)
   let editly: any;
   try {
-    // @ts-ignore - editly is optional dependency
-    const editlyModule = await import('editly');
+    // editly is an optional dependency; a non-literal specifier keeps it out
+    // of type-checking and bundling.
+    const editlyModuleName = 'editly';
+    const editlyModule = await import(editlyModuleName);
     // Handle both CommonJS and ES module exports
     editly = (editlyModule as any).default || editlyModule;
   } catch (error) {
@@ -281,6 +283,7 @@ async function createVideoWithEditly(imageFiles: string[], outputPath: string, d
 // FFmpeg video creation function
 async function createVideoWithFFmpeg(imageFiles: string[], outputPath: string, duration: number) {
   
+  // eslint-disable-next-line no-async-promise-executor -- legacy flow; failures are routed to reject()
   return new Promise(async (resolve, reject) => {
     const uploadsDir = path.join(process.cwd(), 'uploads');
     
@@ -296,7 +299,8 @@ async function createVideoWithFFmpeg(imageFiles: string[], outputPath: string, d
     }
     
     // Method 1: Try using FFmpeg with input patterns (simpler approach)
-    const tempDir = path.join(process.cwd(), 'uploads', 'temp');
+    // Per-job temp dir so concurrent renders don't overwrite each other's frames
+    const tempDir = path.join(process.cwd(), 'uploads', 'temp', uuidv4());
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -429,6 +433,7 @@ async function createVideoWithFFmpeg(imageFiles: string[], outputPath: string, d
 
 // Fallback video creation method using a different FFmpeg approach
 async function createSimpleVideo(imageFiles: string[], outputPath: string, duration: number) {
+  // eslint-disable-next-line no-async-promise-executor -- legacy flow; failures are routed to reject()
   return new Promise(async (resolve, reject) => {
     const uploadsDir = path.join(process.cwd(), 'uploads');
     
@@ -446,7 +451,8 @@ async function createSimpleVideo(imageFiles: string[], outputPath: string, durat
     }
     
     // Create proper concat file format with converted images
-    const tempDir = path.join(process.cwd(), 'uploads', 'temp');
+    // Per-job temp dir so concurrent renders don't overwrite each other's frames
+    const tempDir = path.join(process.cwd(), 'uploads', 'temp', uuidv4());
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -749,10 +755,10 @@ function cleanScriptOutput(script: string): string {
     /^.*?(?:here'?s|here is|here's) (?:a|the) (?:script|narration):\s*/i,
     /^.*?(?:script|narration):\s*/i,
     /^.*?(?:narrator|voice):\s*/i,
-    /^.*?(?:[\[\(]upbeat[\]\)]|[\[\(]energetic[\]\)]|[\[\(]cheerful[\]\)])\s*/gi,
+    /^.*?(?:[[(]upbeat[\])]|[[(]energetic[\])]|[[(]cheerful[\])])\s*/gi,
     /^.*?(?:insert picture|show image|display photo|picture of|image of)\s*/gi,
-    /^.*?(?:[\[\(]pause[\]\)]|[\[\(]music[\]\)]|[\[\(]fade[\]\)])\s*/gi,
-    /^.*?(?:[\[\(].*?[\]\)])\s*/g, // Remove anything in brackets/parentheses
+    /^.*?(?:[[(]pause[\])]|[[(]music[\])]|[[(]fade[\])])\s*/gi,
+    /^.*?(?:[[(].*?[\])])\s*/g, // Remove anything in brackets/parentheses
     /^.*?(?:stage direction|instruction|note):\s*/gi,
     /^.*?(?:make sure|ensure|remember|don't forget)\s*/gi,
     /^.*?(?:the script should|the narration should|it should)\s*/gi,

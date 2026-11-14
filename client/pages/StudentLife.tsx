@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
@@ -13,8 +13,7 @@ import {
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
+  DialogTitle 
 } from "@/components/ui/dialog";
 import { 
   Select, 
@@ -33,13 +32,9 @@ import {
   Target, 
   TrendingUp, 
   Calendar, 
-  MessageSquare, 
-  FileText, 
-  Award,
+  FileText,
   Globe,
-  Building,
-  GraduationCap,
-  Briefcase
+  GraduationCap
 } from "lucide-react";
 
 // Sample data for demonstration

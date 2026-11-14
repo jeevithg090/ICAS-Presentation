@@ -194,7 +194,7 @@ export const handleDelegateSummary: RequestHandler = async (req, res) => {
     }
 
     // Determine which service was used for transcription
-    let modelUsed = "Sarvam AI + OpenRouter AI";
+    const modelUsed = "Sarvam AI + OpenRouter AI";
 
     const response: DelegateSummaryResponse = {
       transcript,

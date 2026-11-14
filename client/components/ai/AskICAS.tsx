@@ -19,8 +19,6 @@ import {
   Calendar,
   DollarSign,
   Phone,
-  Mail,
-  MapPin,
   ChevronDown
 } from 'lucide-react';
 import { useTheme } from '../theme/ThemeProvider';
