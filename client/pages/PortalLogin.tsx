@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 
 export default function PortalLogin() {
   const { login, signupStudent } = useAuth();
   const [params] = useSearchParams();
-  const next = params.get("next");
+  const next = safeRedirectPath(params.get("next"));
   const [error, setError] = useState("");
   const [mode, setMode] = useState<"signin" | "signup">("signin");
 
@@ -52,9 +53,27 @@ export default function PortalLogin() {
               }
             }}
           >
-            <Input name="email" type="email" placeholder="Email" required />
-            <Input name="password" type="password" placeholder="Password" required />
-            {error && <div className="text-sm text-destructive">{error}</div>}
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email"
+              aria-label="Email"
+              autoComplete="email"
+              required
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              aria-label="Password"
+              autoComplete="current-password"
+              required
+            />
+            {error && (
+              <div role="alert" className="text-sm text-destructive">
+                {error}
+              </div>
+            )}
             <Button type="submit" className="w-full">
               Sign in
             </Button>
@@ -79,10 +98,35 @@ export default function PortalLogin() {
               }
             }}
           >
-            <Input name="name" type="text" placeholder="Full name" required />
-            <Input name="email" type="email" placeholder="Student email" required />
-            <Input name="password" type="password" placeholder="Password" required />
-            {error && <div className="text-sm text-destructive">{error}</div>}
+            <Input
+              name="name"
+              type="text"
+              placeholder="Full name"
+              aria-label="Full name"
+              autoComplete="name"
+              required
+            />
+            <Input
+              name="email"
+              type="email"
+              placeholder="Student email"
+              aria-label="Student email"
+              autoComplete="email"
+              required
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              aria-label="Password"
+              autoComplete="new-password"
+              required
+            />
+            {error && (
+              <div role="alert" className="text-sm text-destructive">
+                {error}
+              </div>
+            )}
             <Button type="submit" className="w-full">
               Create account
             </Button>
