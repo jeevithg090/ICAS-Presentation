@@ -1,16 +1,16 @@
 import type { RequestHandler } from "express";
 import { readFileSync } from "fs";
-import { join } from "path";
+import { resolve } from "path";
 import { config } from "../config";
 
 // Read the comprehensive ICAS features document
-const ICAS_FEATURES_PATH = join(__dirname, "../../icasfeatures.md");
+const ICAS_FEATURES_PATH = resolve(process.cwd(), "server/data/icas-features.md");
 let ICAS_FEATURES_CONTENT = "";
 
 try {
   ICAS_FEATURES_CONTENT = readFileSync(ICAS_FEATURES_PATH, "utf-8");
 } catch (error) {
-  console.warn("Could not read icasfeatures.md:", error);
+  console.warn("Could not read server/data/icas-features.md:", error);
   ICAS_FEATURES_CONTENT = "ICAS features document not available";
 }
 
