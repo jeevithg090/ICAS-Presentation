@@ -346,7 +346,7 @@ export default function Index() {
               >
                 Join ICAS Manipal's revolutionary{" "}
                 <strong className="text-cyan-300">International Transfer Program</strong> — complete
-                2 years in India, transfer to 100+ prestigious universities worldwide.
+                2 years in India, transfer to 100+ prestigious universities worldwide.{" "}
                 <span className="text-yellow-300 font-semibold">Save up to 40%</span> on education
                 costs while earning a globally recognized engineering degree from top-ranked
                 institutions.

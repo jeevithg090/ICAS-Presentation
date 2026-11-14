@@ -382,15 +382,17 @@ const AskICAS: React.FC = () => {
                   <Button
                     key={action.id}
                     variant="outline"
-                    className={`w-full justify-start h-auto p-3 ${isDark ? "border-gray-600 hover:bg-gray-700" : "border-gray-200 hover:bg-gray-50"}`}
+                    className={`w-full justify-start h-auto whitespace-normal p-3 ${isDark ? "border-gray-600 hover:bg-gray-700" : "border-gray-200 hover:bg-gray-50"}`}
                     onClick={() => handleQuickAction(action)}
                     disabled={isLoading}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`p-1 rounded ${isDark ? "bg-blue-900/20" : "bg-blue-100"}`}>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div
+                        className={`shrink-0 p-1 rounded ${isDark ? "bg-blue-900/20" : "bg-blue-100"}`}
+                      >
                         {action.icon}
                       </div>
-                      <div className="text-left">
+                      <div className="min-w-0 text-left">
                         <div
                           className={`text-sm font-medium ${isDark ? "text-white" : "text-gray-900"}`}
                         >
