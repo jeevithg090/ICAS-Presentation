@@ -1,6 +1,5 @@
-import app from "./firebase";
+import { db, storage } from "./firebase";
 import {
-  getFirestore,
   collection,
   doc,
   getDocs,
@@ -13,7 +12,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import {
-  getStorage,
   ref,
   uploadBytes,
   getDownloadURL,
@@ -37,9 +35,6 @@ export type Upload = {
   createdAt: number;
   docId?: string;
 };
-
-const db = getFirestore(app);
-const storage = getStorage(app);
 
 export function userIdFromEmail(email: string) {
   return email.toLowerCase().replace(/[^a-z0-9._-]/g, "_");

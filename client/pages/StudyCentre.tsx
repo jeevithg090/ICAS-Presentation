@@ -34,18 +34,43 @@ import {
   saveNotes,
 } from "@/lib/study-centre";
 import { Link } from "react-router-dom";
+import { isFirebaseConfigured } from "@/lib/firebase";
 
 function useStudyCourses(userEmail: string | undefined) {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!userEmail) return;
+    if (!userEmail || !isFirebaseConfigured) return;
     const userId = userIdFromEmail(userEmail);
-    ensureInit(userId).then(() => {
-      const unsubList = subscribeCourses(userId, setCourses);
-      return () => unsubList();
-    });
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
+
+    setLoading(true);
+    setError(null);
+    ensureInit(userId)
+      .then(() => {
+        if (cancelled) return;
+        unsubscribe = subscribeCourses(userId, (next) => {
+          setCourses(next);
+          setLoading(false);
+        });
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        console.error("Failed to load study centre courses", err);
+        setError("Could not load your courses. Please try again later.");
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
   }, [userEmail]);
-  return courses;
+
+  return { courses, loading, error };
 }
 
 function FilePreview({ item }: { item: Upload }) {
@@ -82,7 +107,13 @@ function FilePreview({ item }: { item: Upload }) {
     item.name.toLowerCase().endsWith(".pptx")
   ) {
     const src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.url)}`;
-    return <iframe src={src} className="h-40 w-full rounded-md" />;
+    return (
+      <iframe
+        src={src}
+        title={`Preview of ${item.name}`}
+        className="h-40 w-full rounded-md"
+      />
+    );
   }
   return (
     <div className="flex h-40 w-full items-center justify-center rounded-md border text-sm">
@@ -359,7 +390,7 @@ export default function StudyCentre() {
     () => (email ? userIdFromEmail(email) : undefined),
     [email],
   );
-  const courses = useStudyCourses(email);
+  const { courses, loading, error } = useStudyCourses(email);
 
   return (
     <main>
@@ -379,6 +410,22 @@ export default function StudyCentre() {
             <Link to="/portal">Back to Dashboard</Link>
           </Button>
         </div>
+        {!isFirebaseConfigured && (
+          <p role="status" className="mt-6 rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+            The Study Centre needs a Firebase project. Set the VITE_FIREBASE_*
+            variables (see .env.example) to enable course storage.
+          </p>
+        )}
+        {loading && (
+          <p role="status" className="mt-6 text-sm text-muted-foreground">
+            Loading your courses…
+          </p>
+        )}
+        {error && (
+          <p role="alert" className="mt-6 text-sm text-destructive">
+            {error}
+          </p>
+        )}
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {userId &&
             courses.map((c) => (
