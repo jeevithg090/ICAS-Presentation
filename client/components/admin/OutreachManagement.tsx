@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -266,6 +267,10 @@ const OutreachManagement: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isDark ? "bg-gray-900" : "bg-gray-50"}`}>
+      <SEO
+        title="Outreach Management — ICAS Administration"
+        description="Research colleges, companies and people and draft outreach emails."
+      />
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
@@ -428,7 +433,7 @@ const OutreachManagement: React.FC = () => {
             {selectedEntry ? (
               <Tabs defaultValue="summary" className="space-y-6">
                 <TabsList
-                  className={`grid w-full grid-cols-3 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
+                  className={`flex w-full justify-start overflow-x-auto sm:grid sm:grid-cols-3 ${isDark ? "bg-gray-800" : "bg-gray-100"}`}
                 >
                   <TabsTrigger value="summary">Summary</TabsTrigger>
                   <TabsTrigger value="results">Search Results</TabsTrigger>

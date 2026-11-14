@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -234,9 +235,13 @@ const SocialMediaAnalytics: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+      <SEO
+        title="Social Media Analytics — ICAS Administration"
+        description="Track followers and engagement across ICAS social accounts."
+      />
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Social Media Analytics
@@ -318,7 +323,7 @@ const SocialMediaAnalytics: React.FC = () => {
         </Card>
 
         <Tabs defaultValue="accounts" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="flex w-full justify-start overflow-x-auto sm:grid sm:grid-cols-3">
             <TabsTrigger value="accounts">Accounts Overview</TabsTrigger>
             <TabsTrigger value="posts">Recent Posts</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>

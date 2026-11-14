@@ -7,28 +7,42 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { portalCourses, portalCourseDetails } from "@/data/sample";
 import { saveSubmission, getSubmission } from "@/lib/localdb";
 import { toast } from "sonner";
-
-function useCourse(): { code: string; title: string } {
-  const code = decodeURIComponent(location.pathname.split("/").pop() || "");
-  const course = portalCourses.find((c) => c.code === code);
-  return { code, title: course?.title ?? code };
-}
+import { Link, useParams } from "react-router-dom";
 
 export default function PortalCourse() {
-  const { code, title } = useCourse();
+  const { code = "" } = useParams();
+  const course = portalCourses.find((c) => c.code === code);
+  const title = course?.title ?? code;
+
+  if (!course) {
+    return (
+      <main className="container flex min-h-[50vh] flex-col items-center justify-center py-16 text-center">
+        <SEO title="Course not found — Portal" description="This course does not exist." />
+        <h1 className="text-2xl font-bold tracking-tight">Course not found</h1>
+        <p className="mt-2 max-w-md text-muted-foreground">
+          There is no course with the code{" "}
+          <code className="rounded bg-muted px-1 py-0.5 text-sm">{code}</code>.
+        </p>
+        <Button asChild className="mt-6">
+          <Link to="/portal/courses">Back to all courses</Link>
+        </Button>
+      </main>
+    );
+  }
+
   const details = portalCourseDetails[code] ?? { syllabus: "", assignments: [] };
 
   return (
     <main>
       <SEO title={`${code} — Portal`} description={title} />
       <section className="container py-10">
-        <div className="flex items-end justify-between">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
             <div className="text-sm text-muted-foreground">{code}</div>
           </div>
           <Button asChild variant="outline">
-            <a href="/portal/courses">All courses</a>
+            <Link to="/portal/courses">All courses</Link>
           </Button>
         </div>
 

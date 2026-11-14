@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,7 +50,13 @@ interface AutomationStep {
   description: string;
 }
 
-export default function AlumniAutomation() {
+interface AlumniAutomationProps {
+  /** Rendered inside another page (e.g. the admin dashboard) rather than as its own route. */
+  embedded?: boolean;
+}
+
+export default function AlumniAutomation({ embedded = false }: AlumniAutomationProps) {
+  const Heading = embedded ? "h2" : "h1";
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [alumniName, setAlumniName] = useState("");
@@ -203,6 +210,12 @@ export default function AlumniAutomation() {
 
   return (
     <div className={`min-h-screen ${isDark ? "bg-gray-900" : "bg-gray-50"}`}>
+      {!embedded && (
+        <SEO
+          title="Alumni Automation — ICAS Administration"
+          description="Find alumni LinkedIn profiles and draft personalised messages."
+        />
+      )}
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="space-y-6">
           <Card
@@ -216,9 +229,11 @@ export default function AlumniAutomation() {
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <span className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                  <Heading
+                    className={`text-xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}
+                  >
                     Alumni Automation
-                  </span>
+                  </Heading>
                   <p
                     className={`text-sm font-normal mt-1 ${isDark ? "text-gray-300" : "text-slate-600"}`}
                   >

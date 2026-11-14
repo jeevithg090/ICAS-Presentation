@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +33,7 @@ export default function AlumniPortal() {
             <a href={`mailto:${contacts.email}?subject=Alumni%20Mentorship`}>Become a mentor</a>
           </Button>
           <Button asChild>
-            <a href="/Contact">Share your story</a>
+            <Link to="/contact">Share your story</Link>
           </Button>
         </div>
       </div>
