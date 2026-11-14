@@ -201,12 +201,3 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
     error: status >= 500 ? "Internal server error" : err?.message || "Bad request",
   });
 };
-
-// Start the API server when this file is executed directly (e.g. `tsx server/index.ts`)
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const app = createServer();
-  const port = Number(process.env.PORT) || 3000;
-  app.listen(port, () => {
-    console.log(`ICAS API server listening on http://localhost:${port}/api`);
-  });
-}
