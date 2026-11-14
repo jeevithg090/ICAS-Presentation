@@ -32,7 +32,7 @@ Ask ICAS is an intelligent AI assistant that provides comprehensive information 
 - **Route**: `/api/ask-icas`
 - **Method**: POST
 - **OpenRouter Integration**: Uses free LLM models (Mistral, Llama, Gemini)
-- **Comprehensive Context**: Includes detailed ICAS information from `icasfeatures.md`
+- **Comprehensive Context**: Includes detailed ICAS information from `server/data/icas-features.md`
 - **Error Handling**: Robust error handling with fallback models
 
 ### Frontend (Client)

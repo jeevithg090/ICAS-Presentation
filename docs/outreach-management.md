@@ -107,13 +107,13 @@ The system is pre-configured with the following MCP servers:
 
 ### Manual Testing
 1. Start the development server: `pnpm dev`
-2. Navigate to: `http://localhost:3000/administration/outreach-management`
+2. Navigate to: `http://localhost:8080/administration/outreach-management`
 3. Test with different categories and names
 
 ### Automated Testing
 Run the test script:
 ```bash
-node test-outreach.js
+node scripts/smoke/outreach.mjs
 ```
 
 ## 📊 MCP Server Capabilities
